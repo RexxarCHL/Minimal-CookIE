@@ -432,3 +432,7 @@ width:100%;align:center;
   background-color:#58ACFA;
   opacity:.8;
 }
+
+.hidden{
+  display: none;
+}

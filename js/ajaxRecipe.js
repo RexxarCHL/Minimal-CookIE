@@ -5,7 +5,11 @@ recipeAjaxd = 0;
 
 $(document).ready(function() {
   addInfiniteScroll($('#main_Browse_Recipe'), 1000, function() {
-    return getRecipes(recipeAjaxd);
+    if ($('#main_Browse_Recipe').find("Results").hasClass("hidden")) {
+      search(window.query, searchAjaxd);
+    } else {
+      getRecipes(recipeAjaxd);
+    }
   });
 });
 

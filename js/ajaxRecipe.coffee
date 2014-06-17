@@ -1,7 +1,10 @@
 recipeAjaxd = 0
 
 $(document).ready ->
-	addInfiniteScroll($('#main_Browse_Recipe'), 1000, ->getRecipes(recipeAjaxd))
+	addInfiniteScroll $('#main_Browse_Recipe'), 1000, ->
+		if $('#main_Browse_Recipe').find("Results").hasClass "hidden" then search window.query, searchAjaxd
+		else getRecipes(recipeAjaxd)
+		return
 	return #avoid implicit return values by Coffeescript
 
 getRecipes = (times) ->

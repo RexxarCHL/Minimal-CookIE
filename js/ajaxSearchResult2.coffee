@@ -5,22 +5,28 @@ ajaxSearchResults2
 ###
 searchAjaxd = 0
 recipeAjaxd = 0
+window.query = 0
 $(document).ready ->
 	$("#SearchBar").keyup(->
 		console.log "searchbar keyup"
 		clearTimeout(window.lastId)
 
-		query =  $("#SearchBar")[0].value
-		if query is ""
+		scope = $('#main_Browse_Recipe')
+
+		window.query =  $("#SearchBar")[0].value
+		if window.query is ""
 			searchAjaxd = 0
-			recipeAjaxd = 0
-			getRecipes(recipeAjaxd)
+			$("#SearchResults").html ""
+			$("#SearchResults").addClass 'hidden'
+			scope.find("#Results").removeClass 'hidden'
 			return
 
-		$('#main_Browse_Recipe').scroller().clearInfinite()
-		$("#main_Search").find("#infinite").text "Searching..."
+		scope.scroller().clearInfinite()
+		scope.find("#infinite").text "Searching..."
+		scope.find("#Results").addClass 'hidden'
+		scope.find("#SearchResults").removeClass 'hidden'
 		window.lastId = setTimeout(->
-					search query, searchAjaxd
+					search window.query, searchAjaxd
 					return #avoid implicit return value
 				, 1500)
 		return #avoid implicit return value
@@ -48,28 +54,73 @@ search = (query, times) ->
 			console.log "[SUCCESS]search"
 			console.log data
 
-			scope = $("#main_Search")
-			if searchAjaxd is 0
-				addInfiniteScroll(scope, 1000, ->$("#SearchBar").trigger("keyup"))
+			scope = $("#main_Browse_Recipe")
 
 			searchAjaxd++
 
-			scrollerList = $("#main_Search").scroller()
+			scrollerList = $("#main_Browse_Recipe").scroller()
 			scrollerList.clearInfinite()
 
 			if data.length is 0
 				if searchAjaxd > 0
-					$("#main_Search").find("#infinite").html "<i>No more results.</i>"
+					$("#main_Browse_Recipe").find("#infinite").html "<i>No more results.</i>"
 				else
-					$("#main_Search").find("#infinite").html "<i>No result. Try another query?</i>"
+					$("#main_Browse_Recipe").find("#infinite").html "<i>No result. Try another query?</i>"
 				searchAjaxd--;
 				return
 
-			appendRecipeResult(scope, data)
+			appendSearchResults(data)
 			return #avoid implicit return values by Coffeescript
 		error: (data, status)->
 			console.log "[ERROR]search: " + status
-			$("#main_Search").scroller().clearInfinite()
+			$("#main_Browse_Recipe").scroller().clearInfinite()
 			return #avoid implicit return values by Coffeescript
 	)
 	return #avoid implicit return values by Coffeescript
+
+appendSearchResults = (data)->
+	console.log "Append search results"
+	results = $("#SearchResults")
+
+	results.find('.new').removeClass('new')
+	count = 0
+	for recipe in data
+		html = ''
+		id = recipe.recipe_id
+		name = recipe.name
+		rating = recipe.rating
+		url = recipe.smallURL
+		#url = 'img/love.jpg' # for test only
+		if count%2 is 0 #left part of the row
+			html += '<div class="recipe_item left new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
+		else
+			html += '<div class="recipe_item right new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
+		
+		html += '<img class="recipe_image_wrapper" src="'+url+'">'
+		html += '<div class="icon star recipe_descrip">'+rating+'</div>'
+		html += '<div class="recipe_descrip">'+name+'</div>'
+		html += '<div class="button recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>'
+		html += '</div>'
+
+		results.append html
+		#console.log html
+		count++
+		
+		#Fetch detailed recipe content on click
+		thisRecipe = results.find("#Recipe"+id)
+		thisRecipe.find("img").click do (id)->
+			-> # closure 
+				$.ui.loadContent("#RecipeContent")
+				$("#RecipeContent").find("#Results").hide()
+				$("#RecipeContent").find("#Loading").show()
+				getRecipeContent(id)
+				return
+
+		thisRecipe.find(".recipe_add_btn").click do(id)->
+			-> # closure
+				addThisRecipeToDeck(id)
+				return
+
+	results.find("#bottomBar").remove()
+	results.append '<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>'
+	$("#main_Browse_Recipe").find("#infinite").text "Load More"

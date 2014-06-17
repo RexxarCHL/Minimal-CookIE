@@ -5,28 +5,34 @@ ajaxSearchResults2
  	search(query, times)
  		Search for 'query' in server. Fetch (times*20)th to (times*20+20)th results.
  */
-var recipeAjaxd, search, searchAjaxd;
+var appendSearchResults, recipeAjaxd, search, searchAjaxd;
 
 searchAjaxd = 0;
 
 recipeAjaxd = 0;
 
+window.query = 0;
+
 $(document).ready(function() {
   $("#SearchBar").keyup(function() {
-    var query;
+    var scope;
     console.log("searchbar keyup");
     clearTimeout(window.lastId);
-    query = $("#SearchBar")[0].value;
-    if (query === "") {
+    scope = $('#main_Browse_Recipe');
+    window.query = $("#SearchBar")[0].value;
+    if (window.query === "") {
       searchAjaxd = 0;
-      recipeAjaxd = 0;
-      getRecipes(recipeAjaxd);
+      $("#SearchResults").html("");
+      $("#SearchResults").addClass('hidden');
+      scope.find("#Results").removeClass('hidden');
       return;
     }
-    $('#main_Browse_Recipe').scroller().clearInfinite();
-    $("#main_Search").find("#infinite").text("Searching...");
+    scope.scroller().clearInfinite();
+    scope.find("#infinite").text("Searching...");
+    scope.find("#Results").addClass('hidden');
+    scope.find("#SearchResults").removeClass('hidden');
     window.lastId = setTimeout(function() {
-      search(query, searchAjaxd);
+      search(window.query, searchAjaxd);
     }, 1500);
   });
 });
@@ -50,29 +56,69 @@ search = function(query, times) {
       data = JSON.parse(data);
       console.log("[SUCCESS]search");
       console.log(data);
-      scope = $("#main_Search");
-      if (searchAjaxd === 0) {
-        addInfiniteScroll(scope, 1000, function() {
-          return $("#SearchBar").trigger("keyup");
-        });
-      }
+      scope = $("#main_Browse_Recipe");
       searchAjaxd++;
-      scrollerList = $("#main_Search").scroller();
+      scrollerList = $("#main_Browse_Recipe").scroller();
       scrollerList.clearInfinite();
       if (data.length === 0) {
         if (searchAjaxd > 0) {
-          $("#main_Search").find("#infinite").html("<i>No more results.</i>");
+          $("#main_Browse_Recipe").find("#infinite").html("<i>No more results.</i>");
         } else {
-          $("#main_Search").find("#infinite").html("<i>No result. Try another query?</i>");
+          $("#main_Browse_Recipe").find("#infinite").html("<i>No result. Try another query?</i>");
         }
         searchAjaxd--;
         return;
       }
-      appendRecipeResult(scope, data);
+      appendSearchResults(data);
     },
     error: function(data, status) {
       console.log("[ERROR]search: " + status);
-      $("#main_Search").scroller().clearInfinite();
+      $("#main_Browse_Recipe").scroller().clearInfinite();
     }
   });
+};
+
+appendSearchResults = function(data) {
+  var count, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
+  console.log("Append search results");
+  results = $("#SearchResults");
+  results.find('.new').removeClass('new');
+  count = 0;
+  for (_i = 0, _len = data.length; _i < _len; _i++) {
+    recipe = data[_i];
+    html = '';
+    id = recipe.recipe_id;
+    name = recipe.name;
+    rating = recipe.rating;
+    url = recipe.smallURL;
+    if (count % 2 === 0) {
+      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
+    } else {
+      html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
+    }
+    html += '<img class="recipe_image_wrapper" src="' + url + '">';
+    html += '<div class="icon star recipe_descrip">' + rating + '</div>';
+    html += '<div class="recipe_descrip">' + name + '</div>';
+    html += '<div class="button recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>';
+    html += '</div>';
+    results.append(html);
+    count++;
+    thisRecipe = results.find("#Recipe" + id);
+    thisRecipe.find("img").click((function(id) {
+      return function() {
+        $.ui.loadContent("#RecipeContent");
+        $("#RecipeContent").find("#Results").hide();
+        $("#RecipeContent").find("#Loading").show();
+        getRecipeContent(id);
+      };
+    })(id));
+    thisRecipe.find(".recipe_add_btn").click((function(id) {
+      return function() {
+        addThisRecipeToDeck(id);
+      };
+    })(id));
+  }
+  results.find("#bottomBar").remove();
+  results.append('<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>');
+  return $("#main_Browse_Recipe").find("#infinite").text("Load More");
 };
