@@ -19,10 +19,6 @@ addInfiniteScroll = (scope, delay, callback)->
 	)
 	return #avoid implicit return values
 
-deleteThisRecipeFromDeck = (id)->
-	### TODO ###
-	console.log "delete #{id} from deck"
-
 recipeAjaxd = 0
 loadRecipes = ->
 	console.log "load recipes"
@@ -45,6 +41,8 @@ findChosenRecipeId = ->
 ### Recipe -> Deck ###
 addThisRecipeToDeck = (id)->
 	console.log "Add recipe ##{id} to deck"
+
+	### Push if not already in deck ###
 	if window.recipesInDeck.lastIndexOf(id) is -1
 		window.recipesInDeck.push id # push this recipe into deck
 		AddRecipeValue id # push this recipe into db
@@ -74,6 +72,18 @@ addThisRecipeToDeck = (id)->
 			return
 
 	return
+
+deleteThisRecipeFromDeck = (id)->
+	### TODO ###
+	console.log "delete #{id} from deck"
+
+	### delete from DB ###
+	deleteRecipe(id)
+	checkRecipeInDB()
+
+	
+
+
 
 checkRecipeInDeck = (id)->
 	#console.log "index for  #{id} is #{window.recipesInDeck.lastIndexOf(id)}"

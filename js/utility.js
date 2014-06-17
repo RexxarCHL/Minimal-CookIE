@@ -20,12 +20,6 @@ addInfiniteScroll = function(scope, delay, callback) {
   });
 };
 
-deleteThisRecipeFromDeck = function(id) {
-
-  /* TODO */
-  return console.log("delete " + id + " from deck");
-};
-
 recipeAjaxd = 0;
 
 loadRecipes = function() {
@@ -56,6 +50,8 @@ findChosenRecipeId = function() {
 addThisRecipeToDeck = function(id) {
   var html, leftright, scope, thisRecipeBtn;
   console.log("Add recipe #" + id + " to deck");
+
+  /* Push if not already in deck */
   if (window.recipesInDeck.lastIndexOf(id) === -1) {
     window.recipesInDeck.push(id);
     AddRecipeValue(id);
@@ -88,6 +84,16 @@ addThisRecipeToDeck = function(id) {
       deleteThisRecipeFromDeck(id);
     };
   })(id));
+};
+
+deleteThisRecipeFromDeck = function(id) {
+
+  /* TODO */
+  console.log("delete " + id + " from deck");
+
+  /* delete from DB */
+  deleteRecipe(id);
+  return checkRecipeInDB();
 };
 
 checkRecipeInDeck = function(id) {

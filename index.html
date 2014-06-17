@@ -42,6 +42,7 @@
                 },errorHandler,successCallBack);
 
                 checkRecipeInDB(); //check recipes in DB
+                loadRecipes();
             }
             function ListDBValues(table) {
                 if (!window.openDatabase) {
