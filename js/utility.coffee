@@ -1,6 +1,21 @@
 $(document).ready ->
 	#loadRecipes()
-	return
+	$("#ToBuyListCookBtn").click ->
+		getScheduledRecipe window.recipesInDeck
+		$.ui.loadContent 'Cooking'
+		return
+
+	$("#DoneBtn").click ->
+		db.transaction (transaction)->
+			sql = 'DELETE FROM `Recipes`'
+			transaction.executeSql sql, [], successCallBack, errorHandler
+			sql = 'DELETE FROM `MenuIngredients`'
+			transaction.executeSql sql, [], successCallBack, errorHandler
+
+			loadDeck()
+			return
+		, errorHandler, nullHandler
+		return
 
 addInfiniteScroll = (scope, delay, callback)->
 	console.log "add infinite-scroll to scope:" + scope[0].id
