@@ -142,6 +142,8 @@
       <link rel="stylesheet" type="text/css" href="css/ios.css"  />
       <link rel="stylesheet" type="text/css" href="css/ios7.css"  />
       <link rel="stylesheet" type="text/css" href="css/tizen.css"  />
+      <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"  />
+      <link rel="stylesheet" type="text/css" href="css/icons.fa.css"  />
         
       <link rel="stylesheet" type="text/css" href="plugins/css/af.actionsheet.css"  />
       <link rel="stylesheet" type="text/css" href="plugins/css/af.popup.css"  />
@@ -326,7 +328,7 @@
             </header><!-- #header !-->
             <header id="toBuyHeader">
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
-                <h1 style="margin-left:3px;" id="headerText">To Buy List</h1>
+                <h1 style="margin-left:3px;" id="headerText">Generate Shopping List</h1>
                 
                 <!--sideBar -->
                 <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
@@ -612,8 +614,8 @@
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
                         <div class="button-grouped vertical" style="width:99%;">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:100%;border-radius:0;height:9%;border:0;" align="center">To Buy List</a>
-                            <a id="CookBtn" class="button red" href="#Cooking" style="width:100%;border-radius:0;height:9%;border:0;" align="center" data-transition="fade">&nbsp;&nbsp;&nbsp;Cook!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:100%;border-radius:0;height:9%;border:0;" align="center">Generate Shopping List!</a>
+                            <a id="CookBtn" class="button red" href="#Cooking" style="width:100%;border-radius:0;height:9%;border:0;" align="center" data-transition="fade">Cook these recipes!</a>
                         </div>
                         <div id="Results">
                             Browse recipes and add it into deck to start!
@@ -625,7 +627,7 @@
 
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
-                <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
+                <div id="main_ToBuy_List" class="panel" title="Shopping List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
                     <ul class="list" id="list">
                         <li class="listEle">Item 1</li>
                         <li class="listEle">Item 1</li>
@@ -660,10 +662,11 @@
 			
                 <!-- COOKING STEP -->
                 <!-- Cooking interface -->
-                <div id="Step" class="panel"  title="Step 8 (47%)" style="background-color:#E6E6E6;" data-load="loadedPanel" data-unload="cookingEnded" data-footer='none'>
+                <div id="Step" class="panel"  title="Step 8 (47%)" style="background-color:#5A5A5A;" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
                     <!--<div id="steps_container" style="border:0px 1px 0px 1px solid;width:100%;margin-top:5px;height: calc(100% - 100px);height: -webkit-calc(100% - 100px);">-->
-                    <div id="steps_container" style="border:0px 1px 0px 1px solid #E6E6E6; height:97%">
+                    <div id="steps_container" style="border:0px 1px 0px 1px solid #5A5A5A; height:97%">
                         &nbsp;
+                        
                         <div class="waiting_step_outer_wrapper">
                             <div id="NextNextWaitingStep" class="waiting_step_inner_wrapper">
                                 <div id="ProgressBar" class="waiting_step_progress next_next_step">&nbsp;</div>
@@ -680,15 +683,17 @@
                             </div> 
                         </div>          
                         <div class="waiting_step_spacer">&nbsp;</div>
-
+                        
                         <div class="this_step_outer_wrapper">
                             <div class="this_step_inner_wrapper">
-                                <h2 class="this_step_recipe_name">
+                                <div class="h7 this_step_recipe_name">
                                     Saute beef
-                                </h2>
+                                </div>
+                                <!--
                                 <div class="this_step_img_wrapper" >
                                     <img class="this_step_img" src="img/small.jpg"></img>
                                 </div>
+                                -->
                                 <h3 class="this_step_digest">
                                     Saute beef with sauce A.Saute beef with sauce A.Saute beef with sauce A.
                                 </h3>
@@ -702,9 +707,9 @@
                             </div> 
                         </div>
                         <div class="step_spacer">&nbsp;</div>
-                       <div class="bottom_btn_holder step_next_btn_wrapper">
-                            <a class="button step_next_btn" style="background-color:#58ACFA;">Next </a>
-                        </div> 
+                        <div class="bottom_btn_holder step_next_btn_wrapper">
+                            <a class="button step_next_btn" style="background-color:#58ACFA; position:absolute;color:white;border:none;">Next </a>
+                        </div>
                     </div>
                 </div><!-- #Step -->
 
@@ -728,17 +733,17 @@
                                 <input type="text" placeholder="lalala"></input>
                         </div>
                         <div class="bottom_btn_holder" >
-                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Rate">Continue</a>
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#main_Browse_Recipe">Continue</a>
                         </div>
                     </div>
                 </div><!-- #Finish !-->
             </div><!-- #content !-->
 
 			<footer id="navbar">
-                <a href="#main_Browse_Recipe" id='navbar_browse' class='icon target'>Browse</a>
-                <a href="#main_Deck" id='navbar_deck' class='icon home'>Deck</a>
-                <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon key'>To Buy List</a>
-	        </footer><!-- #navbar !-->
+                <a href="#main_Browse_Recipe" id='navbar_browse' class='icon fa-globe'>Browse</a>
+                <a href="#main_Deck" id='navbar_deck' class='icon fa-cutlery'>Deck</a>
+                <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon fa-shopping-cart'>Shopping List</a>
+            </footer><!-- #navbar !-->
 		</div><!-- #afui !-->
 	</body>
 </html>

@@ -26,7 +26,7 @@ getRecipeContent = function(recipeId) {
 };
 
 loadRecipeContent = function(scope, recipe) {
-  var group, html, i, imgList, ingredient, ingredientList, step, stepList, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+  var group, html, i, imgList, ingListLeft, ingListRight, ingredient, j, len, step, stepList, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
   $.ui.setTitle(recipe.recipeName);
   scope.find("#Results").hide();
   scope.find("#Loading").show();
@@ -34,19 +34,34 @@ loadRecipeContent = function(scope, recipe) {
   scope.find("#RecipeImg").attr("data-recipe-id", recipe.recipeId);
   scope.find("#RecipeDescription").text(recipe.description);
   scope.find("#RecipeUploadInfo").text("Uploaded by: " + recipe.authorName + ", " + (new Date(recipe.date)));
-  ingredientList = scope.find("#RecipeIngredientListLeft");
-  ingredientList.html("");
+  len = recipe.ingredientGroup[0].length;
+  len = Math.ceil(len / 2);
+  ingListLeft = scope.find("#RecipeIngredientListLeft")[0];
+  ingListLeft.firstElementChild.innerHTML = "";
+  ingListLeft.lastElementChild.innerHTML = "";
+  ingListRight = scope.find("#RecipeIngredientListRight")[0];
+  ingListRight.firstElementChild.innerHTML = "";
+  ingListRight.lastElementChild.innerHTML = "";
   _ref = recipe.ingredientGroup;
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    group = _ref[_i];
+  for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+    group = _ref[i];
     html = '';
     _ref1 = group.ingredients;
-    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-      ingredient = _ref1[_j];
-      html += '<li>' + ingredient.ingredientName + " .............. " + ingredient.amount + " " + ingredient.unitName;
+    for (j = _j = 0, _len1 = _ref1.length; _j < _len1; j = ++_j) {
+      ingredient = _ref1[j];
+      console.log(ingredient.ingredientName);
+      if ((i + j) % 2) {
+        html = "<li>" + ingredient.ingredientName + "</li>";
+        $(ingListRight.firstElementChild).append(html);
+        html = "<li>" + ingredient.amount + ingredient.unitName + "</li>";
+        $(ingListRight.lastElementChild).append(html);
+      } else {
+        html = "<li>" + ingredient.ingredientName + "</li>";
+        $(ingListLeft.firstElementChild).append(html);
+        html = "<li>" + ingredient.amount + ingredient.unitName + "</li>";
+        $(ingListLeft.lastElementChild).append(html);
+      }
     }
-    html += '<br />';
-    ingredientList.append(html);
   }
   stepList = scope.find("#RecipeSteps");
   stepList.html("");

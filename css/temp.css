@@ -218,7 +218,7 @@ display:inline-block;width:33%;padding:2px 2px 2px 2px;float:left;"
 margin-left:2%;
 }
 .recipeContent_lists{
-margin-left:2%;list-style-type:none;
+padding-left:4%;list-style-type:none;
 }
 .overview_stepWrapper{
 background-color:white;
@@ -274,7 +274,7 @@ margin-left:5%;width:50%;display:inline-block;
 width:15%;display:inline-block;border-radius:5px;
 }
 .bottom_btn_holder{
-width:100%;align:center;
+align:center;
 }
 .h5{
   display:inline-block;
@@ -295,8 +295,21 @@ width:100%;align:center;
   margin-bottom:8px;
 }
 
+.h7 {
+  display:block;
+  height:34px;
+  font-weight: bold;
+  font-size:18px;
+  color:#000;
+  padding:6px 0;
+  margin-bottom:8px;
+}
+
 .waiting_step_outer_wrapper{
-  height:5%;background-color:white;border-radius:5px;
+  height:5%;
+  background-color:white;
+  border-radius:5px;
+  visibility: hidden;
 }
 
 .waiting_step_inner_wrapper{
@@ -341,28 +354,23 @@ width:100%;align:center;
 }
 
 .this_step_outer_wrapper{
-  background-color:#E6E6E6;
-  height:70%; 
-  border-color:#D8D8D8;
+  background-color:#5A5A5A;
+  height:60%; 
   width:100%;
 }
 
 .this_step_inner_wrapper{
-  background-color:#F2F2F2;
   height:95%;
-  margin-top:3px;
-  border-width: 2px;
-  border-radius:5px;
-  border-color:#D8D8D8;
-  box-shadow:4px 4px 12px -2px rgba(20%,20%,40%,0.5);
+  margin-top:35%;
 }
 
 .this_step_recipe_name{
-  background-color:#F2F2F2;
+  font-size: 100%;
+  height: 45px;
+  color: #FF8000;
   margin:3px 20px 8px 20px;
   text-align:center;
   height:6%;
-  border-radius:3px;
 }
 
 .this_step_img_wrapper{
@@ -379,14 +387,19 @@ width:100%;align:center;
 }
 
 .this_step_digest{
+  font-size: 0.48cm;
   margin:8px 20px 3px 20px;
   height:auto;
+  color: #FFFFFF;
+  text-align: center;
 }
 
 .next_step_outer_wrapper{
-  background-color:#E6E6E6; 
+  position: absolute;
+  bottom: 0%;
+  margin-bottom: 94px;
   height:5%; 
-  border-color:#D8D8D8;
+  
   width:100%;
 }
 
@@ -401,7 +414,7 @@ width:100%;align:center;
 }
 
 .next_step_progress{
-  height:4%;
+  height:85%;
   opacity:0.4;
   background-color:#58ACFA;
   position:absolute;
@@ -430,12 +443,30 @@ width:100%;align:center;
 }
 
 .step_next_btn_wrapper{
-  height:6%;
+  width: 100%;
+  bottom: 0%;
+  position: absolute;
+  height:20%;
   margin-bottom:5px;
 }
 
 .step_next_btn{
-  width:99%;
+  font-size: 36px;
+  bottom: 0%;
+  height: 70px;
+  line-height: 52px;
+  width:100%;
   background-color:#58ACFA;
-  opacity:.8;
+  border-radius: 8px !important;
+}
+
+.step_next_btn_click {
+  font-size: 36px;
+  bottom: 0%;
+  height: 70px;
+  line-height: 52px;
+  width:100%;
+  background-color:#58ACFA;
+  border-radius: 8px !important;
+  opacity: .8;
 }

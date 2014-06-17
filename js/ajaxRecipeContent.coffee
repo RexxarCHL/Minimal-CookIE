@@ -38,15 +38,33 @@ loadRecipeContent = (scope, recipe)->
 	#scope.find("#RecipeTime").text "Time needed: "+recipe.timeNeeded
 
 	# Ingredients
-	ingredientList = scope.find("#RecipeIngredientListLeft")
-	ingredientList.html "" #remove previous content
-	for group in recipe.ingredientGroup
-		html = ''
-		for ingredient in group.ingredients
-			html += '<li>'+ingredient.ingredientName+" .............. "+ingredient.amount+" "+ingredient.unitName
-		html += '<br />'
-		ingredientList.append html
+	len = recipe.ingredientGroup[0].length
+	len = Math.ceil len/2
 
+	ingListLeft = scope.find("#RecipeIngredientListLeft")[0]
+	ingListLeft.firstElementChild.innerHTML = "" #remove previous content
+	ingListLeft.lastElementChild.innerHTML = ""
+	ingListRight = scope.find("#RecipeIngredientListRight")[0]
+	ingListRight.firstElementChild.innerHTML = ""
+	ingListRight.lastElementChild.innerHTML = ""
+	for group, i in recipe.ingredientGroup
+		html = ''
+		for ingredient, j in group.ingredients
+			console.log ingredient.ingredientName
+			if (i+j)%2 # odd
+				# append ing. name
+				html = "<li>#{ingredient.ingredientName}</li>"
+				$(ingListRight.firstElementChild).append html
+				# append ing. amount
+				html = "<li>#{ingredient.amount}#{ingredient.unitName}</li>"
+				$(ingListRight.lastElementChild).append html
+			else # even
+				# append ing. name
+				html = "<li>#{ingredient.ingredientName}</li>"
+				$(ingListLeft.firstElementChild).append html
+				# append ing. amount
+				html = "<li>#{ingredient.amount}#{ingredient.unitName}</li>"
+				$(ingListLeft.lastElementChild).append html
 	# Steps
 	stepList = scope.find("#RecipeSteps")
 	stepList.html "" #remove previous content
