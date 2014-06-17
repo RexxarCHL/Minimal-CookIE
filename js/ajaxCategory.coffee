@@ -67,7 +67,7 @@ appendAllCategoryResult = (data)->
 
 	results.find(".new").forEach (elem)->
 		$(elem).click ->
-			$.ui.loadContent "#main_Category_Content"
+			$.ui.loadContent "#CategoryContent"
 			times = parseInt this.getAttribute 'data-times'
 			id = this.getAttribute 'data-tag-id'
 			singleCatId = id
@@ -95,22 +95,22 @@ getSingleCategory = (times, tagId)->
 
 			singleCatAjaxd++
 
-			$('#main_Category_Content').scroller().clearInfinite()
+			$('#CategoryContent').scroller().clearInfinite()
 			if data.recipes.length is 0
-				$("#main_Category_Content").find("#infinite").html "No more recipes."
+				$("#CategoryContent").find("#infinite").html "No more recipes."
 				singleCatAjaxd--
 				return
 
 			#TODO change pageTitle
 			$.ui.setTitle data.tag.tagName
-			scope = $('#main_Category_Content')
+			scope = $('#CategoryContent')
 			scope.find("#Results").html ""
 			appendRecipeResult(scope, data.recipes)
 			return #avoid implicit rv
 		error: (data, status)->
 			console.log "[ERROR]fetch cat #"+tagId
-			$('#main_Category_Content').scroller().clearInfinite()
-			$("#main_Category_Content").find("#infinite").html "Error. Try Again?"
+			$('#CategoryContent').scroller().clearInfinite()
+			$("#CategoryContent").find("#infinite").html "Error. Try Again?"
 			return #avoid implicit rv
 	)
 	

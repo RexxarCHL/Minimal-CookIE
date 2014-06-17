@@ -70,7 +70,7 @@ appendAllCategoryResult = function(data) {
   results.find(".new").forEach(function(elem) {
     return $(elem).click(function() {
       var times;
-      $.ui.loadContent("#main_Category_Content");
+      $.ui.loadContent("#CategoryContent");
       times = parseInt(this.getAttribute('data-times'));
       id = this.getAttribute('data-tag-id');
       singleCatId = id;
@@ -95,21 +95,21 @@ getSingleCategory = function(times, tagId) {
       console.log("[SUCCESS]fetch cat " + tagId + " for " + times + " times");
       console.log(data);
       singleCatAjaxd++;
-      $('#main_Category_Content').scroller().clearInfinite();
+      $('#CategoryContent').scroller().clearInfinite();
       if (data.recipes.length === 0) {
-        $("#main_Category_Content").find("#infinite").html("No more recipes.");
+        $("#CategoryContent").find("#infinite").html("No more recipes.");
         singleCatAjaxd--;
         return;
       }
       $.ui.setTitle(data.tag.tagName);
-      scope = $('#main_Category_Content');
+      scope = $('#CategoryContent');
       scope.find("#Results").html("");
       appendRecipeResult(scope, data.recipes);
     },
     error: function(data, status) {
       console.log("[ERROR]fetch cat #" + tagId);
-      $('#main_Category_Content').scroller().clearInfinite();
-      $("#main_Category_Content").find("#infinite").html("Error. Try Again?");
+      $('#CategoryContent').scroller().clearInfinite();
+      $("#CategoryContent").find("#infinite").html("Error. Try Again?");
     }
   });
 };
