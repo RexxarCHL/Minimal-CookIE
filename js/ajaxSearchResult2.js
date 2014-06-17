@@ -79,7 +79,7 @@ search = function(query, times) {
 };
 
 appendSearchResults = function(data) {
-  var count, disabled, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
+  var count, exist, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   console.log("Append search results");
   results = $("#SearchResults");
   results.find('.new').removeClass('new');
@@ -91,7 +91,7 @@ appendSearchResults = function(data) {
     name = recipe.name;
     rating = recipe.rating;
     url = recipe.smallURL;
-    disabled = checkRecipeInDeck(id) ? 'disabled' : '';
+    exist = checkRecipeInDeck(id) ? true : false;
     if (count % 2 === 0) {
       html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     } else {
@@ -100,7 +100,11 @@ appendSearchResults = function(data) {
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
     html += '<div class="icon star recipe_descrip">' + rating + '</div>';
     html += '<div class="recipe_descrip">' + name + '</div>';
-    html += '<div class="button recipe_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>';
+    if (!exist) {
+      html += '<div class="button recipe_btn recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Add To Deck</div>';
+    } else {
+      html += '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+    }
     html += '</div>';
     results.append(html);
     count++;
@@ -113,11 +117,14 @@ appendSearchResults = function(data) {
         getRecipeContent(id);
       };
     })(id));
-    thisRecipe.find(".recipe_btn").click((function(id) {
-      return function() {
-        addThisRecipeToDeck(id);
-      };
-    })(id));
+    if (!exist) {
+      thisRecipe.find(".recipe_btn").click((function(id) {
+        return function() {
+          addThisRecipeToDeck(id);
+          $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+        };
+      })(id));
+    }
   }
   results.find("#bottomBar").remove();
   results.append('<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>');
