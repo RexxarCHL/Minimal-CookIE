@@ -47,7 +47,6 @@ checkRecipeInDB = function() {
     return;
   }
   sql = 'SELECT `recipeId` FROM `Recipes`';
-  window.recipesInDeck = [];
   db.transaction(function(transaction) {
     transaction.executeSql(sql, [], function(transaction, result) {
       var i, row, x, _i, _len, _ref;

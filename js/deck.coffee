@@ -37,7 +37,6 @@ checkRecipeInDB = ->
 
 	sql = 'SELECT `recipeId` FROM `Recipes`'
 
-	window.recipesInDeck = []
 	db.transaction (transaction)->
 		transaction.executeSql sql, [], (transaction, result)->
 			if result? and result.rows?
