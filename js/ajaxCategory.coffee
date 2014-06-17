@@ -3,7 +3,7 @@ allCatAjaxd = 0
 singleCatAjaxd = 0
 $(document).ready ->
 	addInfiniteScroll($("#main_Browse_Category"), 1000, -> getAllCategory(allCatAjaxd))
-	addInfiniteScroll($("#main_Category_Content"), 1000, ->
+	addInfiniteScroll($("#CategoryContent"), 1000, ->
 		getSingleCategory(singleCatAjaxd, singleCatId)
 		return
 	)

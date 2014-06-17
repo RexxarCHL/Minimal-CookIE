@@ -11,7 +11,7 @@ $(document).ready(function() {
   addInfiniteScroll($("#main_Browse_Category"), 1000, function() {
     return getAllCategory(allCatAjaxd);
   });
-  addInfiniteScroll($("#main_Category_Content"), 1000, function() {
+  addInfiniteScroll($("#CategoryContent"), 1000, function() {
     getSingleCategory(singleCatAjaxd, singleCatId);
   });
 });
