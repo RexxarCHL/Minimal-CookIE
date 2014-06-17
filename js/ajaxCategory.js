@@ -8,10 +8,10 @@ allCatAjaxd = 0;
 singleCatAjaxd = 0;
 
 $(document).ready(function() {
-  addInfiniteScroll($("#main_AllCategories"), 1000, function() {
+  addInfiniteScroll($("#main_Browse_Category"), 1000, function() {
     return getAllCategory(allCatAjaxd);
   });
-  addInfiniteScroll($("#main_Category"), 1000, function() {
+  addInfiniteScroll($("#main_Category_Content"), 1000, function() {
     getSingleCategory(singleCatAjaxd, singleCatId);
   });
 });
@@ -26,27 +26,23 @@ getAllCategory = function(times) {
     },
     timeout: 10000,
     success: function(data) {
-      var scrollerList;
       data = JSON.parse(data);
       console.log("[SUCCESS]fetch categories");
       console.log(data);
       allCatAjaxd++;
-      scrollerList = $("#main_AllCategories").scroller();
-      scrollerList.clearInfinite();
+      $("#main_Browse_Category").scroller().clearInfinite();
       if (data.length === 0) {
-        $("#main_AllCategories").find("#infinite").text("No more categories");
+        $("#main_Browse_Category").find("#infinite").text("No more categories");
         allCatAjaxd--;
         return;
       }
-      $("#main_AllCategories").find("#infinite").text("Load more");
+      $("#main_Browse_Category").find("#infinite").text("Load more");
       appendAllCategoryResult(data);
     },
     error: function(data) {
-      var scrollerList;
       console.log("[ERROR]fetch kitchen menu: " + status);
-      scrollerList = $("#main_AllCategories").scroller();
-      scrollerList.clearInfinite();
-      $("#main_AllCategories").find("#infinite").text("Error. Try Again?");
+      $("#main_Browse_Category").scroller().clearInfinite();
+      $("#main_Browse_Category").find("#infinite").text("Error. Try Again?");
     }
   });
 };
@@ -54,7 +50,7 @@ getAllCategory = function(times) {
 appendAllCategoryResult = function(data) {
   var html, id, results, tag, tagGroup, _i, _j, _len, _len1, _ref;
   console.log("append all category result");
-  results = $("#main_AllCategories").find("#Results");
+  results = $("#main_Browse_Category").find("#Results");
   results.find(".new").removeClass("new");
   for (_i = 0, _len = data.length; _i < _len; _i++) {
     tagGroup = data[_i];
@@ -74,7 +70,7 @@ appendAllCategoryResult = function(data) {
   results.find(".new").forEach(function(elem) {
     return $(elem).click(function() {
       var times;
-      $.ui.loadContent("#main_Category");
+      $.ui.loadContent("#main_Category_Content");
       times = parseInt(this.getAttribute('data-times'));
       id = this.getAttribute('data-tag-id');
       singleCatId = id;
@@ -94,26 +90,26 @@ getSingleCategory = function(times, tagId) {
       'tag_id': tagId
     },
     success: function(data) {
-      var scope, scrollerList;
+      var scope;
       data = JSON.parse(data);
       console.log("[SUCCESS]fetch cat " + tagId + " for " + times + " times");
       console.log(data);
       singleCatAjaxd++;
-      scrollerList = $('#main_Category').scroller();
-      scrollerList.clearInfinite();
+      $('#main_Category_Content').scroller().clearInfinite();
       if (data.recipes.length === 0) {
-        $("#main_Category").find("#infinite").html("No more recipes.");
+        $("#main_Category_Content").find("#infinite").html("No more recipes.");
         singleCatAjaxd--;
         return;
       }
       $.ui.setTitle(data.tag.tagName);
-      scope = $('#main_Category');
+      scope = $('#main_Category_Content');
       scope.find("#Results").html("");
       appendRecipeResult(scope, data.recipes);
     },
     error: function(data, status) {
       console.log("[ERROR]fetch cat #" + tagId);
-      $("#main_Category").find("#infinite").html("Error. Try Again?");
+      $('#main_Category_Content').scroller().clearInfinite();
+      $("#main_Category_Content").find("#infinite").html("Error. Try Again?");
     }
   });
 };

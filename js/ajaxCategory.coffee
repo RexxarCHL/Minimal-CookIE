@@ -2,8 +2,8 @@ singleCatId = 26 #DEBUG
 allCatAjaxd = 0
 singleCatAjaxd = 0
 $(document).ready ->
-	addInfiniteScroll($("#main_AllCategories"), 1000, -> getAllCategory(allCatAjaxd))
-	addInfiniteScroll($("#main_Category"), 1000, ->
+	addInfiniteScroll($("#main_Browse_Category"), 1000, -> getAllCategory(allCatAjaxd))
+	addInfiniteScroll($("#main_Category_Content"), 1000, ->
 		getSingleCategory(singleCatAjaxd, singleCatId)
 		return
 	)
@@ -29,22 +29,20 @@ getAllCategory = (times) ->
 
 			allCatAjaxd++
 
-			scrollerList = $("#main_AllCategories").scroller()
-			scrollerList.clearInfinite()
+			$("#main_Browse_Category").scroller().clearInfinite()
 
 			if data.length is 0
-				$("#main_AllCategories").find("#infinite").text "No more categories"
+				$("#main_Browse_Category").find("#infinite").text "No more categories"
 				allCatAjaxd--
 				return
 
-			$("#main_AllCategories").find("#infinite").text "Load more"
+			$("#main_Browse_Category").find("#infinite").text "Load more"
 			appendAllCategoryResult(data)
 			return #avoid implicit rv
 		error: (data)->
 			console.log "[ERROR]fetch kitchen menu: " + status
-			scrollerList = $("#main_AllCategories").scroller()
-			scrollerList.clearInfinite()
-			$("#main_AllCategories").find("#infinite").text "Error. Try Again?"
+			$("#main_Browse_Category").scroller().clearInfinite()
+			$("#main_Browse_Category").find("#infinite").text "Error. Try Again?"
 			return #avoid implicit rv
 
 	)
@@ -54,7 +52,7 @@ getAllCategory = (times) ->
 appendAllCategoryResult = (data)->
 	console.log "append all category result"
 
-	results = $("#main_AllCategories").find("#Results")
+	results = $("#main_Browse_Category").find("#Results")
 	results.find(".new").removeClass("new")
 
 	for tagGroup in data
@@ -69,7 +67,7 @@ appendAllCategoryResult = (data)->
 
 	results.find(".new").forEach (elem)->
 		$(elem).click ->
-			$.ui.loadContent "#main_Category"
+			$.ui.loadContent "#main_Category_Content"
 			times = parseInt this.getAttribute 'data-times'
 			id = this.getAttribute 'data-tag-id'
 			singleCatId = id
@@ -97,22 +95,22 @@ getSingleCategory = (times, tagId)->
 
 			singleCatAjaxd++
 
-			scrollerList = $('#main_Category').scroller()
-			scrollerList.clearInfinite()
+			$('#main_Category_Content').scroller().clearInfinite()
 			if data.recipes.length is 0
-				$("#main_Category").find("#infinite").html "No more recipes."
+				$("#main_Category_Content").find("#infinite").html "No more recipes."
 				singleCatAjaxd--
 				return
 
 			#TODO change pageTitle
 			$.ui.setTitle data.tag.tagName
-			scope = $('#main_Category')
+			scope = $('#main_Category_Content')
 			scope.find("#Results").html ""
 			appendRecipeResult(scope, data.recipes)
 			return #avoid implicit rv
 		error: (data, status)->
 			console.log "[ERROR]fetch cat #"+tagId
-			$("#main_Category").find("#infinite").html "Error. Try Again?"
+			$('#main_Category_Content').scroller().clearInfinite()
+			$("#main_Category_Content").find("#infinite").html "Error. Try Again?"
 			return #avoid implicit rv
 	)
 	

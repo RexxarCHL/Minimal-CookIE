@@ -1,54 +1,38 @@
 $(document).ready ->
-	loadPopularRecipes()
-	loadPopularMenus()
+	loadRecipes()
 	return
 
-deleteSelectedRecipes = ->
-	selectedId = findChosenRecipeId()
-	if selectedId.length is 0 then return
-	console.log "deleting recipes #{selectedId}"
+addInfiniteScroll = (scope, delay, callback)->
+	console.log "add infinite-scroll to scope:" + scope[0].id
+	scrollerList = scope.scroller()
+	scrollerList.clearInfinite()
+	scrollerList.addInfinite()
+	$.bind(scrollerList, 'infinite-scroll', ->
+		console.log scope[0].id+" infinite-scroll"
+		scope.find("#infinite").text "Loading more..."
+		scrollerList.addInfinite()
 
-	ans = confirm "Deleteing recipes from Kitchen. Are you sure?"
-	if ans is false then return
-
-	data = 
-		'type': 'recipe'
-		'recipes': selectedId
-		'user_id': window.user_id
-		'token': window.token
-	data = JSON.stringify(data)
-	console.log data
-	
-	$.ajax(
-		type: 'DELETE'
-		url: 'http://54.178.135.71:8080/CookIEServer/favorite'
-		dataType: 'application/json'
-		data: data
-		timeout: 10000
-		success: (data)->
-			#data = JSON.parse(data)
-			console.log "[SUCCESS] deleting recipes #"+selectedId
-			console.log data
-			
-			reloadKitchenRecipes()
-			return # avoid implicit rv
-		error: (data, status)->
-			console.log "[ERROR] deleting recipes #"+selectedId
-			console.log data
-
-			return # avoid implicit rv
+		clearTimeout window.lastId
+		window.lastId = setTimeout(->
+			callback()
+		, delay)
 	)
+	return #avoid implicit return values
+
+deleteSelectedRecipesFromKitchen = ->
+	### TODO ###
 
 recipeAjaxd = 0
-loadPopularRecipes = ->
-	scope = $('#main_Popular_Recipes')
+loadRecipes = ->
+	scope = $('#main_Browse_Recipe')
 	scope.find('#Results').html ""
 	scope.find("#infinite").text "Reloading..."
 	recipeAjaxd = 0
-	getPopularRecipes(recipeAjaxd)
+	getRecipes(recipeAjaxd)
 	return
 
 findChosenRecipeId = ->
+	### TODO ###
 	recipeSelectedId = []
 	$('#main_Kitchen_Recipes').find('.chosen').forEach (elem)->
 		recipeSelectedId.push elem.getAttribute 'data-recipe-id'
@@ -56,41 +40,10 @@ findChosenRecipeId = ->
 	return recipeSelectedId
 
 addThisRecipeToKitchen = ->
-	recipeId = $('#RecipeContent').find('#RecipeImg').attr 'data-recipe-id'
-	console.log "add #{recipeId} to kitchen"
-
-	data = 
-		user_id: window.user_id
-		token: window.token
-		type: 'recipe'
-		recipe_id: recipeId
-	data = JSON.stringify data
-
-	$.ajax(
-		type: 'POST'
-		url: 'http://54.178.135.71:8080/CookIEServer/favorite'
-		contentType: 'application/json'
-		data: data
-		timeout: 10000
-		success: (data)->
-			console.log "[SUCCESS] add #{recipeId} to kitchen"
-			console.log data
-			alert "Done!"
-			reloadKitchenRecipes()
-			return # avoid implicit rv
-		error: (resp)->
-			console.log "[ERROR] add #{recipeId} to kitchen"
-			console.log resp
-			if resp.status is 404
-				alert "Oops! The recipe is already in Kitchen!"
-			return # avoid implicit rv
-	)
-
-	return # avoid implicit rv
+	### TODO ###
 
 resetSelectedRecipe = ->
-	$('#main_Kitchen_Recipes').find('.chosen').removeClass 'chosen'
-	return
+	### TODO ###
 
 parseTimeToMinutes = (time)->
 	time = time.split ":"
