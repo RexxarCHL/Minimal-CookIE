@@ -12,7 +12,6 @@ searchAjaxd = 0;
 recipeAjaxd = 0;
 
 $(document).ready(function() {
-  initSelectBtn();
   $("#SearchBar").keyup(function() {
     var query;
     console.log("searchbar keyup");

@@ -1,5 +1,5 @@
 $(document).ready ->
-	loadRecipes()
+	#loadRecipes()
 	return
 
 addInfiniteScroll = (scope, delay, callback)->
@@ -19,7 +19,7 @@ addInfiniteScroll = (scope, delay, callback)->
 	)
 	return #avoid implicit return values
 
-deleteSelectedRecipesFromKitchen = ->
+deleteSelectedRecipesFromDeck = ->
 	### TODO ###
 
 recipeAjaxd = 0
@@ -39,8 +39,9 @@ findChosenRecipeId = ->
 	console.log recipeSelectedId
 	return recipeSelectedId
 
-addThisRecipeToKitchen = ->
+addThisRecipeToDeck = (id)->
 	### TODO ###
+	console.log "Add recipe ##{id} to deck"
 
 resetSelectedRecipe = ->
 	### TODO ###

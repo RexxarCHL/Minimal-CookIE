@@ -6,7 +6,6 @@ ajaxSearchResults2
 searchAjaxd = 0
 recipeAjaxd = 0
 $(document).ready ->
-	initSelectBtn()
 	$("#SearchBar").keyup(->
 		console.log "searchbar keyup"
 		clearTimeout(window.lastId)

@@ -70,7 +70,6 @@
           //  $.feat.nativeTouchScroll=true;
         </script>        
         <script type="text/javascript" src="phonegap.js"></script>
-        <script src="js/socialsharing-plugin-demo.js"></script>
         <!--<script src="cdv-plugin-fb-connect.js"></script>
         <script src="facebook-js-sdk.js"></script>!-->
         <script type="text/javascript" charset="utf-8" src="./plugins/af.actionsheet.js"></script>
@@ -159,21 +158,15 @@
         <link rel="stylesheet" type="text/css" href="css/temp.css"  />
         <script type="text/javascript" charset="utf-8" src="./js/globalVariables.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/clone.js"></script>
+         <script type="text/javascript" charset="utf-8" src="./js/appendFunctions.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxSearchResult2.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularMenu.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularRecipe.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenMenu.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenRecipe2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxRecipe.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxCategory.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxRecipeContent.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/ajaxMenuContent.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/utility.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxCooking.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/socialsharing-plugin-demo.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/cooking.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/rating.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/user.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/md5.js"></script>
 
         <script>
             /* To allow cross domain access in Phonegap */
@@ -232,20 +225,15 @@
                             <input type="search" id="SearchBar" placeholder="Search for recipes, food ingredients ..." style="margin-top:3%" result>
                     </div>
                     <div id="Results" style="background-color:#D8D8D8">
-                        <div class="menu_wrapper">
-                            <h2 class="menu_title"style="margin-left:5px;color:black;">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2>
-                            <div class="menu_img_wrapper">
-                                <img class="menu_img" src="img/love.jpg" >
-                                <img class="menu_img" src="img/love.jpg" >
-                                <img class="menu_img" src="img/love.jpg" >
-                                <img class="menu_img" src="img/love.jpg" >
-                                <img class="menu_img" src="img/love.jpg" >
-                            </div>
-                            <div style="float:left;width:100%;background-color:white;border-radius:5px;">
-                                <a id="Cook" class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
-                                <a id="View" class="button green" style="float:right;width:20%;margin-right:2%;" href="#MenuContent">View</a>
-                            </div>
-                            <div class="aDivider">&nbsp;</div>
+                        <div class="recipe_item left">
+                            <img class="recipe_image_wrapper" src="img/love.jpg">
+                            <div class="recipe_descrip icon star" style="margin-bottom:2px;">10&nbsp;&nbsp;&nbsp;Pineapple</div>  
+                            <div class="button" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>
+                        </div>
+                        <div class="recipe_item left">
+                            <img class="recipe_image_wrapper" src="img/love.jpg">
+                            <div class="recipe_descrip icon star" style="margin-bottom:2px;">10&nbsp;&nbsp;&nbsp;Pineapple</div>  
+                            <div class="button" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>
                         </div>
                     </div>
                     <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
@@ -253,7 +241,7 @@
 
                 <!-- RECIPE CONTENT -->
                 <!-- View recipe content here -->
-                <div title="RecipeName" id="main_Recipe_Content" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="main_browse" style="background-color:#E6E6E6">
+                <div title="RecipeName" id="RecipeContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="main_browse" style="background-color:#E6E6E6">
                     <div id="Loading"><h3 align="center">Loading...</h3></div>
                     <div id="Results">
                         <div class="content_border">
@@ -312,7 +300,7 @@
                             <div id="RecipePhotos"></div>
                         </div><br />
                     </div>
-                </div><!-- #main_Recipe_Content -->
+                </div><!-- #RecipeContent -->
 
                 <!-- BROWSE CATEGORIES -->
                 <!-- Browse categories here -->
@@ -390,18 +378,15 @@
 
                 <!-- CATEGORY CONTENT -->
                 <!-- View what recipe is in the category here -->
-                <div title="CATEGORY TITLE" id="main_Category_Content" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_categories" style="background-color:#D8D8D8;">
+                <div title="CATEGORY TITLE" id="CategoryContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_categories" style="background-color:#D8D8D8;">
                     <div id="Results" style="background-color:#D8D8D8">
                     </div>
                     <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Loading</div>
-                </div><!-- #main_Category_Content -->
+                </div><!-- #CategoryContent -->
 
-                <!-- KITCHEN -->
+                <!-- Deck -->
                 <!-- View stored recipe here -->
-                <div title="Kitchen" id="main_Kitchen" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_kitchen">
-                    <div style="width:100%" align="center">
-                        <div id="kitchenUtilityBtn" class="button flex" style="width:80%;">Tap on the Cog to begin.</div>
-                    </div>
+                <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck">
                     <div style="width:100%">
                         <div id="Results">
                             <!-- this is a row -->
@@ -421,7 +406,7 @@
                         </div>
                     </div>
                     <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
-                </div><!-- #main_Kitchen -->
+                </div><!-- #main_Deck -->
 
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
@@ -526,7 +511,7 @@
 
 			<footer id="navbar">
                 <a href="#main_Browse_Recipe" id='navbar_browse' class='icon target'>Browse</a>
-                <a href="#main_Kitchen" id='navbar_kitchen' class='icon home'>Kitchen</a>
+                <a href="#main_Deck" id='navbar_deck' class='icon home'>Deck</a>
                 <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon key'>To Buy List</a>
 	        </footer><!-- #navbar !-->
 		</div><!-- #afui !-->

@@ -2,7 +2,7 @@
 var appendRecipeResult;
 
 appendRecipeResult = function(scope, data) {
-  var count, html, id, name, rating, recipe, results, url, _i, _len;
+  var count, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   console.log("append recipe for scope: " + scope[0].id);
   results = scope.find("#Results");
   results.find('.new').removeClass('new');
@@ -20,23 +20,26 @@ appendRecipeResult = function(scope, data) {
       html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     }
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
-    html += '<div class="recipe_descrip">' + name + '</div>';
     html += '<div class="icon star recipe_descrip">' + rating + '</div>';
+    html += '<div class="recipe_descrip">' + name + '</div>';
+    html += '<div class="button recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>';
     html += '</div>';
     results.append(html);
     count++;
-    scope.find("#Recipe" + id)[0].onclick = (function(id) {
+    thisRecipe = scope.find("#Recipe" + id);
+    thisRecipe.find("img").click((function(id) {
       return function() {
-        if (window.mode) {
-          $(this).toggleClass('chosen');
-          return;
-        }
         $.ui.loadContent("#RecipeContent");
         $("#RecipeContent").find("#Results").hide();
         $("#RecipeContent").find("#Loading").show();
         getRecipeContent(id);
       };
-    })(id);
+    })(id));
+    thisRecipe.find(".recipe_add_btn").click((function(id) {
+      return function() {
+        addThisRecipeToDeck(id);
+      };
+    })(id));
   }
   results.find("#bottomBar").remove();
   results.append('<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>');
