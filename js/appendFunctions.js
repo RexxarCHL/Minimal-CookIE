@@ -2,7 +2,7 @@
 var appendRecipeResult;
 
 appendRecipeResult = function(scope, data) {
-  var count, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
+  var count, disable, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   console.log("append recipe for scope: " + scope[0].id);
   results = scope.find("#Results");
   results.find('.new').removeClass('new');
@@ -14,6 +14,7 @@ appendRecipeResult = function(scope, data) {
     name = recipe.name;
     rating = recipe.rating;
     url = recipe.smallURL;
+    disable = checkRecipeInDeck(id) ? "disabled" : "";
     if (count % 2 === 0) {
       html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     } else {

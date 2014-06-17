@@ -1,6 +1,6 @@
 $(document).ready ->
 	#loadRecipes()
-	addInfiniteScroll($("#main_Deck"), 1000, -> return)
+
 	return
 
 addInfiniteScroll = (scope, delay, callback)->
@@ -43,14 +43,20 @@ findChosenRecipeId = ->
 addThisRecipeToDeck = (id)->
 	### TODO ###
 	console.log "Add recipe ##{id} to deck"
+	window.recipesInDeck.push id # push this recipe into deck
+
 	html = $("#Recipe#{id}").html()
 	scope = $("#main_Deck").find("#Results")
+	scope.find("#bottomBar").remove()
 	if scope.length % 2 then leftright = 'left' else leftright = 'right'
 	scope.append "<div class='kitchen_recipe_item #{leftright}' data-recipe-id='#{id}'>#{html}</div>"
+	
+	### Add bottomBar to maintain the scroller ###
+	scope.append '<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>'
 
-	currentContent = $("#main_Deck").html()
-	$.ui.updatePanel "#main_Deck", currentContent
-
+checkRecipeInDeck = (id)->
+	console.log "index for  #{id} is #{window.recipesInDeck.lastIndexOf(id)}"
+	if window.recipesInDeck.lastIndexOf(id) is -1 then false else true
 
 resetSelectedRecipe = ->
 	### TODO ###

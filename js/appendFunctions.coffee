@@ -11,7 +11,9 @@ appendRecipeResult = (scope, data)->
 		name = recipe.name
 		rating = recipe.rating
 		url = recipe.smallURL
-		#url = 'img/love.jpg' # for test only
+		
+		disable = if checkRecipeInDeck(id) then "disabled" else ""
+
 		if count%2 is 0 #left part of the row
 			html += '<div class="recipe_item left new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
 		else

@@ -79,7 +79,7 @@ search = function(query, times) {
 };
 
 appendSearchResults = function(data) {
-  var count, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
+  var count, disabled, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   console.log("Append search results");
   results = $("#SearchResults");
   results.find('.new').removeClass('new');
@@ -91,6 +91,7 @@ appendSearchResults = function(data) {
     name = recipe.name;
     rating = recipe.rating;
     url = recipe.smallURL;
+    disabled = checkRecipeInDeck(id) ? 'disabled' : '';
     if (count % 2 === 0) {
       html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     } else {

@@ -7,3 +7,8 @@ window.lastId = -1;
 window.cookingData = null;
 
 window.currentStep = null;
+
+
+/* Deck */
+
+window.recipesInDeck = [];
