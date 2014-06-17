@@ -54,13 +54,14 @@ showIngredientList = ->
 		transaction.executeSql 'SELECT * FROM MenuIngredients', [],
 			(transaction,result)->
 				if result? and result.rows?
-					html = '<ul class="list" id="list">'
+					list = $("#list")
+					list.html ""
+					html = ''
 					for x, i in result.rows
 						row = result.rows.item(i)
-						html += '<li class="listEle">'+row.name+' '+row.amount+' '+row.unitName+'</li>'
-					html += '</ul>'
-					$("#main_ToBuy_List").html html
-					$("#main_ToBuy_List").append '<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>'
+						html += '<li class="listEle">'+row.name+'&nbsp;'+row.amount+'&nbsp;'+row.unitName+'</li>'
+					console.log html
+					list.append html
 				return
 			, errorHandler
 		, errorHandler, nullHandler

@@ -47,18 +47,19 @@ showIngredientList = function() {
   console.log("show ingredient list");
   return db.transaction(function(transaction) {
     transaction.executeSql('SELECT * FROM MenuIngredients', [], function(transaction, result) {
-      var html, i, row, x, _i, _len, _ref;
+      var html, i, list, row, x, _i, _len, _ref;
       if ((result != null) && (result.rows != null)) {
-        html = '<ul class="list" id="list">';
+        list = $("#list");
+        list.html("");
+        html = '';
         _ref = result.rows;
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           x = _ref[i];
           row = result.rows.item(i);
-          html += '<li class="listEle">' + row.name + ' ' + row.amount + ' ' + row.unitName + '</li>';
+          html += '<li class="listEle">' + row.name + '&nbsp;' + row.amount + '&nbsp;' + row.unitName + '</li>';
         }
-        html += '</ul>';
-        $("#main_ToBuy_List").html(html);
-        $("#main_ToBuy_List").append('<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>');
+        console.log(html);
+        list.append(html);
       }
     }, errorHandler, errorHandler, nullHandler);
   });
