@@ -83,7 +83,7 @@
                 console.log("Adding values: recipeId="+recipeId);
                 db.transaction(function(tx) {
                     tx.executeSql('INSERT INTO Recipes(recipeId) VALUES (?)',[recipeId]);
-                    alert("insert!");
+                    //alert("insert!");
                 });
                 ListDBValues('Recipes');
                 return false;
@@ -159,6 +159,14 @@
                 //$.ui.updateBadge("#aflink", $("#af").find("li").length);
                 console.log("load: "+what.id)
                 $.ui.backButtonText = "Back"
+
+                switch(what.id){
+                    case "main_Deck":
+                        loadDeck();
+                        break;
+                    default:
+                        //do nothing
+                }
             }
             function unloadedPanel(what) {
                 console.log("unloaded " + what.id);

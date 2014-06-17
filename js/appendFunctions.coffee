@@ -1,4 +1,4 @@
-appendRecipeResult = (scope, data)->
+appendRecipeResult = (scope, data, deck = 0)->
 	console.log "append recipe for scope: " + scope[0].id
 	#if data.length%2 and data.length isnt 1 then data.length-- #prevent empty slot
 
@@ -24,6 +24,8 @@ appendRecipeResult = (scope, data)->
 		html += '<div class="recipe_descrip">'+name+'</div>'
 		if not exist
 			html += '<div class="button recipe_btn recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Add To Deck</div>'
+		else if deck
+			html += '<div class="button recipe_btn recipe_remove_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Remove from Deck</div>'
 		else
 			html += '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
 		html += '</div>'
@@ -48,8 +50,11 @@ appendRecipeResult = (scope, data)->
 					addThisRecipeToDeck(id)
 					$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
 					return
-		else
-			addThisRecipeToDeck(id)
+		else if deck
+			thisRecipe.find(".recipe_btn").click do(id)->
+				-> # closure
+					deleteThisRecipeFromDeck(id)
+					return
 
 	results.find("#bottomBar").remove()
 	results.append '<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>'

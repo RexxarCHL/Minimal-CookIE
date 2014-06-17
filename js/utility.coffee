@@ -30,6 +30,42 @@ loadRecipes = ->
 	getRecipes(recipeAjaxd)
 	return
 
+loadDeck = ->
+	console.log "loading deck"
+	$.ui.showMask 'Fetching data...'
+
+	checkRecipeInDB()
+
+	data = ""
+	for recipeId in window.recipesInDeck
+		data += "recipes=#{recipeId}&"
+	console.log data
+	$.ajax(
+		type: 'GET'
+		url: "http://54.178.135.71:8080/CookIEServer/deck_recipe?#{data}"
+		contentType: 'application/json'
+		data: data
+		timeout: 10000
+		success: (data)->
+			data = JSON.parse data
+			console.log "[SUCCESS]load deck"
+			console.log data
+
+			scope = $("#main_Deck")
+			scope.find("#Results").html ""
+			appendRecipeResult(scope, data, true)
+
+			$.ui.hideMask()
+			return
+		error: (resp)->
+			console.log "[ERROR]load deck"
+			console.log resp
+
+			$.ui.hideMask()
+			return
+	)
+
+
 findChosenRecipeId = ->
 	### TODO ###
 	recipeSelectedId = []
@@ -47,30 +83,6 @@ addThisRecipeToDeck = (id)->
 		window.recipesInDeck.push id # push this recipe into deck
 		AddRecipeValue id # push this recipe into db
 
-	html = $("#Recipe#{id}").html()
-	scope = $("#main_Deck").find("#Results")
-	scope.find(".new").removeClass 'new'
-	scope.find("#bottomBar").remove()
-
-	### Append the recipe directly from Browse Recipe ###
-	if scope.length % 2 then leftright = 'left' else leftright = 'right'
-	scope.append "<div class='kitchen_recipe_item #{leftright} new' data-recipe-id='#{id}'>#{html}</div>"
-
-	### Add bottomBar to maintain the scroller ###
-	scope.append '<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>'
-
-	### Modify the button ###
-	thisRecipeBtn = scope.find(".new").find(".recipe_btn")
-	thisRecipeBtn.removeClass('recipe_in_deck_btn').removeClass('recipe_add_btn')
-	thisRecipeBtn.addClass('recipe_remove_btn')
-	thisRecipeBtn.html "Remove from Deck"
-	
-	### Add onclick function to remove btn ###
-	thisRecipeBtn.click do(id)->
-		-> # closure
-			deleteThisRecipeFromDeck(id)
-			return
-
 	return
 
 deleteThisRecipeFromDeck = (id)->
@@ -81,9 +93,7 @@ deleteThisRecipeFromDeck = (id)->
 	deleteRecipe(id)
 	checkRecipeInDB()
 
-	
-
-
+	loadDeck()
 
 checkRecipeInDeck = (id)->
 	#console.log "index for  #{id} is #{window.recipesInDeck.lastIndexOf(id)}"
