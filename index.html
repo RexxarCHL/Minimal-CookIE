@@ -326,6 +326,23 @@
                     </div>
                 </div>
             </header><!-- #header !-->
+            <header id="finishHeader">
+                <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
+                <h1 style="margin-left:3px;" id="headerText">Finish</h1>
+                
+                <!--sideBar -->
+                <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
+                    <div id="#navbar">
+                        <nav>
+                            <ul class="list">
+                                <li class="divider" class="icon home">Home</li>
+                                <li><a href="#afuidemo">Feedback</a></li>
+                                <li><a href="#webslider">Contact CookIE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header><!-- #header !-->
             <header id="toBuyHeader">
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
                 <h1 style="margin-left:3px;" id="headerText">Generate Shopping List</h1>
@@ -382,7 +399,7 @@
 			<div id="content">
                 <!-- BROWSE RECIPE -->
                 <!-- Browse/search recipe here -->
-                <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;" >
+                <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;">
                     <div id="Search" style="background-color:#D8D8D8;">
                             <input type="search" id="SearchBar" placeholder="Search for recipes, food ingredients ..." style="margin-top:3%" result>
                     </div>
@@ -410,11 +427,11 @@
                     <div class="button" style="width:100%;background-color:#58ACFA;opacity:.8;height:8%;border-radius:0;border:0;">Add to Deck</div>
                     <div id="Results">
                         <div class="content_border">
-                            <img id="RecipeImg" src="img/small.jpg" style="width:86%;margin-top:5%;margin-left:7%;border-radius:4px;"></p>
+                            <img id="RecipeImg" src="img/small.jpg" style="width:86%;margin-top:5%;margin-left:7%;border-radius:4px;">
                             <div style="margin-left:12%;">
-                                <i id="RecipeDescription">Some Description</i><br>
-                                <span id="RecipeUploadInfo">Uploaded By : OOO , 22/1/2014</span><br>
-                                <span id="RecipeTime">Time needed: 24 mins </span><br><br>
+                                <i id="RecipeDescription">Some Description</i><br />
+                                <span id="RecipeUploadInfo">Uploaded By : OOO , 22/1/2014</span><br />
+                                <span id="RecipeTime">Time needed: 24 mins </span><br /><br />
                             </div>
                         </div><br />
                         <div id="RecipeIngredients" class="content_border">
@@ -715,26 +732,15 @@
 
                 <!-- FINISH -->
                 <!-- 'Like' a recipe? View total time elapsed? Feedback?-->
-                <div title="整體評分" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none'>
-                    <div style="background-color:white;height:100%;">
-                        <div style="margin-left:4%;height:89%;">
-                            <div class="h6">所需時間 </div><br>
-                                <div class="h5" style="margin-left:5%;">150 min -> 26 min !!</div><br>
-                            
-                            <div class="h6">整體評分</div>
-                            <div class="star-container" width="100%">
-                                <div id="1" class="icon star five"></div>
-                                <div id="2" class="icon star five"></div>
-                                <div id="3" class="icon star five"></div>
-                                <div id="4" class="icon star five"></div>
-                                <div id="5" class="icon star five"></div>
-                            </div><br />
-                            <div class="h6">筆記/評論</div>
-                                <input type="text" placeholder="lalala"></input>
-                        </div>
-                        <div class="bottom_btn_holder" >
-                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#main_Browse_Recipe">Continue</a>
-                        </div>
+                <div title="Finish" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none' data-header='finishHeader'>
+                    <div style="background-color:white;width:100%;height:85%;">
+                        <div style="margin:5% auto auto 5%">
+                            <h1 style="padding-top:5%;padding-left:5%;">Congratulations!</h1>
+                            <h2 style="padding-top:5%;padding-left:5%;">Blah Blah Blah</h2>   
+                         </div>    
+                    </div>
+                    <div class="bottom_btn_holder" >
+                        <a class="button icon home" style="width:99%;height:10%;background-color:#58ACFA;opacity:.8;" href="#main_Browse_Recipe">Done</a>
                     </div>
                 </div><!-- #Finish !-->
             </div><!-- #content !-->
