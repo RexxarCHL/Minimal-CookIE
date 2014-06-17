@@ -1,10 +1,6 @@
 getCookingIngredientList = (recipeIds)->
-	if window.cookingData?
-		ans = confirm "You have a cooking in progress. Resume?"
-		if ans is yes then $.ui.loadContent("Step") else window.cookingData = null
-
 	data = ''
-	recipeIds = JSON.parse(recipeIds)
+	#recipeIds = JSON.parse(recipeIds)
 	for id in recipeIds
 		data += 'recipes='+id+'&'
 	$.ajax(
@@ -76,7 +72,7 @@ getScheduledRecipe = (recipeIds)->
 				console.log data
 				$.ui.hideMask()
 				alert "ERROR"
-				$.ui.loadContent "main_Popular_Recipes"
+				$.ui.loadContent "main_Deck"
 				return # avoid implicit rv
 	)
 	return

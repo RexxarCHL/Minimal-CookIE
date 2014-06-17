@@ -2,17 +2,8 @@
 var appendSteps, getCookingIngredientList, getScheduledRecipe, loadIngredientList;
 
 getCookingIngredientList = function(recipeIds) {
-  var ans, data, id, _i, _len;
-  if (window.cookingData != null) {
-    ans = confirm("You have a cooking in progress. Resume?");
-    if (ans === true) {
-      $.ui.loadContent("Step");
-    } else {
-      window.cookingData = null;
-    }
-  }
+  var data, id, _i, _len;
   data = '';
-  recipeIds = JSON.parse(recipeIds);
   for (_i = 0, _len = recipeIds.length; _i < _len; _i++) {
     id = recipeIds[_i];
     data += 'recipes=' + id + '&';
@@ -83,7 +74,7 @@ getScheduledRecipe = function(recipeIds) {
       console.log(data);
       $.ui.hideMask();
       alert("ERROR");
-      $.ui.loadContent("main_Popular_Recipes");
+      $.ui.loadContent("main_Deck");
     }
   });
 };
