@@ -6,8 +6,8 @@ addThisRecipeToDeck = function(id) {
 
   /* Push if not already in deck */
   if (window.recipesInDeck.lastIndexOf(id) === -1) {
-    window.recipesInDeck.push(id);
     AddRecipeValue(id);
+    checkRecipeInDB();
   }
 };
 
@@ -54,6 +54,7 @@ checkRecipeInDB = function() {
 
         /* There is recipe in deck */
         console.log("OK");
+        window.recipesInDeck = [];
         _ref = result.rows;
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           x = _ref[i];

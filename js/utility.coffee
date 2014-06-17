@@ -36,15 +36,16 @@ loadDeck = ->
 
 	checkRecipeInDB()
 
-	data = ""
+	if window.recipesInDeck.length is 0 then return
+
+	query = ""
 	for recipeId in window.recipesInDeck
-		data += "recipes=#{recipeId}&"
-	console.log data
+		query += "recipes=#{recipeId}&"
+	console.log query
 	$.ajax(
 		type: 'GET'
-		url: "http://54.178.135.71:8080/CookIEServer/deck_recipe?#{data}"
-		contentType: 'application/json'
-		data: data
+		url: "http://54.178.135.71:8080/CookIEServer/deck_recipe?#{query}"
+		dataType: 'application/json'
 		timeout: 10000
 		success: (data)->
 			data = JSON.parse data
@@ -64,6 +65,7 @@ loadDeck = ->
 			$.ui.hideMask()
 			return
 	)
+	return
 
 parseTimeToMinutes = (time)->
 	time = time.split ":"

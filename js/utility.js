@@ -33,22 +33,24 @@ loadRecipes = function() {
 };
 
 loadDeck = function() {
-  var data, recipeId, _i, _len, _ref;
+  var query, recipeId, _i, _len, _ref;
   console.log("loading deck");
   $.ui.showMask('Fetching data...');
   checkRecipeInDB();
-  data = "";
+  if (window.recipesInDeck.length === 0) {
+    return;
+  }
+  query = "";
   _ref = window.recipesInDeck;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     recipeId = _ref[_i];
-    data += "recipes=" + recipeId + "&";
+    query += "recipes=" + recipeId + "&";
   }
-  console.log(data);
-  return $.ajax({
+  console.log(query);
+  $.ajax({
     type: 'GET',
-    url: "http://54.178.135.71:8080/CookIEServer/deck_recipe?" + data,
-    contentType: 'application/json',
-    data: data,
+    url: "http://54.178.135.71:8080/CookIEServer/deck_recipe?" + query,
+    dataType: 'application/json',
     timeout: 10000,
     success: function(data) {
       var scope;

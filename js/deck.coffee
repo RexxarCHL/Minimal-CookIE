@@ -3,8 +3,8 @@ addThisRecipeToDeck = (id)->
 
 	### Push if not already in deck ###
 	if window.recipesInDeck.lastIndexOf(id) is -1
-		window.recipesInDeck.push id # push this recipe into deck
 		AddRecipeValue id # push this recipe into db
+		checkRecipeInDB()
 
 	return
 
@@ -42,6 +42,7 @@ checkRecipeInDB = ->
 			if result? and result.rows?
 				### There is recipe in deck ###
 				console.log "OK"
+				window.recipesInDeck = []
 				for x,i in result.rows
 					row = result.rows.item(i)
 					window.recipesExist = 1
