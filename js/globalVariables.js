@@ -12,3 +12,5 @@ window.currentStep = null;
 /* Deck */
 
 window.recipesInDeck = [];
+
+window.recipesExist = -1;

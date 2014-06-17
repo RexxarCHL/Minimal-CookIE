@@ -2,7 +2,7 @@
 var appendRecipeResult;
 
 appendRecipeResult = function(scope, data) {
-  var count, disable, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
+  var count, exist, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   console.log("append recipe for scope: " + scope[0].id);
   results = scope.find("#Results");
   results.find('.new').removeClass('new');
@@ -14,7 +14,7 @@ appendRecipeResult = function(scope, data) {
     name = recipe.name;
     rating = recipe.rating;
     url = recipe.smallURL;
-    disable = checkRecipeInDeck(id) ? "disabled" : "";
+    exist = checkRecipeInDeck(id) ? 1 : 0;
     if (count % 2 === 0) {
       html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     } else {
@@ -23,7 +23,11 @@ appendRecipeResult = function(scope, data) {
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
     html += '<div class="icon star recipe_descrip">' + rating + '</div>';
     html += '<div class="recipe_descrip">' + name + '</div>';
-    html += '<div class="button recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>';
+    if (!exist) {
+      html += '<div class="button recipe_add_btn red" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;opacity:0.6">Add To Deck</div>';
+    } else {
+      html += '<div class="button recipe_add_btn gray" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+    }
     html += '</div>';
     results.append(html);
     count++;
@@ -36,11 +40,16 @@ appendRecipeResult = function(scope, data) {
         getRecipeContent(id);
       };
     })(id));
-    thisRecipe.find(".recipe_add_btn").click((function(id) {
-      return function() {
-        addThisRecipeToDeck(id);
-      };
-    })(id));
+    if (!exist) {
+      thisRecipe.find(".recipe_add_btn").click((function(id) {
+        return function() {
+          addThisRecipeToDeck(id);
+          $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_add_btn")[0].outerHTML = '<div class="button recipe_add_btn gray" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+        };
+      })(id));
+    } else {
+      addThisRecipeToDeck(id);
+    }
   }
   results.find("#bottomBar").remove();
   results.append('<div id="bottomBar" style="display:block;height:0;clear:both;">&nbsp;</div>');

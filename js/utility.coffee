@@ -1,6 +1,5 @@
 $(document).ready ->
 	#loadRecipes()
-
 	return
 
 addInfiniteScroll = (scope, delay, callback)->
@@ -25,10 +24,12 @@ deleteSelectedRecipesFromDeck = ->
 
 recipeAjaxd = 0
 loadRecipes = ->
+	console.log "load recipes"
 	scope = $('#main_Browse_Recipe')
 	scope.find('#Results').html ""
 	scope.find("#infinite").text "Reloading..."
 	recipeAjaxd = 0
+
 	getRecipes(recipeAjaxd)
 	return
 
@@ -40,10 +41,13 @@ findChosenRecipeId = ->
 	console.log recipeSelectedId
 	return recipeSelectedId
 
+### Recipe -> Deck ###
 addThisRecipeToDeck = (id)->
 	### TODO ###
 	console.log "Add recipe ##{id} to deck"
-	window.recipesInDeck.push id # push this recipe into deck
+	if window.recipesInDeck.lastIndexOf(id) is -1
+		window.recipesInDeck.push id # push this recipe into deck
+		AddRecipeValue id # push this recipe into db
 
 	html = $("#Recipe#{id}").html()
 	scope = $("#main_Deck").find("#Results")
@@ -54,9 +58,37 @@ addThisRecipeToDeck = (id)->
 	### Add bottomBar to maintain the scroller ###
 	scope.append '<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>'
 
+	return
+
 checkRecipeInDeck = (id)->
-	console.log "index for  #{id} is #{window.recipesInDeck.lastIndexOf(id)}"
+	#console.log "index for  #{id} is #{window.recipesInDeck.lastIndexOf(id)}"
 	if window.recipesInDeck.lastIndexOf(id) is -1 then false else true
+
+checkRecipeInDB = ->
+	if not window.openDatabase
+        alert 'Databases are not supported in this browser.'
+        return
+
+	sql = 'SELECT `recipeId` FROM `Recipes`'
+
+	db.transaction (transaction)->
+		transaction.executeSql sql, [], (transaction, result)->
+			if result? and result.rows?
+				### There is recipe in deck ###
+				console.log "OK"
+				for x,i in result.rows
+					row = result.rows.item(i)
+					window.recipesExist = 1
+					console.log row.recipeId
+					window.recipesInDeck.push row.recipeId
+				return
+			console.log "NOT OK"
+			window.recipesExist = 0
+
+		, errorHandler
+		return
+	, errorHandler, nullHandler
+	return
 
 resetSelectedRecipe = ->
 	### TODO ###
