@@ -169,6 +169,9 @@
                     case "main_ToBuy_List":
                         showIngredientList();
                         break;
+                    case "Step":
+                        cookingStarted();
+                        break;
                     default:
                         //do nothing
                 }
@@ -608,9 +611,9 @@
                 <!-- View stored recipe here -->
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
-                        <div class="button-grouped flex">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List">To Buy List</a>
-                            <a id="CookBtn" class="button red" href="#Cooking" data-transition="fade">&nbsp;&nbsp;&nbsp;Cook!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <div class="button-grouped vertical" style="width:99%;">
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:100%;border-radius:0;height:9%;border:0;" align="center">To Buy List</a>
+                            <a id="CookBtn" class="button red" href="#Cooking" style="width:100%;border-radius:0;height:9%;border:0;" align="center" data-transition="fade">&nbsp;&nbsp;&nbsp;Cook!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                         </div>
                         <div id="Results">
                             Browse recipes and add it into deck to start!
@@ -622,7 +625,7 @@
 
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
-                <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8"data-tab="navbar_tobuylist" data-header="toBuyHeader">
+                <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
                     <ul class="list" id="list">
                         <li class="listEle">Item 1</li>
                         <li class="listEle">Item 1</li>
