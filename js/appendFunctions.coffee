@@ -45,10 +45,10 @@ appendRecipeResult = (scope, data, deck = 0)->
 				return
 
 		if not exist
-			thisRecipe.find(".recipe_btn").click do(id)->
+			thisRecipe.find(".recipe_btn").click do(id, thisRecipe)->
 				-> # closure
 					addThisRecipeToDeck(id)
-					$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
+					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
 					return
 		else if deck
 			thisRecipe.find(".recipe_btn").click do(id)->
