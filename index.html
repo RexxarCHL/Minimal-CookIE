@@ -158,7 +158,7 @@
                 //We are going to set the badge as the number of li elements inside the target
                 //$.ui.updateBadge("#aflink", $("#af").find("li").length);
                 console.log("load: "+what.id)
-                $.ui.backButtonText = "Back"
+                //$.ui.backButtonText = "Back"
 
                 switch(what.id){
                     case "main_Deck":
@@ -221,9 +221,6 @@
             $.ui.splitview=false;
             $(document).ready(function(){
                 $.ui.launch();
-                $('#signUpBtn').bind('click',function(){
-                    signUp();
-                })
             });
             /* This code is used to run as soon as intel.xdk activates */
             var onDeviceReady = function () {
@@ -232,10 +229,7 @@
                 webRoot = intel.xdk.webRoot + "";
                 //hide splash screen
                 //intel.xdk.device.hideSplashScreen();
-                $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
-                $('#signUpBtn').bind("click",function(){
-                    signUp();
-                });
+                $.ui.blockPageScroll(); //block the page from scrolling at the header/footer 
             };
             document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
 
@@ -287,26 +281,6 @@
             });
 
             $(document).ready(function() {
-                $('#header_search_btn').click(function() {
-                    $('.popup_btn').toggle();
-                });
-
-                // DEBUG
-                $("#main_Kitchen_Recipes").find("#Results").find('.kitchen_recipe_item').forEach(function(elem) {
-                    $(elem).click(function () {
-                        $(this).toggleClass('chosen');
-                    });
-                });
-
-                // DEBUG
-                $("#main_Kitchen_Menus").find("#Results").find(".green").forEach(function(elem){
-                    $(elem).click(function(){
-                        getMenuContent($("#Collection_MenuContent"), 1);
-                    });
-                });
-            });
-
-            $(document).ready(function() {
                 $('.listEle').bind('click',function(event){
                     this.style.textDecoration = (this.style.textDecoration=="line-through")?"none":"line-through";
                     this.style.color = (this.style.textDecoration=="line-through")?"#D8D8D8":"#53575E";
@@ -325,10 +299,43 @@
 
             </div>
 			<!-- TOP LEFT CONRNER !-->
-			<div id="header">
-				<a id="backButton" class='button' style='visibility:visible'>Back</a>
-                <a class="button icon settings big" style="float:right;margin-top:3px;" id="headerBtn">&nbsp;&nbsp;&nbsp;</a>
-				<h1 id="headerText"></h1>
+			<header id="deckHeader">
+                <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
+                <h1 style="margin-left:3px;" id="headerText">Deck</h1>
+                
+                <!--sideBar -->
+                <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
+                    <div id="#navbar">
+                        <nav>
+                            <ul class="list">
+                                <li class="divider" class="icon home">Home</li>
+                                <li><a href="#afuidemo">Feedback</a></li>
+                                <li><a href="#webslider">Contact CookIE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header><!-- #header !-->
+            <header id="toBuyHeader">
+                <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
+                <h1 style="margin-left:3px;" id="headerText">To Buy List</h1>
+                
+                <!--sideBar -->
+                <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
+                    <div id="#navbar">
+                        <nav>
+                            <ul class="list">
+                                <li class="divider" class="icon home">Home</li>
+                                <li><a href="#afuidemo">Feedback</a></li>
+                                <li><a href="#webslider">Contact CookIE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header><!-- #header !-->
+            <header id="browseHeader">
+                <a class="button" style="float:right;margin-top:3px;" id="headerBtn">Categories</a>
+                <h1 id="headerText">Browse</h1>
 
                 <a id="menubadge" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
                 <!--sideBar -->
@@ -343,16 +350,12 @@
                         </nav>
                     </div>
                 </div>
-			</div><!-- #header !-->
-
-            <!-- POP-UP BTN !-->
-			<div id="popup_btn_edit" class="popup_btn" style="display:none;" data-function="edit">&nbsp;<a class="icon pencil big"></a></div>
-            <div id="popup_btn_trash" class="popup_btn" style="display:none;" data-function="trash">&nbsp;<a class="icon trash big"></a></div>
+			</header><!-- #header !-->
 
 			<div id="content">
                 <!-- BROWSE RECIPE -->
                 <!-- Browse/search recipe here -->
-                <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' style="background-color:#D8D8D8;">
+                <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;">
                     <div id="Search" style="background-color:#D8D8D8;">
                             <input type="search" id="SearchBar" placeholder="Search for recipes, food ingredients ..." style="margin-top:3%" result>
                     </div>
@@ -553,7 +556,7 @@
 
                 <!-- Deck -->
                 <!-- View stored recipe here -->
-                <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck">
+                <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
                         <div class="button-grouped flex">
                             <a class="button" href="#main_ToBuy_List">To Buy List</a>
@@ -568,7 +571,7 @@
 
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
-                <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8"data-tab="navbar_tobuylist">
+                <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8"data-tab="navbar_tobuylist" data-header="toBuyHeader">
                    <ul class="list" id="list">
                    <li class="listEle">Item 1</li>
                    <li class="listEle">Item 1</li>
@@ -580,7 +583,7 @@
                    <li class="listEle">Item 1</li>
                    <li class="listEle">Item 1</li>
                    </ul>
-                   <div class="button" style="width:100%;background-color:#58ACFA"> Cook!</div>
+                   <div class="button" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;"> Cook!</div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->
