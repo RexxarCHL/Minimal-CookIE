@@ -35,11 +35,12 @@ loadRecipes = function() {
 loadDeck = function() {
   var query, recipeId, _i, _len, _ref;
   console.log("loading deck");
-  $.ui.showMask('Fetching data...');
   checkRecipeInDB();
   if (window.recipesInDeck.length === 0) {
+    $("#main_Deck").find("#Results").html("Browse recipes and add it into deck to start!");
     return;
   }
+  $.ui.showMask('Fetching data...');
   query = "";
   _ref = window.recipesInDeck;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {

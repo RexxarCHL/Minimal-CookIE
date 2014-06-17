@@ -32,11 +32,14 @@ loadRecipes = ->
 
 loadDeck = ->
 	console.log "loading deck"
-	$.ui.showMask 'Fetching data...'
 
 	checkRecipeInDB()
 
-	if window.recipesInDeck.length is 0 then return
+	if window.recipesInDeck.length is 0
+		$("#main_Deck").find("#Results").html "Browse recipes and add it into deck to start!"
+		return
+	
+	$.ui.showMask 'Fetching data...'
 
 	query = ""
 	for recipeId in window.recipesInDeck
