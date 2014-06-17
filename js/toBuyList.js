@@ -60,6 +60,10 @@ showIngredientList = function() {
         }
         console.log(html);
         list.append(html);
+        $('.listEle').click(function(event) {
+          this.style.textDecoration = this.style.textDecoration === 'line-through' ? 'none' : 'line-through';
+          return this.style.color = this.style.textDecoration === 'line-through' ? '#D8D8D8' : '#53575E';
+        });
       }
     }, errorHandler, errorHandler, nullHandler);
   });

@@ -62,6 +62,10 @@ showIngredientList = ->
 						html += '<li class="listEle">'+row.name+'&nbsp;'+row.amount+'&nbsp;'+row.unitName+'</li>'
 					console.log html
 					list.append html
+
+					$('.listEle').click (event)->
+						this.style.textDecoration = if this.style.textDecoration is 'line-through' then 'none' else 'line-through'
+						this.style.color = if this.style.textDecoration is 'line-through' then '#D8D8D8' else '#53575E'
 				return
 			, errorHandler
 		, errorHandler, nullHandler
