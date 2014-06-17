@@ -211,3 +211,20 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+#afui .button.recipe_btn.recipe_in_deck_btn{
+	background:#D8D8D8;
+	border-color:white;
+}
+
+#afui .button.recipe_btn.recipe_add_btn{
+	color:#fff;
+	background:#FF0000;
+	border-color:#E6E6E6;
+	opacity: .6;
+}
+
+#afui .button.recipe_btn.recipe_remove_btn{
+	color:#fff;
+	background:#04B4AE;
+}

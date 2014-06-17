@@ -19,8 +19,9 @@ addInfiniteScroll = (scope, delay, callback)->
 	)
 	return #avoid implicit return values
 
-deleteSelectedRecipesFromDeck = ->
+deleteThisRecipeFromDeck = (id)->
 	### TODO ###
+	console.log "delete #{id} from deck"
 
 recipeAjaxd = 0
 loadRecipes = ->
@@ -43,7 +44,6 @@ findChosenRecipeId = ->
 
 ### Recipe -> Deck ###
 addThisRecipeToDeck = (id)->
-	### TODO ###
 	console.log "Add recipe ##{id} to deck"
 	if window.recipesInDeck.lastIndexOf(id) is -1
 		window.recipesInDeck.push id # push this recipe into deck
@@ -51,12 +51,27 @@ addThisRecipeToDeck = (id)->
 
 	html = $("#Recipe#{id}").html()
 	scope = $("#main_Deck").find("#Results")
+	scope.find(".new").removeClass 'new'
 	scope.find("#bottomBar").remove()
+
+	### Append the recipe directly from Browse Recipe ###
 	if scope.length % 2 then leftright = 'left' else leftright = 'right'
-	scope.append "<div class='kitchen_recipe_item #{leftright}' data-recipe-id='#{id}'>#{html}</div>"
-	
+	scope.append "<div class='kitchen_recipe_item #{leftright} new' data-recipe-id='#{id}'>#{html}</div>"
+
 	### Add bottomBar to maintain the scroller ###
 	scope.append '<div id="bottomBar" style="display:block;height:0;clear:both;"> </div>'
+
+	### Modify the button ###
+	thisRecipeBtn = scope.find(".new").find(".recipe_btn")
+	thisRecipeBtn.removeClass('recipe_in_deck_btn').removeClass('recipe_add_btn')
+	thisRecipeBtn.addClass('recipe_remove_btn')
+	thisRecipeBtn.html "Remove from Deck"
+	
+	### Add onclick function to remove btn ###
+	thisRecipeBtn.click do(id)->
+		-> # closure
+			deleteThisRecipeFromDeck(id)
+			return
 
 	return
 

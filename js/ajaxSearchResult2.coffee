@@ -101,7 +101,7 @@ appendSearchResults = (data)->
 		html += '<img class="recipe_image_wrapper" src="'+url+'">'
 		html += '<div class="icon star recipe_descrip">'+rating+'</div>'
 		html += '<div class="recipe_descrip">'+name+'</div>'
-		html += '<div class="button recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>'
+		html += '<div class="button recipe_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>'
 		html += '</div>'
 
 		results.append html
@@ -118,7 +118,7 @@ appendSearchResults = (data)->
 				getRecipeContent(id)
 				return
 
-		thisRecipe.find(".recipe_add_btn").click do(id)->
+		thisRecipe.find(".recipe_btn").click do(id)->
 			-> # closure
 				addThisRecipeToDeck(id)
 				return

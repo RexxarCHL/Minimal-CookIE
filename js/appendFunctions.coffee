@@ -23,9 +23,9 @@ appendRecipeResult = (scope, data)->
 		html += '<div class="icon star recipe_descrip">'+rating+'</div>'
 		html += '<div class="recipe_descrip">'+name+'</div>'
 		if not exist
-			html += '<div class="button recipe_add_btn red" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;opacity:0.6">Add To Deck</div>'
+			html += '<div class="button recipe_btn recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Add To Deck</div>'
 		else
-			html += '<div class="button recipe_add_btn gray" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
+			html += '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
 		html += '</div>'
 
 		results.append html
@@ -43,10 +43,10 @@ appendRecipeResult = (scope, data)->
 				return
 
 		if not exist
-			thisRecipe.find(".recipe_add_btn").click do(id)->
+			thisRecipe.find(".recipe_btn").click do(id)->
 				-> # closure
 					addThisRecipeToDeck(id)
-					$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_add_btn")[0].outerHTML = '<div class="button recipe_add_btn gray" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
+					$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>'
 					return
 		else
 			addThisRecipeToDeck(id)
