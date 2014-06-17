@@ -1,2 +1,1 @@
-enableStarInteract = ->
-	$(".star-container")
+### empty ###
