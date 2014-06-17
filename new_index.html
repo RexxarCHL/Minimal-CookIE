@@ -1,0 +1,463 @@
+<html>
+    <head>
+        <script>
+	        (function() {
+			    if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			        var msViewportStyle = document.createElement("style");
+			        msViewportStyle.appendChild(
+			            document.createTextNode("@-ms-viewport{width:auto!important}")
+			        );
+			        document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+			    }
+			})();
+		</script>
+
+        <title>Cooking Intelligence Emulator</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="stylesheet" type="text/css" href="css/icons.css" />    
+ 
+       <!--   
+     <link rel="stylesheet" type="text/css" href="css/af.ui.css" title="default" />
+  -->
+	  <link rel="stylesheet" type="text/css" href="css/tester.css" />
+	  <link rel="stylesheet" type="text/css" href="css/main.css"  />
+      <link rel="stylesheet" type="text/css" href="css/appframework.css"  />
+      <link rel="stylesheet" type="text/css" href="css/lists.css"  />
+      <link rel="stylesheet" type="text/css" href="css/forms.css"  />
+      <link rel="stylesheet" type="text/css" href="css/buttons.css"  />        
+      <link rel="stylesheet" type="text/css" href="css/badges.css"  />        
+      <link rel="stylesheet" type="text/css" href="css/grid.css"  />
+
+      <link rel="stylesheet" type="text/css" href="css/android.css"  />
+      <link rel="stylesheet" type="text/css" href="css/win8.css"  />
+      <link rel="stylesheet" type="text/css" href="css/bb.css"  />
+      <link rel="stylesheet" type="text/css" href="css/ios.css"  />
+      <link rel="stylesheet" type="text/css" href="css/ios7.css"  />
+      <link rel="stylesheet" type="text/css" href="css/tizen.css"  />
+        
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.actionsheet.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.popup.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.scroller.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.selectBox.css"  />        
+        
+        <!-- uncomment for intel.xdk apps 
+        <script type="text/javascript" charset="utf-8" src="intelxdk.js"></script>
+        <script type="text/javascript" charset="utf-8" src="xhr.js"></script>
+        -->
+        <script type="text/javascript" charset="utf-8" src="./appframework.js"></script>
+        <!-- include af.desktopBrowsers.js on desktop browsers only -->
+        <script>
+
+            function loadedPanel(what) {
+                //We are going to set the badge as the number of li elements inside the target
+                //$.ui.updateBadge("#aflink", $("#af").find("li").length);
+                console.log("load: "+what.id)
+                $.ui.backButtonText = "Back"
+                switch(what.id){
+                  case "main_Popular_Recipes":
+                  case "main_Popular_Menus":
+                  case "main_AllCategories":
+                    $('#headerBtn').attr( "class", "icon magnifier big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $.ui.loadContent("#main_Search");
+                    }); 
+                    break;
+                  case "main_Kitchen_Recipes":
+                    checkIfLogin();
+                    reloadKitchenRecipes();
+                    $('#headerBtn').attr( "class", "icon settings big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $('.popup_btn').toggle();
+                        resetUtilBtn(); //utility.coffee
+                    });
+                    break;
+                  case "main_Kitchen_Menus":
+                    checkIfLogin();
+                    reloadKitchenMenus();
+                    $('#headerBtn').attr( "class", "icon settings big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $('.popup_btn').toggle();
+                        resetUtilBtn(); //utility.coffee
+                    });
+                    break;
+                  case "MenuContent":
+                    $('#headerBtn').attr( "class", "icon add big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        addThisMenuToKitchen(); //utility.coffee
+                    });
+                    break;  
+                  case "RecipeContent":             
+                    $('#headerBtn').attr( "class", "icon add big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        addThisRecipeToKitchen(); //utility.coffee
+                    });
+                    break;  
+                  case "Collection_MenuContent":
+                    $('#headerBtn').attr( "class", "icon trash big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        deleteThisMenu(); //ajaxMenuContent.coffee
+                    });
+                    break;
+                  
+                  case "Step":
+                    cookingStarted();
+                    $('#headerBtn').attr( "class", " " ) ;
+                    break;
+
+                  case "Ingredients":
+                  case "Cooking":
+                    $('#headerBtn').attr( "class", " " ) ;
+                    break;
+
+                  case "Rate":
+                    $('#headerBtn').attr( "class", "icon trash big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        alert("href home");
+                    });
+                    break;
+
+                default:
+                    console.log("Not a case");
+                }           
+            }
+            function unloadedPanel(what) {
+                console.log("unloaded " + what.id);
+
+                switch(what.id){
+                    case "main_Kitchen_Recipes":
+                    case "main_Kitchen_Menus":
+                        // kitchen utility btn
+                        $('.popup_btn').hide();
+                        $('#popup_btn_trash').removeClass('selected');
+                        $('#popup_btn_edit').removeClass('selected');
+                        resetUtilBtn();
+                        break;
+                    case "Step":
+                        cookingEnded();
+                        break;
+                    default:
+                        console.log("Not a case");
+                }
+
+                $('#headerBtn').unbind();
+            }
+            if (!((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
+                var script = document.createElement("script");
+                script.src = "plugins/af.desktopBrowsers.js";
+                var tag = $("head").append(script);
+                //$.os.desktop=true;
+            }
+          //  $.feat.nativeTouchScroll=true;
+        </script>        
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script src="js/socialsharing-plugin-demo.js"></script>
+        <!--<script src="cdv-plugin-fb-connect.js"></script>
+        <script src="facebook-js-sdk.js"></script>!-->
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.actionsheet.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.css3animate.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.passwordBox.js"></script>          
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.scroller.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.selectBox.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.touchEvents.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.touchLayer.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.popup.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/appframework.ui.js"></script>
+        <!-- <script type="text/javascript" charset="utf-8" src="./ui/transitions/all.js"></script> -->
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/fade.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/flip.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/pop.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slide.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slideDown.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slideUp.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.slidemenu.js"></script>
+        <script type="text/javascript">
+            /* This function runs once the page is loaded, but intel.xdk is not yet active */
+            //$.ui.animateHeaders=false;
+             var search=document.location.search.toLowerCase().replace("?","");
+             //if(!search)
+            $.ui.useOSThemes=false;
+            if(search.length>0) //Android fix has too many buggy issues on iOS - can't preview with $.os.android
+            {
+               $.ui.useOSThemes=false;
+                if(search=="win8")
+                    $.os.ie=true;
+                $.ui.ready(function(){
+                    $("#afui").get(0).className=search;
+                });
+            }
+            var webRoot = "./";
+            //$.os.android=true;								/** comment for launch **/
+            //$.ui.autoLaunch = false;						/** comment for launch **/
+            $.ui.openLinksNewTab = false;
+            $.ui.splitview=false;
+            $(document).ready(function(){
+                $.ui.launch();
+                $('#signUpBtn').bind('click',function(){
+                    signUp();
+                })
+            });
+            /* This code is used to run as soon as intel.xdk activates */
+            var onDeviceReady = function () {
+                intel.xdk.device.setRotateOrientation("portrait");
+                intel.xdk.device.setAutoRotate(false);
+                webRoot = intel.xdk.webRoot + "";
+                //hide splash screen
+                //intel.xdk.device.hideSplashScreen();
+                $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+                $('#signUpBtn').bind("click",function(){
+                    signUp();
+                });
+            };
+            document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
+
+            function showHide(obj, objToHide) {
+                var el = $("#" + objToHide)[0];
+
+                if (obj.className == "expanded") {
+                    obj.className = "collapsed";
+                } else {
+                    obj.className = "expanded";
+                }
+                $(el).toggle();
+
+            }
+            $.ui.useOSThemes=false;
+            if($.os.android||$.os.ie||search=="android"){
+                $.ui.ready(function(){
+                    $("#main .list").append("<li><a id='toggleAndroidTheme'>Toggle Theme Color</a></li>");
+                    var $el=$("#afui");
+                    $("#toggleAndroidTheme").bind("click",function(e){
+                        if($el.hasClass("light"))
+                            $el.removeClass("light");
+                        else
+                            $el.addClass("light");
+                    });
+                });
+            }
+        </script>
+        <!-- 05/20 Rexxar || Javascript inclusion area !-->
+        <link rel="stylesheet" type="text/css" href="css/temp.css"  />
+        <script type="text/javascript" charset="utf-8" src="./js/globalVariables.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/clone.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxSearchResult2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularMenu.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularRecipe.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenMenu.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenRecipe2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxCategory.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxRecipeContent.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxMenuContent.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/utility.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxCooking.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/socialsharing-plugin-demo.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/cooking.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/rating.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/user.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/md5.js"></script>
+
+        <script>
+            /* To allow cross domain access in Phonegap */
+            $(document).bind("mobileinit", function(){
+                $.support.cors = true;
+                $.mobile.allowCrossDomainPages = true;
+            });
+
+            $(document).ready(function() {
+                $('#header_search_btn').click(function() {
+                    $('.popup_btn').toggle();
+                });
+
+                // DEBUG
+                $("#main_Kitchen_Recipes").find("#Results").find('.kitchen_recipe_item').forEach(function(elem) {
+                    $(elem).click(function () {
+                        $(this).toggleClass('chosen');
+                    });
+                });
+
+                // DEBUG
+                $("#main_Kitchen_Menus").find("#Results").find(".green").forEach(function(elem){
+                    $(elem).click(function(){
+                        getMenuContent($("#Collection_MenuContent"), 1);
+                    });
+                });
+            });
+        </script>
+	</head>
+
+    <body>
+        <div id="afui">
+            <!-- SPLASH SCREEN !-->
+            <div id="splashscreen" class='ui-loader heavy'>
+                <img src="img/love.jpg">
+                <br><br>
+                <span class='icon loading spin'></span>
+
+            </div>
+			<!-- TOP LEFT CONRNER !-->
+			<div id="header">
+				<a id="backButton" class='button' style='visibility:visible'>Back</a>
+                <a class="button icon settings big" style="float:right;margin-top:3px;" id="headerBtn">&nbsp;&nbsp;&nbsp;</a>
+				<h1 id="headerText"></h1>
+			</div><!-- #header !-->
+
+            <!-- POP-UP BTN !-->
+			<div id="popup_btn_edit" class="popup_btn" style="display:none;" data-function="edit">&nbsp;<a class="icon pencil big"></a></div>
+            <div id="popup_btn_trash" class="popup_btn" style="display:none;" data-function="trash">&nbsp;<a class="icon trash big"></a></div>
+
+			<div id="content">
+                <!-- BROWSE RECIPE -->
+                <!-- Browse/search recipe here -->
+                <div title='Popular' id="main_Popular_Menus" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_popular" data-pull-scroller='true' style="background-color:#D8D8D8;">
+                    <div style="background-color:#D8D8D8;">
+                            <div class="button-grouped flex" >
+                                <a class="button" href="#main_Popular_Recipes" data-transition="fade">Recipes</a>
+                                <a class="button orange" href="#main_Popular_Menus" data-transition="fade">Menus</a>
+                            </div>
+                    </div>
+                    <div id="Results" style="background-color:#D8D8D8">
+                        <div class="menu_wrapper">
+                            <h2 class="menu_title"style="margin-left:5px;color:black;">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2>
+                            <div class="menu_img_wrapper">
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                            </div>
+                            <div style="float:left;width:100%;background-color:white;border-radius:5px;">
+                                <a id="Cook" class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
+                                <a id="View" class="button green" style="float:right;width:20%;margin-right:2%;" href="#MenuContent">View</a>
+                            </div>
+                            <div class="aDivider">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+                </div><!-- #main_Browse_Recipe -->
+
+                <!-- RECIPE CONTENT -->
+                <!-- View recipe content here -->
+                <!-- #main_Recipe_Content -->
+
+                <!-- BROWSE CATEGORIES -->
+                <!-- Browse categories here -->
+                <!-- #main_Browse_Cateogry>
+
+                <!-- CATEGORY CONTENT -->
+                <!-- View what recipe is in the category here -->
+                <!-- #main_Category_Content -->
+
+                <!-- KITCHEN -->
+                <!-- View stored recipe here -->
+                <!-- #main_Kitchen -->
+
+                <!-- TO-BUY LIST -->
+                <!-- View what materials the cooking needs here -->
+                <!-- #main_ToBuy_List -->
+
+                <!-- COOKING OVERVIEW -->
+                <!-- Overview the cooking steps -->
+				<div id="Cooking" class="panel" title="Overview" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+                    <div style="background-color:#F2F2F2">
+                        <h2 style="margin-left:5%;">Total Time: </h2>
+                        <i id="totalCookingTime" style="margin-left:7%;font-size:17px;"></i>
+                        <div id="stepsList">
+                            <h2 style="margin-left:5%;">Steps:</h2>
+                            <div class="overview_stepWrapper"> 
+                                <img src="img/small.jpg" class="overview_stepImg"></img>
+                                <h3 class="overview_stepText">1. Do something</h3>
+                            </div>
+                        </div>
+                        <div class="bottom_btn_holder">
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Step">Start Cooking </a>
+                        </div>
+                    </div> 
+                </div><!-- #Cooking -->
+			
+                <!-- COOKING STEP -->
+                <!-- Cooking interface -->
+                <div id="Step" class="panel"  title="Step 8 (47%)" style="background-color:#E6E6E6;" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+                    <!--<div id="steps_container" style="border:0px 1px 0px 1px solid;width:100%;margin-top:5px;height: calc(100% - 100px);height: -webkit-calc(100% - 100px);">-->
+                    <div id="steps_container" style="border:0px 1px 0px 1px solid #E6E6E6; height:97%">
+                        &nbsp;
+                        <div class="waiting_step_outer_wrapper">
+                            <div id="NextNextWaitingStep" class="waiting_step_inner_wrapper">
+                                <div id="ProgressBar" class="waiting_step_progress next_next_step">&nbsp;</div>
+                                <h4 id="ProgressName" class="waiting_step_name">Next next waiting step</h4>
+                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
+                            </div>
+                        </div>
+                        <div class="waiting_step_spacer">&nbsp;</div>
+                        <div class="waiting_step_outer_wrapper">
+                            <div id="NextWaitingStep" class="waiting_step_inner_wrapper">
+                                <div id="ProgressBar" class="waiting_step_progress next_step">&nbsp;</div>
+                                <h4 id="ProgressName" class="waiting_step_name">Next waiting step</h4>
+                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
+                            </div> 
+                        </div>          
+                        <div class="waiting_step_spacer">&nbsp;</div>
+
+                        <div class="this_step_outer_wrapper">
+                            <div class="this_step_inner_wrapper">
+                                <h2 class="this_step_recipe_name">
+                                    Saute beef
+                                </h2>
+                                <div class="this_step_img_wrapper" >
+                                    <img class="this_step_img" src="img/small.jpg"></img>
+                                </div>
+                                <h3 class="this_step_digest">
+                                    Saute beef with sauce A.Saute beef with sauce A.Saute beef with sauce A.
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="next_step_outer_wrapper">
+                            <div id="NextStep" class="next_step_inner_wrapper">
+                                <div id="ProgressBar" class="next_step_progress">&nbsp;</div>
+                                <h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>
+                                <h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>
+                            </div> 
+                        </div>
+                        <div class="step_spacer">&nbsp;</div>
+                       <div class="bottom_btn_holder step_next_btn_wrapper">
+                            <a class="button step_next_btn" style="background-color:#58ACFA;">Next </a>
+                        </div> 
+                    </div>
+                </div><!-- #Step -->
+
+                <!-- FINISH -->
+                <!-- 'Like' a recipe? View total time elapsed? Feedback?-->
+                <div title="整體評分" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none'>
+                    <div style="background-color:white;height:100%;">
+                        <div style="margin-left:4%;height:89%;">
+                            <div class="h6">所需時間 </div><br>
+                                <div class="h5" style="margin-left:5%;">150 min -> 26 min !!</div><br>
+                            
+                            <div class="h6">整體評分</div>
+                            <div class="star-container" width="100%">
+                                <div id="1" class="icon star five"></div>
+                                <div id="2" class="icon star five"></div>
+                                <div id="3" class="icon star five"></div>
+                                <div id="4" class="icon star five"></div>
+                                <div id="5" class="icon star five"></div>
+                            </div><br />
+                            <div class="h6">筆記/評論</div>
+                                <input type="text" placeholder="lalala"></input>
+                        </div>
+                        <div class="bottom_btn_holder" >
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Rate">Continue</a>
+                        </div>
+                    </div>
+                </div><!-- #Finish !-->
+            </div><!-- #content !-->
+
+			<footer id="navbar">
+                <a href="#main_Browse_Recipes" id='navbar_recipe' class='icon target'>Browse</a>
+                <a href="#main_Kitchen" id='navbar_kitchen' class='icon home'>Kitchen</a>
+                <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon key'>Popular</a>
+	        </footer><!-- #navbar !-->
+		</div><!-- #afui !-->
+	</body>
+</html>

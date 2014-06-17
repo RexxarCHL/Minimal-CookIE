@@ -1,0 +1,37 @@
+ <widget 
+		id="com.phonegap.cookie"
+		xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:intelxdk="http://services.html5tools-software.intel.com/ns/intelxdk"
+        xmlns:gap="http://phonegap.com/ns/1.0"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		versioncode = "2"
+		version   = "2.0.0">
+    <name>QQ</name>
+    <content src="index.html"/>
+    <description>
+      A HTML5 Sample for using Phonegap audio.
+    </description>
+    <author href="http://software.intel.com/html5">
+        Intel Corporation
+    </author>
+	<gap:platform name="ios"/>
+    <gap:platform name="android"/>
+    <gap:platform name="wp8"/>
+    <content src="index.html" />
+    <access origin="*" />
+	<preference name="orientation" value="portrait" />
+    <preference name="android-minSdkVersion" value="8" />
+    <preference name="android-maxSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="19" />
+    <preference name="android-permission" value="MOUNT_UNMOUNT_FILESYSTEMS" />
+    <preference name="android-permission" value="MEDIA_CONTENT_CONTROL" />
+        <preference name="android-signed" value="true" />
+    <icon density="hdpi" platform="android" src="icon.png" />
+	<gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.4.0">
+    <param name="APP_ID" value="286722174821342" />
+    <param name="APP_NAME" value="CookIE" />
+	</gap:plugin>
+	<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8"> </gap:plugin>
+    <intelxdk:plugin intelxdk:name="File" intelxdk:value="org.apache.cordova.file"/>
+    <intelxdk:plugin intelxdk:name="Media" intelxdk:value="org.apache.cordova.media" />
+</widget>

@@ -1,0 +1,1055 @@
+<html>
+    <head>
+        <script>
+	        (function() {
+			    if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			        var msViewportStyle = document.createElement("style");
+			        msViewportStyle.appendChild(
+			            document.createTextNode("@-ms-viewport{width:auto!important}")
+			        );
+			        document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+			    }
+			})();
+            if (!window.openDatabase) {
+                alert('Databases are not supported in this browser.');
+                return;
+            }
+            var db;
+            var shortName = 'WebSqlDB';
+            var version = '1.0';
+            var displayName = 'PigSqlDB';
+            var maxSize = 655;
+            // this is called when an error happens in a transaction
+            function errorHandler(transaction, error) {
+                alert('Error: ' + error.message + ' code: ' + error.code);
+            }
+            // this is called when a successful transaction happens
+            function successCallBack() {
+                alert("DEBUGGING: success");
+            }
+            function nullHandler(){};
+            // called when the application loads
+            function onBodyLoad(){
+                //alert("DEBUGGING: we are in the onBodyLoad() function");
+                if (!window.openDatabase) {
+                    alert('Databases are not supported in this browser.');
+                    return;
+                }
+                db = openDatabase(shortName, version, displayName,maxSize);
+                db.transaction(function(tx){
+                tx.executeSql( 'CREATE TABLE IF NOT EXISTS CookieUsers(UserId INTEGER NOT NULL PRIMARY KEY, Token TEXT NOT NULL, ID INTEGER NOT NULL)',[],nullHandler,errorHandler);
+                },errorHandler,successCallBack);
+            }
+            function ListDBValues() {
+                if (!window.openDatabase) {
+                    alert('Databases are not supported in this browser.');
+                    return;
+                }
+                $('#lbUsers').html('');
+                db.transaction(function(transaction) {
+                //alert("pulling transactions");
+                transaction.executeSql('SELECT * FROM CookieUsers;', [],
+                    function(transaction, result) {
+                        if (result != null && result.rows != null) {
+                            for (var i = 0; i < result.rows.length; i++) {
+                                var row = result.rows.item(i);
+                                $('#lbUsers').append('<br>' + row.UserId + '. ' +
+                                row.Token+ ' ' + row.ID);
+                            }
+                        }
+                    },errorHandler);
+                },errorHandler,nullHandler);
+                return;
+            }
+            function AddValueToDB(token, userId) {
+                if (!window.openDatabase) {
+                    alert('Databases are not supported in this browser.');
+                    return;
+                }
+                console.log("Adding values: "+token+", "+userId);
+                db.transaction(function(transaction) {
+                    transaction.executeSql('INSERT INTO CookieUsers(Token, ID) VALUES (?,?)',[token,userId]);
+                    alert("insert!");
+                });
+                ListDBValues();
+                return false;
+            }
+		</script>
+
+        <title>Cooking Intelligence Emulator</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="stylesheet" type="text/css" href="css/icons.css" />    
+ 
+       <!--   
+     <link rel="stylesheet" type="text/css" href="css/af.ui.css" title="default" />
+  -->
+	  <link rel="stylesheet" type="text/css" href="css/tester.css" />
+	  <link rel="stylesheet" type="text/css" href="css/main.css"  />
+      <link rel="stylesheet" type="text/css" href="css/appframework.css"  />
+      <link rel="stylesheet" type="text/css" href="css/lists.css"  />
+      <link rel="stylesheet" type="text/css" href="css/forms.css"  />
+      <link rel="stylesheet" type="text/css" href="css/buttons.css"  />        
+      <link rel="stylesheet" type="text/css" href="css/badges.css"  />        
+      <link rel="stylesheet" type="text/css" href="css/grid.css"  />
+
+      <link rel="stylesheet" type="text/css" href="css/android.css"  />
+      <link rel="stylesheet" type="text/css" href="css/win8.css"  />
+      <link rel="stylesheet" type="text/css" href="css/bb.css"  />
+      <link rel="stylesheet" type="text/css" href="css/ios.css"  />
+      <link rel="stylesheet" type="text/css" href="css/ios7.css"  />
+      <link rel="stylesheet" type="text/css" href="css/tizen.css"  />
+        
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.actionsheet.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.popup.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.scroller.css"  />
+      <link rel="stylesheet" type="text/css" href="plugins/css/af.selectBox.css"  />        
+        
+        <!-- uncomment for intel.xdk apps 
+        <script type="text/javascript" charset="utf-8" src="intelxdk.js"></script>
+        <script type="text/javascript" charset="utf-8" src="xhr.js"></script>
+        -->
+        <script type="text/javascript" charset="utf-8" src="./appframework.js"></script>
+        <!-- include af.desktopBrowsers.js on desktop browsers only -->
+        <script>
+
+            function loadedPanel(what) {
+                //We are going to set the badge as the number of li elements inside the target
+                //$.ui.updateBadge("#aflink", $("#af").find("li").length);
+                console.log("load: "+what.id)
+                $.ui.backButtonText = "Back"
+                switch(what.id){
+                  case "main_Popular_Recipes":
+                  case "main_Popular_Menus":
+                  case "main_AllCategories":
+                    $('#headerBtn').attr( "class", "icon magnifier big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $.ui.loadContent("#main_Search");
+                    }); 
+                    break;
+                  case "main_Kitchen_Recipes":
+                    checkIfLogin();
+                    reloadKitchenRecipes();
+                    $('#headerBtn').attr( "class", "icon settings big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $('.popup_btn').toggle();
+                        resetUtilBtn(); //utility.coffee
+                    });
+                    break;
+                  case "main_Kitchen_Menus":
+                    checkIfLogin();
+                    reloadKitchenMenus();
+                    $('#headerBtn').attr( "class", "icon settings big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        $('.popup_btn').toggle();
+                        resetUtilBtn(); //utility.coffee
+                    });
+                    break;
+                  case "MenuContent":
+                    $('#headerBtn').attr( "class", "icon add big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        addThisMenuToKitchen(); //utility.coffee
+                    });
+                    break;  
+                  case "RecipeContent":             
+                    $('#headerBtn').attr( "class", "icon add big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        addThisRecipeToKitchen(); //utility.coffee
+                    });
+                    break;  
+                  case "Collection_MenuContent":
+                    $('#headerBtn').attr( "class", "icon trash big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        deleteThisMenu(); //ajaxMenuContent.coffee
+                    });
+                    break;
+                  
+                  case "Step":
+                    cookingStarted();
+                    $('#headerBtn').attr( "class", " " ) ;
+                    break;
+
+                  case "Ingredients":
+                  case "Cooking":
+                    $('#headerBtn').attr( "class", " " ) ;
+                    break;
+
+                  case "Rate":
+                    $('#headerBtn').attr( "class", "icon trash big" ) ;
+                    $('#headerBtn').bind("click",function(){
+                        alert("href home");
+                    });
+                    break;
+
+                default:
+                    console.log("Not a case");
+                }           
+            }
+            function unloadedPanel(what) {
+                console.log("unloaded " + what.id);
+
+                switch(what.id){
+                    case "main_Kitchen_Recipes":
+                    case "main_Kitchen_Menus":
+                        // kitchen utility btn
+                        $('.popup_btn').hide();
+                        $('#popup_btn_trash').removeClass('selected');
+                        $('#popup_btn_edit').removeClass('selected');
+                        resetUtilBtn();
+                        break;
+                    case "Step":
+                        cookingEnded();
+                        break;
+                    default:
+                        console.log("Not a case");
+                }
+
+                $('#headerBtn').unbind();
+            }
+            if (!((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
+                var script = document.createElement("script");
+                script.src = "plugins/af.desktopBrowsers.js";
+                var tag = $("head").append(script);
+                //$.os.desktop=true;
+            }
+          //  $.feat.nativeTouchScroll=true;
+        </script>        
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script src="js/socialsharing-plugin-demo.js"></script>
+        <!--<script src="cdv-plugin-fb-connect.js"></script>
+        <script src="facebook-js-sdk.js"></script>!-->
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.actionsheet.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.css3animate.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.passwordBox.js"></script>          
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.scroller.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.selectBox.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.touchEvents.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.touchLayer.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.popup.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/appframework.ui.js"></script>
+        <!-- <script type="text/javascript" charset="utf-8" src="./ui/transitions/all.js"></script> -->
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/fade.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/flip.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/pop.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slide.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slideDown.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./ui/transitions/slideUp.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./plugins/af.slidemenu.js"></script>
+        <script type="text/javascript">
+            /* This function runs once the page is loaded, but intel.xdk is not yet active */
+            //$.ui.animateHeaders=false;
+             var search=document.location.search.toLowerCase().replace("?","");
+             //if(!search)
+            $.ui.useOSThemes=false;
+            if(search.length>0) //Android fix has too many buggy issues on iOS - can't preview with $.os.android
+            {
+               $.ui.useOSThemes=false;
+                if(search=="win8")
+                    $.os.ie=true;
+                $.ui.ready(function(){
+                    $("#afui").get(0).className=search;
+                });
+            }
+            var webRoot = "./";
+            //$.os.android=true;								/** comment for launch **/
+            //$.ui.autoLaunch = false;						/** comment for launch **/
+            $.ui.openLinksNewTab = false;
+            $.ui.splitview=false;
+            $(document).ready(function(){
+                $.ui.launch();
+                $('#signUpBtn').bind('click',function(){
+                    signUp();
+                })
+            });
+            /* This code is used to run as soon as intel.xdk activates */
+            var onDeviceReady = function () {
+                intel.xdk.device.setRotateOrientation("portrait");
+                intel.xdk.device.setAutoRotate(false);
+                webRoot = intel.xdk.webRoot + "";
+                //hide splash screen
+                //intel.xdk.device.hideSplashScreen();
+                $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+                $('#signUpBtn').bind("click",function(){
+                    signUp();
+                });
+            };
+            document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
+
+            function showHide(obj, objToHide) {
+                var el = $("#" + objToHide)[0];
+
+                if (obj.className == "expanded") {
+                    obj.className = "collapsed";
+                } else {
+                    obj.className = "expanded";
+                }
+                $(el).toggle();
+
+            }
+            $.ui.useOSThemes=false;
+            if($.os.android||$.os.ie||search=="android"){
+                $.ui.ready(function(){
+                    $("#main .list").append("<li><a id='toggleAndroidTheme'>Toggle Theme Color</a></li>");
+                    var $el=$("#afui");
+                    $("#toggleAndroidTheme").bind("click",function(e){
+                        if($el.hasClass("light"))
+                            $el.removeClass("light");
+                        else
+                            $el.addClass("light");
+                    });
+                });
+            }
+            var signUp = function(){
+                $.ui.popup({
+                    title: 'Sign Up for CookIE',
+                    message: '<form><label>Username</label><input id="username" type="text" placeholder="username"><label>密碼</label><input id="password" type="password" placeholder="password"><label>性別</label><select id="gender"><option>男</option><option>女</option></select><label>年齡</label><input id="age" type="text" placeholder="age"><label>身分</label><select id="job"><option>家庭主婦</option><option>學生</option><option>上班族</option><option>待業中</option></select></form>',
+                    cancelText: "Cancel",
+                    cancelCallback: function() {
+                        console.log("cancelled");
+                    },
+                    doneText: "Done",
+                    doneCallback: function() {
+                        signUpServer();
+                    },
+                    cancelOnly: false
+                });
+             }
+            var signUpServer = function(){
+                var username = $('#username').val();
+                var password = $('#password').val();
+                password = calcMD5(password);
+                var gender = $('#gender').val();
+                var age = $('#age').val();  
+                var job = $('#job').val();
+                data = {
+                    'user_name': username,
+                    'password':password,
+                    'gender': gender,
+                    'age': age,
+                    'job': job
+                };
+                data = JSON.stringify(data);
+                
+                //console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://54.178.135.71:8080/CookIEServer/temp_register',
+                    dataType: 'application/json',
+                    data: data,
+                    timeout: 10000,
+                    success: function(response) {
+                        userid = $.parseJSON(response);
+                        token = userid['token'];
+                        id = userid['userId'];
+                        AddValueToDB(token,id);
+                        console.log(token+id);
+                    },error: function(data, status) {
+                        console.log("[ERROR] sign up  user" );
+                        console.log(data);
+                    }
+                })
+            }
+        </script>
+        <!-- 05/20 Rexxar || Javascript inclusion area !-->
+        <link rel="stylesheet" type="text/css" href="css/temp.css"  />
+        <script type="text/javascript" charset="utf-8" src="./js/globalVariables.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/clone.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxSearchResult2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularMenu.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxPopularRecipe.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenMenu.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxKitchenRecipe2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxCategory.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxRecipeContent.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxMenuContent.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/utility.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/ajaxCooking.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/socialsharing-plugin-demo.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/cooking.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/rating.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/user.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/md5.js"></script>
+
+        <script>
+            /* To allow cross domain access in Phonegap */
+            $(document).bind("mobileinit", function(){
+                $.support.cors = true;
+                $.mobile.allowCrossDomainPages = true;
+            });
+
+            $(document).ready(function() {
+                $('#header_search_btn').click(function() {
+                    $('.popup_btn').toggle();
+                });
+
+                // DEBUG
+                $("#main_Kitchen_Recipes").find("#Results").find('.kitchen_recipe_item').forEach(function(elem) {
+                    $(elem).click(function () {
+                        $(this).toggleClass('chosen');
+                    });
+                });
+
+                // DEBUG
+                $("#main_Kitchen_Menus").find("#Results").find(".green").forEach(function(elem){
+                    $(elem).click(function(){
+                        getMenuContent($("#Collection_MenuContent"), 1);
+                    });
+                });
+            });
+        </script>
+	</head>
+
+    <body onload="onBodyLoad()">
+        <div id="afui">
+            <!-- SPLASH SCREEN !-->
+            <div id="splashscreen" class='ui-loader heavy'>
+                <img src="img/love.jpg">
+                <br><br>
+                <span class='icon loading spin'></span>
+
+            </div>
+			<!-- TOP LEFT CONRNER !-->
+			<div id="header">
+				<a id="backButton" class='button' style='visibility:visible'>Back</a>
+                <a class="button icon settings big" style="float:right;margin-top:3px;" id="headerBtn">&nbsp;&nbsp;&nbsp;</a>
+				<h1 id="headerText"></h1>
+			</div><!-- #header !-->
+
+            <!-- POP-UP BTN !-->
+			<div id="popup_btn_edit" class="popup_btn" style="display:none;" data-function="edit">&nbsp;<a class="icon pencil big"></a></div>
+            <div id="popup_btn_trash" class="popup_btn" style="display:none;" data-function="trash">&nbsp;<a class="icon trash big"></a></div>
+
+			<div id="content">
+				<!-- POPULAR MENU !-->
+				<div title='Popular' id="main_Popular_Menus" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_popular" data-pull-scroller='true' style="background-color:#D8D8D8;">
+                    <div style="background-color:#D8D8D8;">
+                            <div class="button-grouped flex" >
+                                <a class="button" href="#main_Popular_Recipes" data-transition="fade">Recipes</a>
+                                <a class="button orange" href="#main_Popular_Menus" data-transition="fade">Menus</a>
+                            </div>
+                    </div>
+					<div id="Results" style="background-color:#D8D8D8">
+						<div class="menu_wrapper">
+							<h2 class="menu_title"style="margin-left:5px;color:black;">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2>
+							<div class="menu_img_wrapper">
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+                                <img class="menu_img" src="img/love.jpg" >
+							</div>
+							<div style="float:left;width:100%;background-color:white;border-radius:5px;">
+								<a id="Cook" class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
+                                <a id="View" class="button green" style="float:right;width:20%;margin-right:2%;" href="#MenuContent">View</a>
+							</div>
+							<div class="aDivider">&nbsp;</div>
+						</div>
+					</div>
+					<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+				</div><!-- #main_Popular_Menu !-->
+
+				<!-- POPULAR RECIPE !-->
+				<div title='Popular' id="main_Popular_Recipes" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_popular" data-pull-scroller='true' style="background-color:#D8D8D8">
+					<div class="button-grouped flex" >
+						<a class="button orange" href="#main_Popular_Recipes" data-transition="fade">Recipes</a>
+						<a class="button" href="#main_Popular_Menus" data-transition="fade">Menus</a>
+					</div>
+					<div style="width:100%">
+						<div id="Results">
+							<!-- this is a row -->
+							<div class="recipe_item left">
+	                            <img class="recipe_image_wrapper" src="img/love.jpg">
+	                            <div class="recipe_descrip">Pineapple</div>    <!-- center by screen width! !-->
+	                            <div class="icon star recipe_descrip">10</div>
+	                        </div>
+	                        <div class="recipe_item right">
+	                            <img class="recipe_image_wrapper" src="img/love.jpg">
+                                <div class="recipe_descrip">Pineapple</div>  <!-- center by screen width! !-->
+                                <div class="icon star recipe_descrip">10</div>
+	                        </div>
+	                        <!-- end of a row -->
+							<!-- fix to prevent the #D8D8D8 div from collapsing -->
+	                        <div id="bottomBar" style="display:block;height:0;clear:both;"> </div> 
+						</div>
+					</div>
+					<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+				</div><!-- #main_Popular_Recipes !-->
+
+
+				<!-- CATEGORIES !-->
+				<div title="All Categories" id="main_AllCategories" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_categories" style="background-color:#D8D8D8;">
+					<!-- same row !-->
+					<br />
+					<div id="Results">
+						<div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Most Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                        </div>
+						<div class="divider">&nbsp; </div>
+						<div class="category_box" style="position: relative; float: left; width: 100%;background-color:white;border-radius:5px;">
+                            <h2 style="margin-left:5px;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img class="cat_icon" src="img/love.jpg">
+                                    <div class="cat_text">Most Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/love.jpg" class="cat_icon">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/love.jpg" class="cat_icon">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/love.jpg" style="float: left; width:100%;">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp; </div>
+						<div class="category_box" style="position: relative; float: left; width: 100%;background-color:white;border-radius:5px;">
+                            <h2 style="margin-left:5px;">Popular</h2>
+                            <div class="cat_wrapper" style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
+                                    <img class="cat_icon" src="img/love.jpg" style="float: left; width:100%;">
+                                    <div class="cat_text">Most Popular</div>
+                            </div>
+                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
+                                    <img src="img/love.jpg" style="float: left; width:100%;">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
+                                    <img src="img/love.jpg" style="float: left; width:100%;">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
+                                    <img src="img/love.jpg" style="float: left; width:100%;">
+                                    <div style="margin-left:3px">French</div>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp; </div>
+					</div>
+					<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+				</div><!-- #main_AllCategories !-->
+
+                <!-- SINGLE CATEGORY !-->
+				<div title="Default Title" id="main_Category" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_categories" style="background-color:#D8D8D8;">
+					<div id="Results" style="background-color:#D8D8D8">
+					</div>
+					<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Loading</div>
+				</div><!-- #main_Category !-->
+
+				<!-- KITCHEN RECIPES !-->
+				<div title="Kitchen" id="main_Kitchen_Recipes" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_kitchen">
+                    <div class="button-grouped flex"> 
+                        <a class="button orange" href="#main_Kitchen_Recipes" data-transition="fade">Recipes</a>
+                        <a class="button" href="#main_Kitchen_Menus" data-transition="fade">Menus</a>
+                    </div>
+                    <div style="width:100%" align="center">
+                        <div id="kitchenUtilityBtn" class="button flex" style="width:80%;">Tap on the Cog to begin.</div>
+                    </div>
+                    <div style="width:100%">
+	                    <div id="Results">
+	                    	<!-- this is a row -->
+							<div class="kitchen_recipe_item left" data-recipe-id="0">
+	                            <img class="recipe_image_wrapper" src="img/love.jpg">
+	                            <div class="recipe_descrip">Pineapple</div>    <!-- center by screen width! !-->
+	                            <div class="icon star recipe_descrip" >10</div>
+	                        </div>
+	                        <div class="kitchen_recipe_item right">
+	                            <img class="recipe_image_wrapper" src="img/love.jpg">
+	                            <div class="recipe_descrip">Pineapple</div>    <!-- center by screen width! !-->
+	                            <div class="icon star recipe_descrip">10</div>
+	                        </div>
+	                        <!-- end of a row -->
+	                    	<!-- fix to prevent the #D8D8D8 div from collapsing -->
+	                        <div id="bottomBar" style="display:block;height:0;clear:both;"> </div> 
+	                    </div>
+                    </div>
+                    <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+                </div><!-- #main_Kitchen_Recipes !-->
+
+                <!-- KITCHEN MENUS !-->
+                <div title="Kitchen" id="main_Kitchen_Menus" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_kitchen">
+                	<div style="background-color:#D8D8D8">
+                		<div style="background-color:#D8D8D8">
+		                    <div class="button-grouped flex" >
+		                        <a class="button " href="#main_Kitchen_Recipes" data-transition="fade">Recipes</a>
+		                        <a class="button orange" href="#main_Kitchen_Menus" data-transition="fade">Menus</a>
+		                    </div>
+	                    </div>
+
+	                    <div id="Results">
+	                    	<div class="menu_wrapper">	
+									<h2 class="menu_title">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2> 
+									<div class="menu_img_wrapper">
+										<img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+									</div>
+								<div style="float:left;width:100%;background-color:white;border-radius:5px;">
+                                    <a class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
+                                    <a class="button green" style="float:right;width:20%;margin-right:2%;" href="#Collection_MenuContent">View</a>
+                                </div>
+                                <div class="aDivider">&nbsp;</div>
+							</div>
+							<div class="menu_wrapper">   
+                                    <h2 class="menu_title">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2> 
+                                    <div class="menu_img_wrapper">
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                    </div>
+                                <div style="float:left;width:100%;background-color:white;border-radius:5px;">
+                                    <a class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
+                                    <a class="button green" style="float:right;width:20%;margin-right:2%;" href="#Collection_MenuContent">View</a>
+                                </div>
+                                <div class="aDivider">&nbsp;</div>
+                            </div>
+                            <div class="menu_wrapper">    
+                                    <h2 class="menu_title">Menu title&nbsp;&nbsp;&nbsp;<i class="icon star h5">ratings</i>&nbsp;&nbsp;<i class="icon chat h5">comments</i></h2> 
+                                    <div class="menu_img_wrapper">
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                        <img class="menu_img" src="img/love.jpg" >
+                                    </div>
+                                <div style="float:left;width:100%;background-color:white;border-radius:5px;">
+                                    <a class="button red" style="float:right;width:20%;margin-right:5%;" href="#Ingredients">Cook</a>
+                                    <a class="button green" style="float:right;width:20%;margin-right:2%;" href="#Collection_MenuContent">View</a>
+                                </div>
+                                <div class="aDivider">&nbsp;</div>
+                            </div>
+						</div>
+						<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
+					</div>
+				</div><!-- #main_Kitchen_Menus !-->
+
+				<!-- SEARCH RECIPES !-->
+				<div title="Search" id="main_Search" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8">
+					<input type="search" id="SearchBar" placeholder="Search" style="margin-top:3%" result>
+					<div id="SearchSelectTab" class="button-grouped flex">
+						<a class="button orange" data-transition="fade">Recipes</a>
+                        <a class="button" data-transition="fade">Menus</a>
+					</div>
+					<div id="Results">
+					</div>
+					<div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'><i>Search for recipes, food ingredients ...</i></div>
+				</div><!-- #main_Search_Recipe !-->
+
+				<!-- USER !-->
+				<div title="User" id="main_User" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8"> 
+					<!-- achievement wall !-->
+					<div align="center" id="AchievementWall" style="height: 50%">
+                        <a class="button" onClick="ListDBValues()">Refresh</a><br>
+                        <span id="lbUsers">Sign in records</span>               
+                    </div>
+					<div class="divider"> &nbsp;</div>
+					
+					<!-- fb login btn !-->
+					<div id="pluginsDemoDiv">
+                        <a class="button" onclick="login()">Login</a>
+                        <a class="button orange" id="signUpBtn">Sign Up</a>
+                    </div>
+
+					<div class="divider"> &nbsp;</div>
+
+					<!-- user info area !-->
+					<div id="UserInfoTitle" class="formGroupHead">User Info</div>
+					<form>
+						<div id="UserInfo" class="input-group">
+							<label for="Username">Username</label><input id="Username" type="text" value="User001" disabled>
+							<label for="TotalCookingTime">Cooking Time</label><input id="TotalCookingTime" type="text" value="19hr51min" disabled>
+							<label for="TotalRecipesPublished">Recipes Published</label><input id="TotalRecipesPublished" type="text" value="0" disabled>
+						</div>
+					</form>
+				</div><!-- #main_User !-->
+				
+				<!-- RECIPE CONTENT !-->
+				<div title="RecipeName" id="RecipeContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#E6E6E6">
+                    <div id="Loading"><h3 align="center">Loading...</h3></div>
+                    <div id="Results">
+    					<div class="content_border">
+                            <img id="RecipeImg" src="img/small.jpg" style="width:86%;margin-top:5%;margin-left:7%;border-radius:4px;"></p>
+                            <div style="margin-left:12%;">
+                                <i id="RecipeDescription">Some Description</i><br>
+                                <span id="RecipeUploadInfo">Uploaded By : OOO , 22/1/2014</span><br>
+                                <span id="RecipeTime">Time needed: 24 mins </span><br><br>
+                            </div>
+                        </div><br />
+    					<div id="RecipeIngredients" class="content_border">
+    						<h3 align="center" style="background-color:#ADD8E6;border-radius:5px;opacity:0.8;">Ingredients (for 2)</h3>
+    						<br><ul id="RecipeIngredientListLeft" style="display:inline-block;margin-left:12%;list-style-type:none;width:40%;">
+    							<li>A .............. 2 包</li>
+    							<li>B .............. 65 g</li>
+    							<li>C .............. 1/4 tsp</li>
+    							<li>D .............. 2 包</li>
+    						</ul>
+                            <ul id="RecipeIngredientListRight" style="display:inline-block;list-style-type:none;width:40%;">
+                                <li>A .............. 2 包</li>
+                                <li>B .............. 65 g</li>
+                                <li>C .............. 1/4 tsp</li>
+                                <li>D .............. 2 包</li>
+                                <li>A .............. 2 包</li>
+                                <li>B .............. 65 g</li>
+                                <li>C .............. 1/4 tsp</li>
+                                <li>D .............. 2 包</li>
+                            </ul>
+    					<br /></div><br />
+    					<div id="steps" class="content_border" >
+    						<h3 align="center" style="background-color:#04B486;border-radius:5px;opacity:0.8;">Steps </h3>
+    						<br />
+    						<ul id="RecipeSteps" class="recipeContent_lists">
+    							<li>1. take out the ingredients</li>
+    							<li>2. call your mama</li>
+    						<br /></ul>
+    					</div><br />
+    					<div id="comments" class="content_border" >
+    						<h3 align="center" style="background-color:#ADD8E6;border-radius:5px;opacity:0.8;">Comments </h3>
+    						<br />
+    						<ul id="RecipeComments" class="recipeContent_lists">
+    							<li>lalala</li>
+    							<li>lallala</li>
+    						<br /></ul>
+    					</div><br />
+    					<div id="messages" class="content_border" >
+    						<h3 align="center" style="background-color:#58FAD0;border-radius:2px;opacity:0.8;">Messages </h3>
+    						<br />
+    						<ul id="RecipeMessages" class="recipeContent_lists">
+    							<li>1. take out the ingredients</li>
+    							<li>2. call your mama</li>
+    						<br /></ul>
+    					</div><br />
+    					<div id="photos" class="content_border" >
+    				        <h3 align="center" style="background-color:#ADD8E6;">Photos </h3>
+    				        <div id="RecipePhotos"></div>
+                        </div><br />
+                    </div>
+				</div><!-- #RecipeContent !-->
+
+                <!-- MenuContent !-->
+                <div  title="MenuTitle" id="MenuContent" class="panel" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel">
+                    <div id="Loading"><h3 align="center">Loading...</h3></div>
+                    <div id="Results">
+                        <!--images-->
+                        <div class="menuContent_imgHolder">
+                            <div class="menuContent_imgWrapper_left">
+                                <div class="menuContent_imgText_left">A</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                            <div class="menuContent_imgWrapper_right">
+                                <div class="menuContent_imgText_right">B</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                            <div class="menuContent_imgWrapper_left">
+                                <div class="menuContent_imgText_left">C</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                        </div>
+                        <!--description-->
+                        <div style="background-color:white; margin:5px 0 5px 0;border-radius:5px;">
+                            <div style="margin: 2% 0 2% 2%">
+                                <h3 id="MenuRating" class="icon star">4.99 </h3><br>
+                                <h3 id="MenuByUser">By: testUser</h3>
+                                <h3 id="MenuTime">Time: 1hr</h3>
+                            </div>
+                        </div>
+                        <!--messages-->
+                        <div style="background-color:white; margin:5px 0 5px 0; padding:2px 2px 2px 2px;border-radius:5px;">
+                            <h3 style="background-color:#ADD8E6;width:100%;opacity:0.6;border-radius:5px;">&nbsp;&nbsp;&nbsp;Description</h3>
+                            <h4 id="MenuDescription" class="menuContent_text">Some text</h4>
+                        </div>
+                        <!--ingredients-->
+                        <div style="background-color:white; margin:5px 0 5px 0; padding:2px 2px 2px 2px;border-radius:5px;">
+                            <h3 style="background-color:#ADD8E6;width:100%;opacity:0.6;border-radius:5px;">&nbsp;&nbsp;&nbsp;Ingredients</h3>
+                            <ul id="MenuIngredientList" style="margin-left:2%;list-style-type:none;">
+                                <li><span style="float:left;">A</span>.............. <span style="float:right;">2 包</span></li>
+                                <li>B .............. 65 g</li>
+                                <li>C .............. 1/4 tsp</li>
+                                <li>D .............. 2 包</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- #MenuContent !-->
+
+                <!-- COLLECTION aka Menu !-->
+                <div title="Lonely Valentines" id="Collection_MenuContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8">
+                    <div id="Loading"><h3 align="center">Loading...</h3></div>
+                    <div id="Results">
+                        <!--images-->
+                        <div class="menuContent_imgHolder">
+                            <div class="menuContent_imgWrapper_left">
+                                <div class="menuContent_imgText_left">A</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                            <div class="menuContent_imgWrapper_right">
+                                <div class="menuContent_imgText_right">B</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                            <div class="menuContent_imgWrapper_left">
+                                <div class="menuContent_imgText_left">C</div>
+                                <img class="menuContent_img" src="img/love.jpg">
+                            </div>
+                        </div>
+                        <!--description-->
+                        <div style="background-color:white; margin:5px 0 5px 0;border-radius:5px;">
+                            <div style="margin: 2% 0 2% 2%">
+                                <h3 id="MenuRating" class="icon star">4.99 </h3><br>
+                                <h3 id="MenuByUser">By: testUser</h3>
+                                <h3 id="MenuTime">Time: 1hr</h3>
+                            </div>
+                        </div>
+                        <!--messages-->
+                        <div style="background-color:white; margin:5px 0 5px 0; padding:2px 2px 2px 2px;border-radius:5px;">
+                            <h3 style="background-color:#ADD8E6;width:100%;opacity:0.6;border-radius:5px;">&nbsp;&nbsp;&nbsp;Description</h3>
+                            <h4 id="MenuDescription" class="menuContent_text">Some text</h4>
+                        </div>
+                        <!--ingredients-->
+                        <div style="background-color:white; margin:5px 0 5px 0; padding:2px 2px 2px 2px;border-radius:5px;">
+                            <h3 style="background-color:#ADD8E6;width:100%;opacity:0.6;border-radius:5px;">&nbsp;&nbsp;&nbsp;Ingredients</h3>
+                            <ul id="MenuIngredientList" style="margin-left:2%;list-style-type:none;">
+                                <li><span style="float:left;">A</span>.............. <span style="float:right;">2 包</span></li>
+                                <li>B .............. 65 g</li>
+                                <li>C .............. 1/4 tsp</li>
+                                <li>D .............. 2 包</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- #Collection_MenuContent !-->
+
+                <!-- INGREDIENTS !-->
+                <div id="Ingredients" class="panel" title="Ingredient List" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+                    <div id="Loading" align="center"><span class='icon big loading spin' ></div>
+                    <div id="Results">
+                        <div style="background-color:white;">
+                            <h2  style="margin-top:1%;margin-left:5%;">Ingredients</h2>
+                            <div id="ListContent">
+                                <input type="checkbox" name="asdfasdf" value="2" /><label for="bbbbb"><b>一顆</b>  雞蛋</label>
+                                <input type="checkbox" name="asdfasdf" value="3" /><label for="ccccc"><b>1/4tsp</b>  沙拉油</label>
+                                <input type="checkbox" name="asdfasdf" value="3" /><label for="dddd"><b>1/2把</b>  芹菜</label>
+                                <input type="checkbox" name="asdfasdf" value="2" /><label for="bbbbb">雞蛋</label>
+                                <input type="checkbox" name="asdfasdf" value="3" /><label for="ccccc">沙拉油</label>
+                                <input type="checkbox" name="asdfasdf" value="3" /><label for="dddd">芹菜</label>
+                                <input type="checkbox" name="asdfasdf" value="2" /><label for="bbbbb"><b>一顆</b>  雞蛋</label>
+                            </div>
+                        </div>
+                        <div class="bottom_btn_holder">
+                            <a class="button" id="Next" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Cooking">Next </a>
+                        </div>    
+                    </div>            
+                </div><!-- #Ingredients !-->
+
+                <!-- COOKING OVERVIEW !-->
+				<div id="Cooking" class="panel" title="Overview" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+                    <div style="background-color:#F2F2F2">
+                        <h2 style="margin-left:5%;">Total Time: </h2>
+                        <i id="totalCookingTime" style="margin-left:7%;font-size:17px;"></i>
+                        <div id="stepsList">
+                            <h2 style="margin-left:5%;">Steps:</h2>
+                            <div class="overview_stepWrapper"> 
+                                <img src="img/small.jpg" class="overview_stepImg"></img>
+                                <h3 class="overview_stepText">1. Do something</h3>
+                            </div>
+                        </div>
+                        <div class="bottom_btn_holder">
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Step">Start Cooking </a>
+                        </div>
+                    </div> 
+                </div><!-- #Cooking !-->
+			
+                <!-- COOKING STEP !-->
+                <div id="Step" class="panel"  title="Step 8 (47%)" style="background-color:#E6E6E6;" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+                    <!--<div id="steps_container" style="border:0px 1px 0px 1px solid;width:100%;margin-top:5px;height: calc(100% - 100px);height: -webkit-calc(100% - 100px);">-->
+                    <div id="steps_container" style="border:0px 1px 0px 1px solid #E6E6E6; height:97%">
+                        &nbsp;
+                        <div class="waiting_step_outer_wrapper">
+                            <div id="NextNextWaitingStep" class="waiting_step_inner_wrapper">
+                                <div id="ProgressBar" class="waiting_step_progress next_next_step">&nbsp;</div>
+                                <h4 id="ProgressName" class="waiting_step_name">Next next waiting step</h4>
+                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
+                            </div>
+                        </div>
+                        <div class="waiting_step_spacer">&nbsp;</div>
+                        <div class="waiting_step_outer_wrapper">
+                            <div id="NextWaitingStep" class="waiting_step_inner_wrapper">
+                                <div id="ProgressBar" class="waiting_step_progress next_step">&nbsp;</div>
+                                <h4 id="ProgressName" class="waiting_step_name">Next waiting step</h4>
+                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
+                            </div> 
+                        </div>          
+                        <div class="waiting_step_spacer">&nbsp;</div>
+
+                        <div class="this_step_outer_wrapper">
+                            <div class="this_step_inner_wrapper">
+                                <h2 class="this_step_recipe_name">
+                                    Saute beef
+                                </h2>
+                                <div class="this_step_img_wrapper" >
+                                    <img class="this_step_img" src="img/small.jpg"></img>
+                                </div>
+                                <h3 class="this_step_digest">
+                                    Saute beef with sauce A.Saute beef with sauce A.Saute beef with sauce A.
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="next_step_outer_wrapper">
+                            <div id="NextStep" class="next_step_inner_wrapper">
+                                <div id="ProgressBar" class="next_step_progress">&nbsp;</div>
+                                <h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>
+                                <h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>
+                            </div> 
+                        </div>
+                        <div class="step_spacer">&nbsp;</div>
+                       <div class="bottom_btn_holder step_next_btn_wrapper">
+                            <a class="button step_next_btn" style="background-color:#58ACFA;">Next </a>
+                        </div> 
+                    </div>
+                    
+                </div><!-- #Step !-->
+
+                <!-- FINISH !-->
+                <div title="整體評分" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none'>
+                    <div style="background-color:white;height:100%;">
+                        <div style="margin-left:4%;height:89%;">
+                            <div class="h6">所需時間 </div><br>
+                                <div class="h5" style="margin-left:5%;">150 min -> 26 min !!</div><br>
+                            
+                            <div class="h6">整體評分</div>
+                            <div class="star-container" width="100%">
+                                <div id="1" class="icon star five"></div>
+                                <div id="2" class="icon star five"></div>
+                                <div id="3" class="icon star five"></div>
+                                <div id="4" class="icon star five"></div>
+                                <div id="5" class="icon star five"></div>
+                            </div><br />
+                            <div class="h6">筆記/評論</div>
+                                <input type="text" placeholder="lalala"></input>
+                        </div>
+                        <div class="bottom_btn_holder" >
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Rate">Continue</a>
+                        </div>
+                    </div>
+                </div><!-- #Finish !-->
+                <!-- RATE !-->
+                <div title="個別評分" id="Rate" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none'>
+                    <br />
+                    <div class="rate_container">
+                        <div class="rate_wrapper">
+                            <img src="img/small.jpg" class="rate_img"></img>
+                            <h2 class="rate_title"  style="display:inline-block;font-size:25px;">黯然消魂飯</h2><br>
+                            <div class="star-container" style="margin-left:5%;">
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                            </div>
+                            <br /><br />
+                            <div>
+                                <h3>筆記/評論</h3>
+                                <input type="text" placeholder="lalala"></input>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%;height:1%;">&nbsp;</div>
+                    <div class="rate_container">
+                        <div class="rate_wrapper">
+                            <img src="img/small.jpg" class="rate_img"></img>
+                            <h2 class="rate_title"  style="display:inline-block;font-size:25px;">黯然消魂飯</h2><br>
+                            <div class="star-container" style="margin-left:5%;">
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                            </div>
+                            <br /><br />
+                            <div>
+                                <h3>筆記/評論</h3>
+                                <input type="text" placeholder="lalala"></input>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%;height:1%;">&nbsp;</div>
+                    <div class="rate_container">
+                        <div class="rate_wrapper">
+                            <img src="img/small.jpg" class="rate_img"></img>
+                            <h2 class="rate_title"  style="display:inline-block;font-size:25px;">黯然消魂飯</h2><br>
+                            <div class="star-container" style="margin-left:5%;">
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                            </div>
+                            <br /><br />
+                            <div>
+                                <h3>筆記/評論</h3>
+                                <input type="text" placeholder="lalala"></input>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%;height:1%;">&nbsp;</div>
+                    <div class="rate_container">
+                        <div class="rate_wrapper">
+                            <img src="img/small.jpg" class="rate_img"></img>
+                            <h2 class="rate_title"  style="display:inline-block;font-size:25px;">黯然消魂飯</h2><br>
+                            <div class="star-container" style="margin-left:5%;">
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                                <div class="icon star five"></div>
+                            </div>
+                            <br /><br />
+                            <div>
+                                <h3>筆記/評論</h3>
+                                <input type="text" placeholder="lalala"></input>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%;height:1%;">&nbsp;</div>
+                    <div style="width:100%;height:1%;">&nbsp;</div>
+                    <div class="bottom_btn_holder" >
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#main_Popular_Recipes">Done</a>
+                    </div>
+                </div><!-- #Rate !-->
+            </div><!-- #content !-->
+			<footer id="navbar">
+                <a href="#main_Popular_Recipes" id='navbar_popular' class='icon home'>Popular</a>
+				<a href="#main_AllCategories" id='navbar_categories' class="icon target" >Categories</a>
+				<a href="#main_Kitchen_Recipes" id='navbar_kitchen' class="icon picture" >Kitchen</a>
+				<a href="#main_Search" id='navbar_search' class="icon key">Search</a>
+				<a href="#main_User" id='navbar_user' class="icon target">User</a>
+	        </footer><!-- #navbar !-->
+		</div><!-- #afui !-->
+	</body>
+</html>
