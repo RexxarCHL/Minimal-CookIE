@@ -45,13 +45,13 @@ appendSteps = function(scope, data) {
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     step = _ref[_i];
     html = '<div class="overview_stepWrapper">';
-    if (steps.imageURL != null) {
-      html += '<img src="' + steps.imageURL + '" class="overview_stepImg"></img>';
-    }
-    html += '<h3 class="overview_stepText">' + (_i + 1) + '. ' + step.digest + '</h3>';
+    html += '<h3 style="padding-top:3%;padding-left:5%;">' + (_i + 1) + '. ' + step.digest + '</h3>';
 
     /*debug */
-    html += "    time: " + step.time + ", people: " + step.people + ", start time: " + step.startTime;
+
+    /*
+    		html += "    time: #{step.time}, people: #{step.people}, start time: #{step.startTime}"
+     */
     html += '</div>';
     stepsList.append(html);
   }
