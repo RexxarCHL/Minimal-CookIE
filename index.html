@@ -27,6 +27,7 @@
             // this is called when a successful transaction happens
             function successCallBack() {
                 //alert("DEBUGGING: success");
+                console.log("success callback");
             }
             function nullHandler(){ };
             // called when the application loads
@@ -72,7 +73,7 @@
                 db.transaction(function(tx) {
                     tx.executeSql('INSERT INTO MenuIngredients(ingredientId,recipeId,name,amount,unitName) VALUES (?,?,?,?,?)',[ingId,recipeId,name,amount,unitName]);
                 });
-                ListDBValues('MenuIngredients');
+                //ListDBValues('MenuIngredients');
                 return false;
             }
             function AddRecipeValue(recipeId) {
@@ -164,6 +165,9 @@
                 switch(what.id){
                     case "main_Deck":
                         loadDeck();
+                        break;
+                    case "main_ToBuy_List":
+                        showIngredientList();
                         break;
                     default:
                         //do nothing
@@ -270,6 +274,7 @@
         <script type="text/javascript" charset="utf-8" src="./js/ajaxCategory.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxRecipeContent.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/utility.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/toBuyList.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxCooking.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/cooking.js"></script>
 
@@ -293,7 +298,7 @@
         <div id="afui">
             <!-- SPLASH SCREEN !-->
             <div id="splashscreen" class='ui-loader heavy'>
-                <img src="img/love.jpg">
+                <img src="img/small.jpg">
                 <br><br>
                 <span class='icon loading spin'></span>
 
@@ -334,10 +339,10 @@
                 </div>
             </header><!-- #header !-->
             <header id="browseHeader">
-                <a class="button" style="float:right;margin-top:3px;" id="headerBtn">Categories</a>
+                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn">Categories</a>
                 <h1 id="headerText">Browse</h1>
 
-                <a id="menubadge" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
+                <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
                 <!--sideBar -->
                 <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
                     <div id="#navbar">
@@ -351,7 +356,24 @@
                     </div>
                 </div>
 			</header><!-- #header !-->
+            <header id="catHeader">
+                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn">Browse</a>
+                <h1 id="headerText">CATEGORIES</h1>
 
+                <a id="menubadge" style="float: left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
+                <!--sideBar -->
+                <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
+                    <div id="#navbar">
+                        <nav>
+                            <ul class="list">
+                                <li class="divider" class="icon home">Home</li>
+                                <li><a href="#afuidemo">Feedback</a></li>
+                                <li><a href="#webslider">Contact CookIE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header><!-- #header !-->
 			<div id="content">
                 <!-- BROWSE RECIPE -->
                 <!-- Browse/search recipe here -->
@@ -363,12 +385,12 @@
                     </div>
                     <div id="Results" style="background-color:#D8D8D8">
                         <div class="recipe_item left">
-                            <img class="recipe_image_wrapper" src="img/love.jpg">
+                            <img class="recipe_image_wrapper" src="img/small.jpg">
                             <div class="recipe_descrip icon star" style="margin-bottom:2px;">10&nbsp;&nbsp;&nbsp;Pineapple</div>  
                             <div class="button" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>
                         </div>
                         <div class="recipe_item left">
-                            <img class="recipe_image_wrapper" src="img/love.jpg">
+                            <img class="recipe_image_wrapper" src="img/small.jpg">
                             <div class="recipe_descrip icon star" style="margin-bottom:2px;">10&nbsp;&nbsp;&nbsp;Pineapple</div>  
                             <div class="button" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;">Add To Deck</div>
                         </div>
@@ -474,7 +496,7 @@
 
                 <!-- BROWSE CATEGORIES -->
                 <!-- Browse categories here -->
-                <div title="Categories" id="main_Browse_Category" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" style="background-color:#D8D8D8;">
+                <div title="Categories" id="main_Browse_Category" class="panel" data-header="catHeader" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" style="background-color:#D8D8D8;">
                     <!-- same row !-->
                     <br />
                     <div id="Results">
@@ -482,7 +504,7 @@
                             <h2 style="margin-left:5%;">Popular</h2>
                             <div class="cat_wrapper">
                                     <img src="img/small.jpg" class="cat_icon">
-                                    <div class="cat_text">Most Popular</div>
+                                    <div class="cat_text">Popular</div>
                             </div>
                             <div class="cat_wrapper">
                                     <img src="img/small.jpg" class="cat_icon">
@@ -502,43 +524,71 @@
                             </div>
                         </div>
                         <div class="divider">&nbsp; </div>
-                        <div class="category_box" style="position: relative; float: left; width: 100%;background-color:white;border-radius:5px;">
-                            <h2 style="margin-left:5px;">Popular</h2>
+                        <div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
                             <div class="cat_wrapper">
-                                    <img class="cat_icon" src="img/love.jpg">
-                                    <div class="cat_text">Most Popular</div>
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
                             </div>
                             <div class="cat_wrapper">
-                                    <img src="img/love.jpg" class="cat_icon">
-                                    <div style="margin-left:3px">French</div>
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
                             <div class="cat_wrapper">
-                                    <img src="img/love.jpg" class="cat_icon">
-                                    <div style="margin-left:3px">French</div>
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
                             <div class="cat_wrapper">
-                                    <img src="img/love.jpg" style="float: left; width:100%;">
-                                    <div style="margin-left:3px">French</div>
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
                         </div>
                         <div class="divider">&nbsp; </div>
-                        <div class="category_box" style="position: relative; float: left; width: 100%;background-color:white;border-radius:5px;">
-                            <h2 style="margin-left:5px;">Popular</h2>
-                            <div class="cat_wrapper" style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
-                                    <img class="cat_icon" src="img/love.jpg" style="float: left; width:100%;">
-                                    <div class="cat_text">Most Popular</div>
+                        <div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
                             </div>
-                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
-                                    <img src="img/love.jpg" style="float: left; width:100%;">
-                                    <div style="margin-left:3px">French</div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
-                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
-                                    <img src="img/love.jpg" style="float: left; width:100%;">
-                                    <div style="margin-left:3px">French</div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
-                            <div style="display:inline-block; width:15%; margin:5px 1% 5px 1%; float:left;">
-                                    <img src="img/love.jpg" style="float: left; width:100%;">
-                                    <div style="margin-left:3px">French</div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
                             </div>
                         </div>
                         <div class="divider">&nbsp; </div>
@@ -572,18 +622,18 @@
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
                 <div id="main_ToBuy_List" class="panel" title="To Buy List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8"data-tab="navbar_tobuylist" data-header="toBuyHeader">
-                   <ul class="list" id="list">
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   <li class="listEle">Item 1</li>
-                   </ul>
-                   <div class="button" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;"> Cook!</div>
+                    <ul class="list" id="list">
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                    </ul>
+                    <div class="button" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;"> Cook!</div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->
@@ -595,12 +645,11 @@
                         <div id="stepsList">
                             <h2 style="margin-left:5%;">Steps:</h2>
                             <div class="overview_stepWrapper"> 
-                                <img src="img/small.jpg" class="overview_stepImg"></img>
-                                <h3 class="overview_stepText">1. Do something</h3>
+                                <h3 style="padding-top:3%;padding-left:5%;">1. Do somethingDo somethingDo somethingDo somethingDo somethingDo something</h3>
                             </div>
                         </div>
                         <div class="bottom_btn_holder">
-                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Step">Start Cooking </a>
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;height:10%;border-radius:0;" href="#Step">Start Cooking </a>
                         </div>
                     </div> 
                 </div><!-- #Cooking -->
