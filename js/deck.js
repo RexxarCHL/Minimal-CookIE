@@ -5,7 +5,7 @@ $(document).ready(function() {
   $("#ToBuyBtn").click(function() {
     var recipeIds;
     recipeIds = findRecipeIdsInDeck();
-    getCookingIngredientList(recipeIds);
+    getIngredientList(recipeIds);
   });
   $("#CookBtn").click(function() {
     var recipeIds;

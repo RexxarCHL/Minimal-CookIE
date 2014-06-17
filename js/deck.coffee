@@ -1,7 +1,7 @@
 $(document).ready ->
 	$("#ToBuyBtn").click ->
 		recipeIds = findRecipeIdsInDeck()
-		getCookingIngredientList(recipeIds)
+		getIngredientList(recipeIds)
 		return
 	$("#CookBtn").click ->
 		recipeIds = findRecipeIdsInDeck()
