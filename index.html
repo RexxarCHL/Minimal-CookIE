@@ -308,9 +308,8 @@
 
             $(document).ready(function() {
                 $('.listEle').bind('click',function(event){
-                    this.style.textDecoration = "line-through";
-                    this.style.color = "#D8D8D8"
-
+                    this.style.textDecoration = (this.style.textDecoration=="line-through")?"none":"line-through";
+                    this.style.color = (this.style.textDecoration=="line-through")?"#D8D8D8":"#53575E";
                 });
             });
         </script>

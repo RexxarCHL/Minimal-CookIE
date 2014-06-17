@@ -17,11 +17,11 @@ appendRecipeResult = function(scope, data, deck) {
     name = recipe.name;
     rating = recipe.rating;
     url = recipe.smallURL;
-    exist = checkRecipeInDeck(id) ? 1 : 0;
-    if (count % 2 === 0) {
-      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
-    } else {
+    exist = checkRecipeInDeck(id) ? true : false;
+    if (count % 2) {
       html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
+    } else {
+      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     }
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
     html += '<div class="icon star recipe_descrip">' + rating + '</div>';
