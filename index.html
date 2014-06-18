@@ -238,7 +238,7 @@
             /* This code is used to run as soon as intel.xdk activates */
             var onDeviceReady = function () {
                 intel.xdk.device.setRotateOrientation("portrait");
-                intel.xdk.device.setAutoRotate(false);
+                //intel.xdk.device.setAutoRotate(false);
                 webRoot = intel.xdk.webRoot + "";
                 //hide splash screen
                 //intel.xdk.device.hideSplashScreen();
@@ -317,13 +317,15 @@
                 <h1 style="margin-left:3px;" id="headerText">Deck</h1>
                 
                 <!--sideBar -->
+                <!--sideBar -->
                 <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
                     <div id="#navbar">
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li><a href="#afuidemo">Feedback</a></li>
-                                <li><a href="#webslider">Contact CookIE</a></li>
+                                <li class="icon pencil" >    Feedback</li>
+                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
                     </div>
@@ -331,7 +333,7 @@
             </header><!-- #header !-->
             <header id="finishHeader">
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
-                <h1 style="margin-left:3px;" id="headerText">Finish</h1>
+                <h1 style="margin-left:3px;" id="headerText">完成</h1>
                 
                 <!--sideBar -->
                 <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
@@ -339,8 +341,9 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li><a href="#afuidemo">Feedback</a></li>
-                                <li><a href="#webslider">Contact CookIE</a></li>
+                                <li class="icon pencil" >    Feedback</li>
+                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
                     </div>
@@ -348,7 +351,7 @@
             </header><!-- #header !-->
             <header id="toBuyHeader">
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
-                <h1 style="margin-left:3px;" id="headerText">Shopping List</h1>
+                <h1 style="margin-left:3px;" id="headerText">買菜清單</h1>
                 
                 <!--sideBar -->
                 <div class="panel" id="main" data-title="Main" data-nav="leftNav" data-aside="rightNav">
@@ -356,16 +359,17 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li><a href="#afuidemo">Feedback</a></li>
-                                <li><a href="#webslider">Contact CookIE</a></li>
+                                <li class="icon pencil" >    Feedback</li>
+                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
                     </div>
                 </div>
             </header><!-- #header !-->
             <header id="browseHeader">
-                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn" data-transition="fade">Categories</a>
-                <h1 id="headerText">Browse</h1>
+                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn" data-transition="fade">所有分類</a>
+                <h1 id="headerText">逛食譜</h1>
 
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
                 <!--sideBar -->
@@ -374,16 +378,17 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li><a href="#afuidemo">Feedback</a></li>
-                                <li><a href="#webslider">Contact CookIE</a></li>
+                                <li class="icon pencil" >    Feedback</li>
+                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-			</header><!-- #header !-->
+            </header><!-- #header !-->
             <header id="catHeader">
-                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade">Browse</a>
-                <h1 id="headerText">CATEGORIES</h1>
+                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade">逛食譜</a>
+                <h1 id="headerText">所有分類</h1>
 
                 <a id="menubadge" style="float: left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
                 <!--sideBar -->
@@ -392,8 +397,9 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li><a href="#afuidemo">Feedback</a></li>
-                                <li><a href="#webslider">Contact CookIE</a></li>
+                                <li class="icon pencil" >    Feedback</li>
+                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
                     </div>
@@ -633,9 +639,9 @@
                 <!-- View stored recipe here -->
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
-                        <div class="button-grouped vertical" style="width:99%;">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:100%;border-radius:0;height:9%;border:0;" align="center">Generate Shopping List!</a>
-                            <a id="CookBtn" class="button red" href="#Cooking" style="width:100%;border-radius:0;height:9%;border:0;" align="center" data-transition="fade">Cook these recipes!</a>
+                        <div class="button-grouped vertical" style="width:100%;display:inline-block;">
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" >Gen. Shopping List</a>
+                            <a id="CookBtn" class="button red" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" data-transition="fade">Cook these recipes!</a> 
                         </div>
                         <div id="Results">
                             Browse recipes and add it into deck to start!
@@ -647,7 +653,7 @@
 
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
-                <div id="main_ToBuy_List" class="panel" title="Shopping List" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
+                <div id="main_ToBuy_List" class="panel" title="買菜清單" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
                     <ul class="list" id="list">
                         <li class="listEle">Item 1</li>
                         <li class="listEle">Item 1</li>
@@ -659,13 +665,13 @@
                         <li class="listEle">Item 1</li>
                         <li class="listEle">Item 1</li>
                     </ul>
-                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;" href="#Cooking"> Cook!</div>
+                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking"> Cook!</div>
                     <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->
                 <!-- Overview the cooking steps -->
-				<div id="Cooking" class="panel" title="Overview" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
+				<div id="Cooking" class="panel" title="步驟" style="background-color:#D8D8D8" data-load="loadedPanel" data-unload="unloadedPanel" data-footer='none'>
                     <div style="background-color:#F2F2F2">
                         <h2 style="margin-left:5%;">Total Time: </h2>
                         <i id="totalCookingTime" style="margin-left:7%;font-size:17px;"></i>
@@ -676,7 +682,7 @@
                             </div>
                         </div>
                         <div class="bottom_btn_holder">
-                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;" href="#Step">Start Cooking </a>
+                            <a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;height:10%;font-size:20px;" href="#Step">Start Cooking </a>
                         </div>
                     </div> 
                 </div><!-- #Cooking -->
@@ -736,7 +742,7 @@
 
                 <!-- FINISH -->
                 <!-- 'Like' a recipe? View total time elapsed? Feedback?-->
-                <div title="Finish" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none' data-header='finishHeader'>
+                <div title="完成" id="Finish" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-footer='none' data-header='finishHeader'>
                     <div style="background-color:white;width:100%;height:85%;">
                         <div style="margin:5% auto auto 5%">
                             <h1 style="padding-top:5%;padding-left:5%;">Congratulations!</h1>
@@ -752,9 +758,9 @@
             </div><!-- #content !-->
 
 			<footer id="navbar">
-                <a href="#main_Browse_Recipe" id='navbar_browse' class='icon fa-globe'>Browse</a>
+                <a href="#main_Browse_Recipe" id='navbar_browse' class='icon fa-globe'>逛食譜</a>
                 <a href="#main_Deck" id='navbar_deck' class='icon fa-cutlery'>Deck</a>
-                <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon fa-shopping-cart'>Shopping List</a>
+                <a href="#main_ToBuy_List" id='navbar_tobuylist' class='icon fa-shopping-cart'>買菜清單</a>
             </footer><!-- #navbar !-->
 		</div><!-- #afui !-->
 	</body>
