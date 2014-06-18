@@ -244,3 +244,11 @@ updateProgressBar = (scope, step)->
 		progressRemainTime.html parseSecondsToTime step.remainTime
 
 	return
+
+
+showCookingStatus = -> 
+	timeElapsed = parseSecondsToTime window.currentTime
+	scope = $("#Finish")
+
+	scope.find("#TotalTimeSpent").html timeElapsed
+	scope.find("#OriginalTime").html window.cookingData.originTime

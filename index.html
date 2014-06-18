@@ -174,6 +174,9 @@
                     case "Step":
                         cookingStarted();
                         break;
+                    case "Finish":
+                        showCookingStatus();
+                        break;
                     default:
                         //do nothing
                 }
@@ -656,7 +659,8 @@
                         <li class="listEle">Item 1</li>
                         <li class="listEle">Item 1</li>
                     </ul>
-                    <div id="ToBuyListCookBtn" class="button" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;" href="#Cooking"> Cook!</div>
+                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border-radius:0;border:0;height:10%;" href="#Cooking"> Cook!</div>
+                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->
@@ -668,7 +672,7 @@
                         <div id="stepsList">
                             <h2 style="margin-left:5%;">Steps:</h2>
                             <div class="overview_stepWrapper"> 
-                                <h3 style="padding-top:3%;padding-left:5%;">1. Do somethingDo somethingDo somethingDo somethingDo somethingDo something</h3>
+                                
                             </div>
                         </div>
                         <div class="bottom_btn_holder">
@@ -736,7 +740,9 @@
                     <div style="background-color:white;width:100%;height:85%;">
                         <div style="margin:5% auto auto 5%">
                             <h1 style="padding-top:5%;padding-left:5%;">Congratulations!</h1>
-                            <h2 style="padding-top:5%;padding-left:5%;">Blah Blah Blah</h2>   
+                            <h2 style="padding-top:5%;padding-left:5%;">You have used <span id="TotalTimeSpent">X</span> to finishes these recipes.</h2>
+                            <br />
+                            <h2 style="padding-top:5%;padding-left:5%;">By the way, the original cooking time for these recipes is <span id="OriginalTime">Y</span></h2>   
                          </div>    
                     </div>
                     <div class="bottom_btn_holder" >
