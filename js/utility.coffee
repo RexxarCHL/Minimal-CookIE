@@ -15,6 +15,7 @@ $(document).ready ->
 			$("#ToBuyListCookBtn").addClass 'hidden'
 			$("#EmptyNotify").removeClass 'hidden'
 			loadDeck()
+			loadRecipes()
 			return
 		, errorHandler, nullHandler
 		return
