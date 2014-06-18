@@ -10,12 +10,13 @@ $(document).ready ->
 			sql = 'DELETE FROM `Recipes`'
 			transaction.executeSql sql, [], successCallBack, errorHandler
 			sql = 'DELETE FROM `MenuIngredients`'
-			transaction.executeSql sql, [], successCallBack, errorHandler
+			transaction.executeSql sql, [], ->
+					$("#ToBuyListCookBtn").addClass 'hidden'
+					$("#EmptyNotify").removeClass 'hidden'
+					loadDeck()
+					loadRecipes()
+				, errorHandler
 
-			$("#ToBuyListCookBtn").addClass 'hidden'
-			$("#EmptyNotify").removeClass 'hidden'
-			loadDeck()
-			loadRecipes()
 			return
 		, errorHandler, nullHandler
 		return

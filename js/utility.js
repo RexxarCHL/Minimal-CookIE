@@ -13,11 +13,12 @@ $(document).ready(function() {
       sql = 'DELETE FROM `Recipes`';
       transaction.executeSql(sql, [], successCallBack, errorHandler);
       sql = 'DELETE FROM `MenuIngredients`';
-      transaction.executeSql(sql, [], successCallBack, errorHandler);
-      $("#ToBuyListCookBtn").addClass('hidden');
-      $("#EmptyNotify").removeClass('hidden');
-      loadDeck();
-      loadRecipes();
+      transaction.executeSql(sql, [], function() {
+        $("#ToBuyListCookBtn").addClass('hidden');
+        $("#EmptyNotify").removeClass('hidden');
+        loadDeck();
+        return loadRecipes();
+      }, errorHandler);
     }, errorHandler, nullHandler);
   });
 });
