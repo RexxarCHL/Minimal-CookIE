@@ -25,6 +25,7 @@ cookingStarted = ->
 	window.waitingStepQueue = []
 
 	console.log "cooking started"
+	$(".step_next_btn").html "Next"
 
 	# load this/next step data
 	$("#Step").attr "data-title", "Step #{currentStepNum+1} (#{finishPercentage}%)"
@@ -233,19 +234,22 @@ updateProgressBar = (scope, step)->
 	progressName = scope.find "#ProgressName"
 	progressRemainTime = scope.find "#ProgressRemainTime"
 	if not step?
-		### step = null: empty progress bar ###
+		### step = null: hide empty progress bar ###
+		$(scope[0].parentNode).addClass 'invisible'
+		###
 		progressBar.css3Animate 
 			width: '0%'
 			time: '500ms'
 		progressName.html "No step waiting"
 		progressRemainTime.html ""
+		###
 	else
 		progressBar.css3Animate
 			width: "#{step.calculatePercentage()}%"
 			time: '500ms'
 		progressName.html step.digest
 		progressRemainTime.html parseSecondsToTime step.remainTime
-
+		$(scope[0].parentNode).removeClass 'invisible'
 	return
 
 

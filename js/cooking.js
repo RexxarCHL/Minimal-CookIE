@@ -46,6 +46,7 @@ cookingStarted = function() {
   window.currentTime = 0;
   window.waitingStepQueue = [];
   console.log("cooking started");
+  $(".step_next_btn").html("Next");
   $("#Step").attr("data-title", "Step " + (currentStepNum + 1) + " (" + finishPercentage + "%)");
   loadStep(currentStepNum);
   setTimeout(function() {
@@ -243,13 +244,16 @@ updateProgressBar = function(scope, step) {
   progressRemainTime = scope.find("#ProgressRemainTime");
   if (step == null) {
 
-    /* step = null: empty progress bar */
-    progressBar.css3Animate({
-      width: '0%',
-      time: '500ms'
-    });
-    progressName.html("No step waiting");
-    progressRemainTime.html("");
+    /* step = null: hide empty progress bar */
+    $(scope[0].parentNode).addClass('invisible');
+
+    /*
+    		progressBar.css3Animate 
+    			width: '0%'
+    			time: '500ms'
+    		progressName.html "No step waiting"
+    		progressRemainTime.html ""
+     */
   } else {
     progressBar.css3Animate({
       width: "" + (step.calculatePercentage()) + "%",
@@ -257,6 +261,7 @@ updateProgressBar = function(scope, step) {
     });
     progressName.html(step.digest);
     progressRemainTime.html(parseSecondsToTime(step.remainTime));
+    $(scope[0].parentNode).removeClass('invisible');
   }
 };
 

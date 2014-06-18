@@ -1,6 +1,9 @@
 .hidden{
   display: none !important;
 }
+.invisible{
+  visibility: hidden !important;
+}
 
 .popup_btn.selected {
   background-color: red;
