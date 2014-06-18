@@ -112,66 +112,70 @@ checkNextStep = function() {
       }
       return;
     }
- var afterNoAnimate = function() {
-			console.log("[AA] no animate")
-			$('.waiting_step_outer_wrapper.nextstep').remove();
-			 $('#steps_container').append($('<div class="waiting_step_outer_wrapper nextstep" data-sn=' + (thisStep.stepNum + 1) + '>'+
-								  '<div class="waiting_step_inner_wrapper">'+
-									  '<div id="ProgressBar" class="next_step_progress">&nbsp;</div>'+
-									  '<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
-									  '<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
-								  '</div> '+
-			 '</div>'));
-				//progressQueueLength++;
-				checkProgress();
-				loadStep(thisStep.stepNum + 1);
-			}
-			var afterAnimate = function() {									// stick progressBar on top
-				console.log("[AA] animate")
-				var that = $('.waiting_step_outer_wrapper.nextstep');
-				that.css('top', (2 + progressQueueLength * 8) + '%');			
-				that.removeClass('nextstep');
-				that.css3Animate({
-				  y: 0,
-				  time: 10        
-				});
-				$('#steps_container').append($('<div class="waiting_step_outer_wrapper nextstep" data-sn=' + (thisStep.stepNum + 1) + '>'+
-									  '<div class="waiting_step_inner_wrapper">'+
-										  '<div id="ProgressBar" class="next_step_progress">&nbsp;</div>'+
-										  '<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
-										  '<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
-									  '</div> '+
-								  '</div>'));
-				
-				progressQueueLength++;
-				checkProgress();
-				loadStep(thisStep.stepNum + 1);
-			}
+  var afterNoAnimate = function() {
+      console.log("[AA] no animate")
+      $('.waiting_step_outer_wrapper.nextstep').remove();
+       $('#steps_container').append($('<div class="waiting_step_outer_wrapper nextstep" data-sn=' + (thisStep.stepNum + 1) + '>'+
+                  '<div class="waiting_step_inner_wrapper">'+
+                    '<div id="ProgressBar" class="next_step_progress">&nbsp;</div>'+
+                    '<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
+                    '<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
+                  '</div> '+
+       '</div>'));
+        //progressQueueLength++;
+        checkProgress();
+        loadStep(thisStep.stepNum + 1);
+      }
+  var afterAnimate = function() {                 // stick progressBar on top
+    console.log("[AA] animate")
+    var that = $('.waiting_step_outer_wrapper.nextstep');
+    that.css('top', (2 + progressQueueLength * 8) + '%');     
+    that.removeClass('nextstep');
+    that.css3Animate({
+      y: 0,
+      time: 10        
+    });
+    $('#steps_container').append($('<div class="waiting_step_outer_wrapper nextstep" data-sn=' + (thisStep.stepNum + 1) + '>'+
+                '<div class="waiting_step_inner_wrapper">'+
+                  '<div id="ProgressBar" class="next_step_progress">&nbsp;</div>'+
+                  '<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
+                  '<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
+                '</div> '+
+              '</div>'));
+    
+    progressQueueLength++;
+    checkProgress();
+    loadStep(thisStep.stepNum + 1);
+  }
   if (thisStepFinishTime - currentTime <= 30) {
-	console.log("[AA] short step")
+    console.log("[AA] short step")
     //console.log("<=30, time=" + thisStepFinishTime);
     window.currentTime = thisStepFinishTime;
-	afterNoAnimate();
+    afterNoAnimate();
   } else if (thisStep.people === true) {
     //console.log(">30 and people=true, currentTime=" + currentTime + ", time=" + thisStepFinishTime);
     console.log("[AA] long step need people");
-	ans = true;
+    ans = true;
     if (ans === true) {
       window.currentTime = thisStepFinishTime;
     } else {
       return;
     }
-	afterNoAnimate();
+    afterNoAnimate();
   } else {
     //console.log(">30, endtime=" + thisStepFinishTime);
     console.log("[AA] PUSH to waiting queue, fly to top");
-	pushStepToWaitingQueue(thisStep, currentTime);
+    pushStepToWaitingQueue(thisStep, currentTime);
     //window.currentTime = currentTime;
-	$('.waiting_step_outer_wrapper.nextstep').css3Animate({
-		y: -0.1 * (7 - progressQueueLength) * parseInt($(window).height() - 44),
-		time: 300,
-		success: afterAnimate
-	});
+    $('.waiting_step_outer_wrapper.nextstep').addClass("changeName");
+    $('.changeName').find('#ProgressName').html(thisStep.digest);
+    $('.changeName').find('#ProgressName').removeClass("next_step_name").addClass("waiting_step_name")
+    $('.waiting_step_outer_wrapper.nextstep').removeClass("changeName");
+    $('.waiting_step_outer_wrapper.nextstep').css3Animate({
+      y: -0.1 * (7 - progressQueueLength) * parseInt($(window).height() - 44),
+      time: 300,
+      success: afterAnimate
+    });
   }
   console.log("next step:"+nextStep.startTime);
     
@@ -180,7 +184,7 @@ checkNextStep = function() {
     $.ui.loadContent("Finish");
     return;
   }
-		 
+     
 };
 updateAllProgressBar = function() {
 //console.log("[AA] update all progress bar");
@@ -222,8 +226,6 @@ loadStep = function(stepNum) {
   window.currentStep = new Step(stepNum, parseInt(thisStep.startTime), convertTimeToSeconds(thisStep.time), thisStep.recipeName, thisStep.stepName, thisStep.people);
   window.currentStepNum = stepNum;
   finishPercentage = Math.ceil((stepNum + 1) / stepsLen * 100);
-  scope = $("#Step");
-  $.ui.setTitle("Step " + (stepNum + 1) + " (" + finishPercentage + "%)");
 
   $('.this_step_inner_wrapper').addClass('animate_old');
   $('.this_step_outer_wrapper').append($('<div class="this_step_inner_wrapper animate_new">'));
@@ -250,14 +252,17 @@ loadStep = function(stepNum) {
       })
     }
   });
+  scope = $("#Step");
+  $.ui.setTitle("Step " + (stepNum + 1) + " (" + finishPercentage + "%)");
+  scope.find(".this_step_recipe_name").html(thisStep.recipeName);
+  scope.find(".this_step_digest").html(thisStep.digest);
   nextStep = window.cookingData.steps[stepNum + 1];
-  var next_step_scope = $('.waiting_step_outer_wrapper.nextstep');
   if (nextStep != null) {
-    next_step_scope.find(".next_step_name").html(nextStep.stepName);
-    next_step_scope.find(".next_step_time").html(thisStep.time);
+    scope.find(".next_step_name").html(nextStep.stepName);
+    scope.find(".next_step_time").html(thisStep.time);
   } else {
-    next_step_scope.find(".next_step_name").html("Final Step Reached");
-    next_step_scope.find(".next_step_time").html("00:00");
+    scope.find(".next_step_name").html("Final Step Reached");
+    scope.find(".next_step_time").html("00:00");
     scope.find(".step_next_btn").html("Finish ");
   }
   scope.find(".step_next_btn").unbind('click');
