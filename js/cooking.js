@@ -47,6 +47,7 @@ cookingStarted = function() {
   window.waitingStepQueue = [];
   console.log("cooking started");
   $(".step_next_btn").html("Next");
+  $(".waiting_step_outer_wrapper").addClass('invisible');
   $("#Step").attr("data-title", "Step " + (currentStepNum + 1) + " (" + finishPercentage + "%)");
   loadStep(currentStepNum);
   setTimeout(function() {

@@ -2,7 +2,14 @@
 var appendSteps, getScheduledRecipe;
 
 getScheduledRecipe = function(recipeIds) {
-  var data, id, _i, _len;
+  var ans, data, id, _i, _len;
+  if (window.cookingData != null) {
+    ans = confirm("You have a cooking in progress. Resume?");
+    if (ans === true) {
+      $.ui.loadContent("Step");
+      return;
+    }
+  }
   console.log("schedule_recipe #" + recipeIds);
   $.ui.showMask("Loading data from server...");
   data = '';

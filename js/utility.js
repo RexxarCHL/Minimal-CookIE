@@ -19,6 +19,7 @@ $(document).ready(function() {
         return loadRecipes();
       }, errorHandler);
     }, errorHandler, nullHandler);
+    window.cookingData = null;
   });
 });
 

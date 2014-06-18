@@ -25,7 +25,10 @@ cookingStarted = ->
 	window.waitingStepQueue = []
 
 	console.log "cooking started"
+
+	# reset the interface
 	$(".step_next_btn").html "Next"
+	$(".waiting_step_outer_wrapper").addClass 'invisible'
 
 	# load this/next step data
 	$("#Step").attr "data-title", "Step #{currentStepNum+1} (#{finishPercentage}%)"

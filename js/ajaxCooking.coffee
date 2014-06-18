@@ -1,4 +1,10 @@
 getScheduledRecipe = (recipeIds)->
+	if window.cookingData?
+		ans = confirm "You have a cooking in progress. Resume?"
+		if ans is yes
+			$.ui.loadContent "Step"
+			return
+
 	console.log "schedule_recipe #"+recipeIds
 	$.ui.showMask "Loading data from server..."
 

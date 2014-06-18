@@ -18,6 +18,8 @@ $(document).ready ->
 
 			return
 		, errorHandler, nullHandler
+
+		window.cookingData = null
 		return
 
 addInfiniteScroll = (scope, delay, callback)->
