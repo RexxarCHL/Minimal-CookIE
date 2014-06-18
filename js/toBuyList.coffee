@@ -66,6 +66,8 @@ showIngredientList = ->
 					$('.listEle').click (event)->
 						this.style.textDecoration = if this.style.textDecoration is 'line-through' then 'none' else 'line-through'
 						this.style.color = if this.style.textDecoration is 'line-through' then '#D8D8D8' else '#53575E'
+					$("#EmptyNotify").addClass 'hidden'
+					$("#ToBuyListCookBtn").removeClass 'hidden'
 				return
 			, errorHandler
 		, errorHandler, nullHandler

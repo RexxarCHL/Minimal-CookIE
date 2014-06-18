@@ -12,6 +12,8 @@ $(document).ready ->
 			sql = 'DELETE FROM `MenuIngredients`'
 			transaction.executeSql sql, [], successCallBack, errorHandler
 
+			$("#ToBuyListCookBtn").addClass 'hidden'
+			$("#EmptyNotify").removeClass 'hidden'
 			loadDeck()
 			return
 		, errorHandler, nullHandler
@@ -51,7 +53,7 @@ loadDeck = ->
 	checkRecipeInDB()
 
 	if window.recipesInDeck.length is 0
-		$("#main_Deck").find("#Results").html "Browse recipes and add it into deck to start!"
+		$("#main_Deck").find("#Results").html '<h2 style="padding-top:5%;padding-left:5%;">Browse recipes and add it into deck to start!</h2>'
 		return
 	
 	$.ui.showMask 'Fetching data...'

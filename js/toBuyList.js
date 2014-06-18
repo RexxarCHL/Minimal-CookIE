@@ -64,6 +64,8 @@ showIngredientList = function() {
           this.style.textDecoration = this.style.textDecoration === 'line-through' ? 'none' : 'line-through';
           return this.style.color = this.style.textDecoration === 'line-through' ? '#D8D8D8' : '#53575E';
         });
+        $("#EmptyNotify").addClass('hidden');
+        $("#ToBuyListCookBtn").removeClass('hidden');
       }
     }, errorHandler, errorHandler, nullHandler);
   });
