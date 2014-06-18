@@ -45,10 +45,19 @@ showIngredientList = function() {
     return;
   }
   console.log("show ingredient list");
+  $("#EmptyNotify").removeClass('hidden');
+  $("#ToBuyListCookBtn").addClass('hidden');
   return db.transaction(function(transaction) {
     transaction.executeSql('SELECT * FROM MenuIngredients', [], function(transaction, result) {
       var html, i, list, row, x, _i, _len, _ref;
       if ((result != null) && (result.rows != null)) {
+
+        /* if there's no list in the DB */
+        if (result.rows.length === 0) {
+          return;
+        }
+
+        /* there's list in the DB */
         list = $("#list");
         list.html("");
         html = '';
