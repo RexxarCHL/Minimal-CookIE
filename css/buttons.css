@@ -1,7 +1,7 @@
 #afui .button {
 	position:relative;
 	display:inline-block;
-	padding:8px 12px;
+	padding:3% 4%;
 	margin:8px 0;
 	font-weight:bold;
 	color:#000;
@@ -10,8 +10,6 @@
 	cursor:pointer;
 	background-color:#eee;
 	border:1px solid white;
-	border-radius:6px;
-
 	text-decoration: none;
 	z-index:2;
 }
@@ -219,12 +217,11 @@
 
 #afui .button.recipe_btn.recipe_add_btn{
 	color:#fff;
-	background:#FF0000;
-	border-color:#E6E6E6;
-	opacity: .6;
+	background:#2ecc71;
+	border-color:#2ecc71;
 }
 
 #afui .button.recipe_btn.recipe_remove_btn{
 	color:#fff;
-	background:#04B4AE;
+	background:#e74c3c;
 }

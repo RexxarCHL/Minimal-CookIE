@@ -303,7 +303,7 @@
 	</head>
 
     <body onload="onBodyLoad()">
-        <div id="afui">
+        <div id="afui" class="chinese_font">
             <!-- SPLASH SCREEN !-->
             <div id="splashscreen" class='ui-loader heavy'>
                 <img src="img/small.jpg">
@@ -410,7 +410,8 @@
                 <!-- Browse/search recipe here -->
                 <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;">
                     <div id="Search" style="background-color:#D8D8D8;">
-                            <input type="search" id="SearchBar" placeholder="Search for recipes, food ingredients ..." style="margin-top:3%" result>
+                            <input type="search" id="SearchBar" placeholder="搜尋食譜, 食材..." style="margin-top:3%" result>
+                            <i class="fa fa-search" id="SearchBarIcon"></i>
                     </div>
                     <div id="SearchResults" style="background-color:#D8D8D8">
                     </div>
@@ -548,9 +549,9 @@
                 <!-- View stored recipe here -->
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
-                        <div class="button-grouped vertical" style="width:100%;display:inline-block;">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" >Gen. Shopping List</a>
-                            <a id="CookBtn" class="button red" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" data-transition="fade">Cook these recipes!</a> 
+                        <div class="button-grouped vertical" style="width:100%;display:inline-block;margin:5px 0px;">
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;background-color:#3498db" align="center" >產生買菜清單</a>
+                            <a id="CookBtn" class="button" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;background-color:#3498db;color:white" align="center" data-transition="fade">開始煮飯!</a> 
                         </div>
                         <div id="Results">
                             Browse recipes and add it into deck to start!
@@ -563,10 +564,10 @@
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
                 <div id="main_ToBuy_List" class="panel" title="買菜清單" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
+                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking">開始煮飯!</div>
+                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                     <ul class="list" id="list">
                     </ul>
-                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking"> Cook!</div>
-                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->

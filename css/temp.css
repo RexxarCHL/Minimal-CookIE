@@ -29,36 +29,66 @@
     background: "/img/icon_search.jpg" right no-repeat;
     padding-right: 17px;
 }
+#SearchBarIcon {
+  margin-left: 90%;
+  margin-top: -37px;
+}
+.chinese_font {
+  font-family:"STHeiti TC", STHeitiTC-Medium;
+}
 .recipe_item {
   display:inline-block; 
-  width:50%; 
-  margin:5px 1% 5px 1%; 
-  background-color:white;
-  border-radius: 3px;
-  
+  width:48%; 
+  margin:1% 1%; 
 }
 .recipe_item.left {
   float:left;
-  border-bottom-left-radius : 0;
-  border-bottom-right-radius: 0;
 }
 .recipe_item.right {
   float:right;
-  border-bottom-left-radius : 0;
-  border-bottom-right-radius: 0;
+}
+.recipe_item.long {
+  height: 20%;
+  width: 100%;
+  margin:3px 0px; 
+  background-color:white;
+  border-radius: 1px;
+  box-shadow: 0px 2px 2px;
 }
 .recipe_image_wrapper{
-  max-width:90%;max-height:95%;margin:5px 5% 0px 5%;border-radius:5px;
+  margin-top: 5px;
+  margin-left: 5%;
+  width: 350px;
+  max-width: 90%;
+  max-height: 95%;
+  border-radius: 5px;
+}
+.recipe_image_wrapper.long {
+  margin-top: 2%;
+  margin-left: 2%;
+  max-width: 35%;
+  max-height: 90%;
+  float: left;
 }
 .recipe_descrip{
-  margin-left:5%;
+  margin-left: 5%;
   color:black;
-  font-size:95%;
-  font-weight:200;
-  font-family:helvetica-neue light
+  margin-top: 5%;
+  font-size:0.4cm;
+  font-weight:bolder;
 }
-
-
+.recipe_descrip.long {
+  margin-top: 1%;
+  margin-left: 40%;
+}
+.recipe_cooked {
+  text-align: right;
+  margin-right: 5%;
+  margin-top: -1%;
+}
+.recipe_time {
+  height: 30%;
+}
 .kitchen_recipe_item{
   display:inline-block; 
   width:48%; 
@@ -134,26 +164,9 @@ background-color:white;margin:5px;border-radius:5px;
   float:left;
 }
 
-.recipe_item {
-  display:inline-block; 
-  width:48%; 
-  margin:5px 1% 5px 1%; 
-  background-color:white;
-  border-radius: 3px;
-}
-
-.recipe_image_wrapper{
-  max-width:90%;max-height:95%;margin:3px 5% 0px 5%;
-}
-
 .recipe_item.chosen {
   background-color: #DF7401;
   opacity:0.8;
-}
-
-.recipe_descrip{
-  margin-left:5%;
-  color:black;
 }
 
 .cat_img{
@@ -475,4 +488,16 @@ align:center;
   background-color:#58ACFA;
   border-radius: 8px !important;
   opacity: .8;
+}
+/*for tablets*/
+@media screen and (min-width: 1080) {
+
+}
+/*for big screen like note3*/
+@media screen and (min-width: 1080) and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+/*for iphone4*/
+@media screen and (max-height: 1080) {
+  
 }

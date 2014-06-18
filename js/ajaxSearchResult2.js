@@ -99,11 +99,11 @@ appendSearchResults = function(data) {
     }
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
     html += '<div class="icon star recipe_descrip">' + rating + '</div>';
-    html += '<div class="recipe_descrip">' + name + '</div>';
+    html += '<div class="recipe_descrip chinese_font">' + name + '</div>';
     if (!exist) {
-      html += '<div class="button recipe_btn recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Add To Deck</div>';
+      html += '<div class="button recipe_btn recipe_add_btn chinese_font" style="width:80%;text-align:center;text-shadow:-1px -1px gray;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">加到 Deck</div>';
     } else {
-      html += '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+      html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>';
     }
     html += '</div>';
     results.append(html);
@@ -121,7 +121,7 @@ appendSearchResults = function(data) {
       thisRecipe.find(".recipe_btn").click((function(id, thisRecipe) {
         return function() {
           addThisRecipeToDeck(id);
-          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>';
         };
       })(id, thisRecipe));
     }
