@@ -2,7 +2,7 @@
 var appendRecipeResult;
 
 appendRecipeResult = function(scope, data, deck) {
-  var count, exist, html, id, name, recipe, results, thisRecipe, url, _i, _len;
+  var count, exist, html, id, name, rating, recipe, results, thisRecipe, url, _i, _len;
   if (deck == null) {
     deck = 0;
   }
@@ -15,35 +15,23 @@ appendRecipeResult = function(scope, data, deck) {
     html = '';
     id = recipe.recipe_id;
     name = recipe.name;
+    rating = recipe.rating;
     url = recipe.smallURL;
     exist = checkRecipeInDeck(id) ? true : false;
-    if (deck) {
-      html += '<div class="recipe_item long" id="Recipe' + id + '" data-recipe-id="' + id + '">';
+    if (count % 2) {
+      html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     } else {
-      if (count % 2) {
-        html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
-      } else {
-        html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
-      }
-      html += '<div style="height:30%;background-color:white;border-radius:2px;">';
+      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     }
-    if (deck) {
-      html += '<img class="recipe_image_wrapper long" src="' + url + '">';
-      html += '<div class="recipe_descrip long chinese_font">' + name + '</div>';
-      html += '<div class="recipe_time chinese_font">' + '</div>';
-    } else {
-      html += '<img class="recipe_image_wrapper" src="' + url + '">';
-      html += '<div class="recipe_descrip chinese_font">' + name + '</div>';
-    }
-    if (!deck) {
-      html += '<div class="recipe_cooked">人氣：' + recipe.popularity + '</div></div>';
-    }
+    html += '<img class="recipe_image_wrapper" src="' + url + '">';
+    html += '<div class="icon star recipe_descrip">' + rating + '</div>';
+    html += '<div class="recipe_descrip">' + name + '</div>';
     if (!exist) {
-      html += '<div class="button recipe_btn recipe_add_btn chinese_font" style="width:80%;text-align:center;text-shadow:-1px -1px gray;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">加到 Deck</div>';
+      html += '<div class="button recipe_btn recipe_add_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Add To Deck</div>';
     } else if (deck) {
-      html += '<div class="button recipe_btn recipe_remove_btn chinese_font" style="float:right;width:60%;text-align:center;margin-top:1px;margin-bottom:1px;margin-right:1%;border:none;border-radius:0;">移除</div>';
+      html += '<div class="button recipe_btn recipe_remove_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Remove from Deck</div>';
     } else {
-      html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>';
+      html += '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
     }
     html += '</div>';
     results.append(html);
@@ -61,7 +49,7 @@ appendRecipeResult = function(scope, data, deck) {
       thisRecipe.find(".recipe_btn").click((function(id, thisRecipe) {
         return function() {
           addThisRecipeToDeck(id);
-          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>';
+          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
         };
       })(id, thisRecipe));
     } else if (deck) {

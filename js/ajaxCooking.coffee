@@ -1,10 +1,4 @@
 getScheduledRecipe = (recipeIds)->
-	if window.cookingData?
-		ans = confirm "You have a cooking in progress. Resume?"
-		if ans is yes
-			$.ui.loadContent "Step"
-			return
-
 	console.log "schedule_recipe #"+recipeIds
 	$.ui.showMask "Loading data from server..."
 
@@ -27,12 +21,11 @@ getScheduledRecipe = (recipeIds)->
 				appendSteps scope, data
 
 				return # avoid implicit rv
-			error: (resp)->
+			error: (data, status)->
 				console.log '[ERROR] fetching #'+recipeIds
-				console.log resp
+				console.log data
 				$.ui.hideMask()
-				if resp.status is 404 then alert "Server aborted the scheduling process. Please try again with fewer recipes."
-				else alert "Unknown error"
+				alert "ERROR"
 				$.ui.loadContent "main_Deck"
 				return # avoid implicit rv
 	)

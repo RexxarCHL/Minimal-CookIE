@@ -2,14 +2,7 @@
 var appendSteps, getScheduledRecipe;
 
 getScheduledRecipe = function(recipeIds) {
-  var ans, data, id, _i, _len;
-  if (window.cookingData != null) {
-    ans = confirm("You have a cooking in progress. Resume?");
-    if (ans === true) {
-      $.ui.loadContent("Step");
-      return;
-    }
-  }
+  var data, id, _i, _len;
   console.log("schedule_recipe #" + recipeIds);
   $.ui.showMask("Loading data from server...");
   data = '';
@@ -30,15 +23,11 @@ getScheduledRecipe = function(recipeIds) {
       window.currentStepNum = 0;
       appendSteps(scope, data);
     },
-    error: function(resp) {
+    error: function(data, status) {
       console.log('[ERROR] fetching #' + recipeIds);
-      console.log(resp);
+      console.log(data);
       $.ui.hideMask();
-      if (resp.status === 404) {
-        alert("Server aborted the scheduling process. Please try again with fewer recipes.");
-      } else {
-        alert("Unknown error");
-      }
+      alert("ERROR");
       $.ui.loadContent("main_Deck");
     }
   });

@@ -49,17 +49,11 @@ showIngredientList = ->
 		return
 
 	console.log "show ingredient list"
-	$("#EmptyNotify").removeClass 'hidden'
-	$("#ToBuyListCookBtn").addClass 'hidden'
 
 	db.transaction (transaction)->
 		transaction.executeSql 'SELECT * FROM MenuIngredients', [],
 			(transaction,result)->
 				if result? and result.rows?
-					### if there's no list in the DB ###
-					if result.rows.length is 0 then return
-
-					### there's list in the DB ###
 					list = $("#list")
 					list.html ""
 					html = ''

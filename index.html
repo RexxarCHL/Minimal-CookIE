@@ -175,7 +175,7 @@
                         cookingStarted();
                         break;
                     case "Finish":
-                        finishedShowStatus();
+                        showCookingStatus();
                         break;
                     default:
                         //do nothing
@@ -284,7 +284,7 @@
         <script type="text/javascript" charset="utf-8" src="./js/utility.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/toBuyList.js"></script>
         <script type="text/javascript" charset="utf-8" src="./js/ajaxCooking.js"></script>
-        <script type="text/javascript" charset="utf-8" src="./js/cookingInterface.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/cooking.js"></script>
 
         <script>
             /* To allow cross domain access in Phonegap */
@@ -303,7 +303,7 @@
 	</head>
 
     <body onload="onBodyLoad()">
-        <div id="afui" class="chinese_font">
+        <div id="afui">
             <!-- SPLASH SCREEN !-->
             <div id="splashscreen" class='ui-loader heavy'>
                 <img src="img/small.jpg">
@@ -410,8 +410,7 @@
                 <!-- Browse/search recipe here -->
                 <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;">
                     <div id="Search" style="background-color:#D8D8D8;">
-                            <input type="search" id="SearchBar" placeholder="搜尋食譜, 食材..." style="margin-top:3%" result>
-                            <i class="fa fa-search" id="SearchBarIcon"></i>
+                            <input type="search" id="SearchBar" placeholder="Search for recipes, food ingredients ..." style="margin-top:3%" result>
                     </div>
                     <div id="SearchResults" style="background-color:#D8D8D8">
                     </div>
@@ -504,16 +503,125 @@
                             </ul>
                             <div style="height:2%;">&nbsp;</div>
                         </div><br />
+                        <div id="comments" class="content_border" >
+                            <h3 align="center" style="margin-top:3px;border-radius:5px;opacity:0.8;">Comments </h3>
+                            <br />
+                            <ul id="RecipeComments" class="recipeContent_lists">
+                                <li>lalala</li>
+                                <li>lallala</li>
+                            </ul>
+                            <div style="height:2%;">&nbsp;</div>
+                        </div><br />
+                        <div id="messages" class="content_border" >
+                            <h3 align="center" style="margin-top:3px;border-radius:2px;opacity:0.8;">Messages </h3>
+                            <br />
+                            <ul id="RecipeMessages" class="recipeContent_lists">
+                                <li>1. take out the ingredients</li>
+                                <li>2. call your mama</li>
+                            </ul>
+                            <div style="height:2%;">&nbsp;</div>
+                        </div><br />
                         <br />
                     </div>
                 </div><!-- #RecipeContent -->
 
                 <!-- BROWSE CATEGORIES -->
                 <!-- Browse categories here -->
-                <div title="Categories" id="main_Browse_Category" class="panel" data-header="catHeader" data-load="loadCateogries" data-unload="unloadedPanel" data-tab="navbar_browse" style="background-color:#D8D8D8;">
+                <div title="Categories" id="main_Browse_Category" class="panel" data-header="catHeader" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" style="background-color:#D8D8D8;">
                     <!-- same row !-->
                     <br />
                     <div id="Results">
+                        <div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp; </div>
+                        <div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp; </div>
+                        <div class="category_box">
+                            <h2 style="margin-left:5%;">Popular</h2>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">Popular</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                            <div class="cat_wrapper">
+                                    <img src="img/small.jpg" class="cat_icon">
+                                    <div class="cat_text">French</div>
+                            </div>
+                        </div>
                         <div class="divider">&nbsp; </div>
                     </div>
                     <div id='infinite' style='height:60px;line-height:60px;font-weight:bold;text-align:center'>Load More</div>
@@ -531,12 +639,12 @@
                 <!-- View stored recipe here -->
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
-                        <div class="button-grouped vertical" style="width:100%;display:inline-block;margin:5px 0px;">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;" align="center" >產生買菜清單</a>
-                            <a id="CookBtn" class="button" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;background-color:#3498db;color:white" align="center" data-transition="fade">開始煮飯!</a> 
+                        <div class="button-grouped vertical" style="width:100%;display:inline-block;">
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" >Gen. Shopping List</a>
+                            <a id="CookBtn" class="button red" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14;display:inline-block;" align="center" data-transition="fade">Cook these recipes!</a> 
                         </div>
                         <div id="Results">
-                            選完食譜後，來這裡開始！
+                            Browse recipes and add it into deck to start!
                             <div id="bottomBar" style="display:block;height:0;clear:both;"> </div> 
                         </div>
 
@@ -546,10 +654,19 @@
                 <!-- TO-BUY LIST -->
                 <!-- View what materials the cooking needs here -->
                 <div id="main_ToBuy_List" class="panel" title="買菜清單" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
-                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking">開始煮飯!</div>
-                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                     <ul class="list" id="list">
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
+                        <li class="listEle">Item 1</li>
                     </ul>
+                    <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking"> Cook!</div>
+                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
                 </div><!-- #main_ToBuy_List -->
 
                 <!-- COOKING OVERVIEW -->
@@ -573,44 +690,21 @@
                 <!-- COOKING STEP -->
                 <!-- Cooking interface -->
                 <div id="Step" class="panel"  title="Step 8 (47%)" style="background-color:#5A5A5A;" data-load="loadedPanel" data-unload="cookingEnded" data-footer='none'>
-                    <!--<div id="steps_container" style="border:0px 1px 0px 1px solid;width:100%;margin-top:5px;height: calc(100% - 100px);height: -webkit-calc(100% - 100px);">-->
                     <div id="steps_container" style="border:0px 1px 0px 1px solid #5A5A5A; height:97%">
                         &nbsp;
-                        
-                        <div class="waiting_step_outer_wrapper invisible">
-                            <div id="NextNextWaitingStep" class="waiting_step_inner_wrapper">
-                                <div id="ProgressBar" class="waiting_step_progress next_next_step">&nbsp;</div>
-                                <h4 id="ProgressName" class="waiting_step_name">Next next waiting step</h4>
-                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
-                            </div>
-                        </div>
-                        <div class="waiting_step_spacer">&nbsp;</div>
-                        <div class="waiting_step_outer_wrapper invisible">
-                            <div id="NextWaitingStep" class="waiting_step_inner_wrapper">
-                                <div id="ProgressBar" class="waiting_step_progress next_step">&nbsp;</div>
-                                <h4 id="ProgressName" class="waiting_step_name">Next waiting step</h4>
-                                <h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>
-                            </div> 
-                        </div>          
-                        <div class="waiting_step_spacer">&nbsp;</div>
-                        
+
                         <div class="this_step_outer_wrapper">
                             <div class="this_step_inner_wrapper">
-                                <div class="h7 this_step_recipe_name">
+                                <div class="h7 this_step_recipe_name" id="this_step_recipe_name">
                                     Saute beef
                                 </div>
-                                <!--
-                                <div class="this_step_img_wrapper" >
-                                    <img class="this_step_img" src="img/small.jpg"></img>
-                                </div>
-                                -->
                                 <h3 class="this_step_digest">
                                     Saute beef with sauce A.Saute beef with sauce A.Saute beef with sauce A.
                                 </h3>
                             </div>
                         </div>
-                        <div class="next_step_outer_wrapper">
-                            <div id="NextStep" class="next_step_inner_wrapper">
+                        <div class="waiting_step_outer_wrapper nextstep" data-sn=0>
+                            <div id="NextStep" class="waiting_step_inner_wrapper">
                                 <div id="ProgressBar" class="next_step_progress">&nbsp;</div>
                                 <h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>
                                 <h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>

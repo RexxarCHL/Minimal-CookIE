@@ -1,4 +1,5 @@
 $(document).ready ->
+	loadRecipes()
 	$("#ToBuyListCookBtn").click ->
 		getScheduledRecipe window.recipesInDeck
 		$.ui.loadContent 'Cooking'
@@ -9,18 +10,14 @@ $(document).ready ->
 			sql = 'DELETE FROM `Recipes`'
 			transaction.executeSql sql, [], successCallBack, errorHandler
 			sql = 'DELETE FROM `MenuIngredients`'
-			transaction.executeSql sql, [], ->
-					$("#ToBuyListCookBtn").addClass 'hidden'
-					$("#EmptyNotify").removeClass 'hidden'
-					window.recipesInDeck = []
-					loadDeck()
-					loadRecipes()
-				, errorHandler
+			transaction.executeSql sql, [], successCallBack, errorHandler
 
+			$("#ToBuyListCookBtn").addClass 'hidden'
+			$("#EmptyNotify").removeClass 'hidden'
+			loadDeck()
+			loadRecipes()
 			return
 		, errorHandler, nullHandler
-
-		window.cookingData = null
 		return
 
 addInfiniteScroll = (scope, delay, callback)->
@@ -49,17 +46,6 @@ loadRecipes = ->
 	recipeAjaxd = 0
 
 	getRecipes(recipeAjaxd)
-	return
-
-allCatAjaxd = 0
-loadCateogries = ->
-	console.log "load categories"
-	scope = $("#main_Browse_Category")
-	scope.find("#Results").html ""
-	scope.find("#infinite").text "Loading..."
-	allCatAjaxd = 0
-
-	getAllCategory(allCatAjaxd)
 	return
 
 loadDeck = ->
@@ -101,9 +87,6 @@ loadDeck = ->
 			return
 	)
 	return
-
-
-
 
 parseTimeToMinutes = (time)->
 	time = time.split ":"
