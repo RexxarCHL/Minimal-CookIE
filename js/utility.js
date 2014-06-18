@@ -2,7 +2,6 @@
 var addInfiniteScroll, allCatAjaxd, convertTimeToSeconds, loadCateogries, loadDeck, loadRecipes, parseSecondsToTime, parseTimeToMinutes, recipeAjaxd;
 
 $(document).ready(function() {
-  loadRecipes();
   $("#ToBuyListCookBtn").click(function() {
     getScheduledRecipe(window.recipesInDeck);
     $.ui.loadContent('Cooking');

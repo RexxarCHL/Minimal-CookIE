@@ -1,5 +1,4 @@
 $(document).ready ->
-	loadRecipes()
 	$("#ToBuyListCookBtn").click ->
 		getScheduledRecipe window.recipesInDeck
 		$.ui.loadContent 'Cooking'
