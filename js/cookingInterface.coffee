@@ -145,7 +145,6 @@ loadBlockingStep = (index)->
 	nextBtn.html "等待完成"
 	nextBtn.unbind 'click'
 	nextBtn.click ->
-		console.log "?"
 		checkNextStep(true)
 		return # avoid implicit rv
 
@@ -203,6 +202,7 @@ checkWaitingStepBlocking = (thisStep, nextStep)->
 				loadBlockingStep waitingStepIndex
 				flag = true
 				return
+	if flag is true then return
 
 	### Check the waiting steps for next step's previous steps ###
 	waitingQueue.forEach (waitingStep)->

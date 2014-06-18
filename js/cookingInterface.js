@@ -145,7 +145,6 @@ loadBlockingStep = function(index) {
   nextBtn.html("等待完成");
   nextBtn.unbind('click');
   nextBtn.click(function() {
-    console.log("?");
     checkNextStep(true);
   });
 };
@@ -211,6 +210,9 @@ checkWaitingStepBlocking = function(thisStep, nextStep) {
         flag = true;
       }
     });
+  }
+  if (flag === true) {
+    return;
   }
 
   /* Check the waiting steps for next step's previous steps */
