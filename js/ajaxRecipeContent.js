@@ -26,7 +26,7 @@ getRecipeContent = function(recipeId) {
 };
 
 loadRecipeContent = function(scope, recipe) {
-  var group, html, i, imgList, ingListLeft, ingListRight, ingredient, j, len, step, stepList, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+  var group, html, i, id, imgList, ingListLeft, ingListRight, ingredient, j, len, step, stepList, thisRecipeBtn, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
   $.ui.setTitle(recipe.recipeName);
   scope.find("#Results").hide();
   scope.find("#Loading").show();
@@ -73,6 +73,28 @@ loadRecipeContent = function(scope, recipe) {
   }
   stepList.append('<br />');
   imgList = scope.find("#RecipePhotos");
+  id = recipe.recipeId;
+  if (window.recipesInDeck.lastIndexOf(id) !== -1) {
+
+    /* recipe already in the deck */
+    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;opacity:.8;height:8%;border-radius:0;border:0;">Already in Deck</div>';
+    thisRecipeBtn = scope.find("#RecipeContentBtn");
+    thisRecipeBtn.click(function() {
+      $.ui.loadContent('main_Deck');
+      return void 0;
+    });
+  } else {
+    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#58ACFA;opacity:.8;height:8%;border-radius:0;border:0;">Add to Deck</div>';
+    thisRecipeBtn = scope.find("#RecipeContentBtn");
+    thisRecipeBtn.click((function(id) {
+      return function() {
+        addThisRecipeToDeck(id);
+        thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;opacity:.8;height:8%;border-radius:0;border:0;">Already in Deck</div>';
+        $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+        return void 0;
+      };
+    })(id));
+  }
   scope.find("#Loading").hide();
   scope.find("#Results").show();
 };
