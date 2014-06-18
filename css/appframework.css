@@ -166,13 +166,14 @@
 #afui > #aside_menu,
 #afui > #menu.tabletMenu {
     color:white;
-    background:#00AEEF;
-    border-right:1px solid #006BA4;
+    background:#08749C;
+    opacity=.9;
+    border-right:1px solid #517E96;
 }
 
 #afui #aside_menu .list li,#afui #aside_menu .list .divider,#afui #aside_menu .list li:last-child,
 #afui #menu .list li,#afui #menu .list .divider,#afui #menu .list li:last-child {
-    border-color: #4CC6F4;
+    border-color: #A6D3E4;
 }
 
 #afui #aside_menu .list .divider,
