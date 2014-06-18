@@ -1,3 +1,7 @@
+.hidden{
+  display: none;
+}
+
 .popup_btn.selected {
   background-color: red;
 }

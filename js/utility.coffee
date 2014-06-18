@@ -49,6 +49,17 @@ loadRecipes = ->
 	getRecipes(recipeAjaxd)
 	return
 
+allCatAjaxd = 0
+loadCateogries = ->
+	console.log "load categories"
+	scope = $("#main_Browse_Category")
+	scope.find("#Results").html ""
+	scope.find("#infinite").text "Loading..."
+	allCatAjaxd = 0
+
+	getAllCategory(allCatAjaxd)
+	return
+
 loadDeck = ->
 	console.log "loading deck"
 
@@ -88,6 +99,9 @@ loadDeck = ->
 			return
 	)
 	return
+
+
+
 
 parseTimeToMinutes = (time)->
 	time = time.split ":"
