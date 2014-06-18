@@ -15,6 +15,7 @@ $(document).ready(function() {
       transaction.executeSql(sql, [], function() {
         $("#ToBuyListCookBtn").addClass('hidden');
         $("#EmptyNotify").removeClass('hidden');
+        window.recipesInDeck = [];
         loadDeck();
         return loadRecipes();
       }, errorHandler);

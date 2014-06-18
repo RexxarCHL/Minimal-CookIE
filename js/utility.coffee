@@ -12,6 +12,7 @@ $(document).ready ->
 			transaction.executeSql sql, [], ->
 					$("#ToBuyListCookBtn").addClass 'hidden'
 					$("#EmptyNotify").removeClass 'hidden'
+					window.recipesInDeck = []
 					loadDeck()
 					loadRecipes()
 				, errorHandler
