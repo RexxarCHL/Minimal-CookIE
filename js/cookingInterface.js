@@ -116,14 +116,14 @@ loadStep = function(stepNum) {
   nextStep = window.cookingData.steps[stepNum + 1];
   if (nextStep != null) {
     scope.find(".next_step_name").html(trimStringLength(nextStep.stepName));
-    scope.find(".next_step_time").html("");
+    scope.find(".next_step_time").html("" + thisStep.timeElapsed + "/" + thisStep.time);
+    scope.find(".step_next_btn").html("下一步");
   } else {
     scope.find(".next_step_name").html("最後一步");
     scope.find(".next_step_time").html("");
-    scope.find(".step_next_btn").html("完成 ");
+    scope.find(".step_next_btn").html("完成");
   }
   nextBtn = scope.find(".step_next_btn");
-  nextBtn.html("下一步");
   nextBtn.unbind('click');
   nextBtn.click(function() {
     checkNextStep();
