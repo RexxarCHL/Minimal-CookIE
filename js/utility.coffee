@@ -123,3 +123,8 @@ parseSecondsToTime = (seconds)->
 	seconds = if seconds<10 then "0"+seconds else seconds
 
 	"#{hour}:#{min}:#{seconds}"
+
+trimStringLength = (string)->
+	if string.length > 10
+		string = string.substring(0, 9) + "..."
+	string

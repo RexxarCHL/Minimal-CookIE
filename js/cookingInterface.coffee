@@ -57,7 +57,7 @@ cookingEnded = ->
 ### Timer: for clocking the cook process ###
 timer = ->
 	# clock tick
-	window.currentTime = window.currentTime + 1
+	window.currentStep.timeElapsed += 1
 	window.waitingStepQueue.forEach (step)->
 		step.timeElapsed += 1
 		calculateRemainTime(step)
@@ -96,7 +96,8 @@ loadStep = (stepNum)->
 	window.currentStep = extendStepInfo thisStep
 	window.currentStepNum = stepNum
 
-	# change the title
+	# animation and change the title
+	animationMoveThisStepFromLeftToRight()
 	checkFinishPercentageAndChangeTitle()
 
 	scope = $("#Step")
@@ -107,11 +108,11 @@ loadStep = (stepNum)->
 	# load next step info
 	nextStep = window.cookingData.steps[stepNum+1]
 	if nextStep?
-		scope.find(".next_step_name").html nextStep.stepName
-		scope.find(".next_step_time").html thisStep.time
+		scope.find(".next_step_name").html trimStringLength(nextStep.stepName)
+		scope.find(".next_step_time").html ""
 	else
-		scope.find(".next_step_name").html "Final Step Reached"
-		scope.find(".next_step_time").html "00:00"
+		scope.find(".next_step_name").html "最後一步"
+		scope.find(".next_step_time").html ""
 		scope.find(".step_next_btn").html "完成 "
 
 	# bind next step btn behaviour
@@ -131,6 +132,8 @@ loadBlockingStep = (index)->
 	step = window.waitingStepQueue.splice(index, 1)[0]
 	showTwoUrgentSteps() # update remaining waiting steps
 	window.currentStep = step
+
+	animationMoveThisStepFromRightToLeft()
 
 	scope = $("#Step")
 	# load the step
@@ -262,7 +265,7 @@ updateNextStepProgressBar = ->
 	thisStep = window.currentStep
 	timeElapsed = parseSecondsToTime thisStep.timeElapsed
 	nextStep = $("#NextStep")
-	nextStep.find("ProgressRemainTime").html "#{timeElapsed}/#{thisStep.Time}"
+	nextStep.find("#ProgressRemainTime").html "#{timeElapsed}/#{thisStep.time}"
 
 	return # avoid implicit rv
 
@@ -278,7 +281,7 @@ updateWaitingProgressBar = (scope, step)->
 		progressBar.css3Animate
 			width: "#{calculatePercentage(step)}%"
 			time: '500ms'
-		progressName.html step.stepName
+		progressName.html trimStringLength(step.stepName)
 		progressRemainTime.html parseSecondsToTime step.remainTime
 		$(scope[0].parentNode).removeClass 'invisible'
 
@@ -293,3 +296,64 @@ finishedShowStatus = ->
 	scope.find("#OriginalTime").html window.cookingData.originTime
 
 	return
+
+### Animation functions ###
+animationMoveThisStepFromLeftToRight = ->
+	thisStep = window.currentStep
+	$('.this_step_inner_wrapper').addClass 'animate_old'
+	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
+	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
+	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
+
+	$('.this_step_inner_wrapper.animate_old').css3Animate
+		x: 500
+		time: 300
+		success: ()->
+			$('.this_step_inner_wrapper.animate_old').remove()
+			return
+
+	$('.this_step_inner_wrapper.animate_new').css3Animate
+		x: -500
+		time: 10
+		success: ()->
+			$('.this_step_inner_wrapper.animate_new').css3Animate
+				x: 500
+				time: 300
+				previous: true
+				success: ()->
+					$('.animate_new').removeClass 'animate_new'
+					return
+			return
+
+	return
+
+animationMoveThisStepFromRightToLeft = ->
+	thisStep = window.currentStep
+	$('.this_step_inner_wrapper').addClass 'animate_old'
+	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
+	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
+	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
+
+	$('.this_step_inner_wrapper.animate_old').css3Animate
+		x: -500
+		time: 300
+		success: ()->
+			$('.this_step_inner_wrapper.animate_old').remove()
+			return
+
+	$('.this_step_inner_wrapper.animate_new').css3Animate
+		x: 500
+		time: 10
+		success: ()->
+			$('.this_step_inner_wrapper.animate_new').css3Animate
+				x: -500
+				time: 300
+				previous: true
+				success: ()->
+					$('.animate_new').removeClass 'animate_new'
+					return
+			return
+
+	return
+
+
