@@ -30,11 +30,15 @@ getScheduledRecipe = function(recipeIds) {
       window.currentStepNum = 0;
       appendSteps(scope, data);
     },
-    error: function(data, status) {
+    error: function(resp) {
       console.log('[ERROR] fetching #' + recipeIds);
-      console.log(data);
+      console.log(resp);
       $.ui.hideMask();
-      alert("ERROR");
+      if (resp.status === 404) {
+        alert("Server aborted the scheduling process. Please try again with fewer recipes.");
+      } else {
+        alert("Unknown error");
+      }
       $.ui.loadContent("main_Deck");
     }
   });

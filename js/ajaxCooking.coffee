@@ -27,11 +27,12 @@ getScheduledRecipe = (recipeIds)->
 				appendSteps scope, data
 
 				return # avoid implicit rv
-			error: (data, status)->
+			error: (resp)->
 				console.log '[ERROR] fetching #'+recipeIds
-				console.log data
+				console.log resp
 				$.ui.hideMask()
-				alert "ERROR"
+				if resp.status is 404 then alert "Server aborted the scheduling process. Please try again with fewer recipes."
+				else alert "Unknown error"
 				$.ui.loadContent "main_Deck"
 				return # avoid implicit rv
 	)

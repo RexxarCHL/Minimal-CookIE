@@ -1,6 +1,6 @@
 ### Class Definitions ###
 class Step
-	constructor: (@stepNum, @startTime, @duration, @recipeName, @digest, @people)->
+	constructor: (obj)->
 		@finishTime = @startTime + @duration
 		@timeElapsed = 0
 		@percentage = ""
@@ -23,6 +23,7 @@ cookingStarted = ->
 	currentStepNum = window.currentStepNum
 	window.currentTime = 0
 	window.waitingStepQueue = []
+	window.cookingStartTime = new Date()
 
 	console.log "cooking started"
 
@@ -79,7 +80,7 @@ stopTimer = ->
 loadStep = (stepNum)->
 	console.log "load step##{stepNum}"
 	thisStep = window.cookingData.steps[stepNum]
-	window.currentStep = Step(stepNum, parseInt(thisStep.startTime), convertTimeToSeconds(thisStep.time), thisStep.recipeName, thisStep.stepName, thisStep.people)
+	window.currentStep = addStepInfo(thisStep)
 	window.currentStepNum = stepNum
 
 	# change the title
@@ -113,43 +114,44 @@ checkNextStep = ->
 	thisStep = window.currentStep
 	thisStepFinishTime = thisStep.finishTime
 	
-	if (nextStep = window.cookingData.steps[thisStep.stepNum+1])?
-		if (timeDiff = nextStep.startTime - thisStepFinishTime) > 0
-			# next step start time > this step finish time:
-			#  there is a step in the waiting queue and we must wait for it to finish
-			#ans = confirm "wait!!!"
-			ans = no # debug
-			if ans is no
-				window.waitingStepQueue.forEach (step)->
-					step.timeElapsed += timeDiff
-					step.calculateRemainTime()
-				window.currentTime = nextStep.startTime
-				loadStep thisStep.stepNum+1
-			return
-	else
+	if not (nextStep = window.cookingData.steps[thisStep.stepNum+1])?
+		### There is no next step ###
 		console.log "finished"
 		$.ui.loadContent "Finish"
 		return
 
-	if thisStepFinishTime - currentTime <= 30
-		console.log "<=30, time=#{thisStepFinishTime}"
-		window.currentTime = thisStepFinishTime
-	else if thisStep.people is true
-		console.log ">30 and people=true, currentTime=#{currentTime}, time=#{thisStepFinishTime}"
-		#ans = confirm "This step may take you longer. Skip anyways?"
-		ans = yes # debug
-		if ans is yes
-			window.currentTime = thisStepFinishTime
-		else
-			return
-	else
-		console.log ">30, endtime=#{thisStepFinishTime}"
-		pushStepToWaitingQueue thisStep, currentTime
-		window.currentTime = currentTime + 30
+	### Check if there is a step blocking in the waiting queue ###
+	if checkWaitingStepBlocking(thisStep, nextStep) then return
 
+	### No blocking step -> load next step ###
 	checkProgress()
 	loadStep(thisStep.stepNum+1)
+
 	return # avoid implicit rv
+
+# Checks if there is a step blocking in the waiting queue
+checkWaitingStepBlocking = (thisStep, nextStep)->
+	clonedQueue = clone window.waitingStepQueue
+	if thisStep.finishTime < nextStep.startTime
+		### This step does not directly lead to next step -> there is a blocking step in waiting queue ###
+		window.waitingStepQueue.forEach (waitingStep)->
+			if waitingStep.finishTime is nextStep.startTime
+				### The blocking step is found ###
+				waitingStepIndex = clonedQueue.lastIndexOf waitingStep
+				showBlockingStep waitingStepIndex
+				true
+
+	### Check the waiting steps for next step's previous steps ###
+	window.waitingStepQueue.forEach (waitingStep)->
+		if waitingStep.recipeId is nextStep.recipeId
+			### There is a step with the same recipeId as next step in the waiting queue. ###
+			# retrieve the index of the blocking step in the waiting queue
+			waitingStepIndex = clonedQueue.lastIndexOf(waitingStep)
+			showBlockingStep waitingStepIndex
+			true
+
+	false
+	
 
 checkFinishPercentageAndChangeTitle = ->
 	stepNum = window.currentStepNum
@@ -158,8 +160,21 @@ checkFinishPercentageAndChangeTitle = ->
 
 	return
 
+addStepInfo = (step)->
+	step.duration = convertTimeToSeconds step.time
+	step.finishTime = step.startTime + step.duration
+	step.timeElapsed = 0
+	step.percentage = ""
+	step.remainTime = calculateRemainTime(step)
+
+	step
+
+calculateRemainTime = (step)->
+	step.remainTime = step.duration - step.timeElapsed
+
 finishedShowStatus = -> 
-	timeElapsed = parseSecondsToTime window.currentTime
+	timeElapsed = (new Date()) - window.cookingStartTime # in milliseconds
+	timeElapsed = parseSecondsToTime timeElapsed/1000
 	
 	scope = $("#Finish")
 	scope.find("#TotalTimeSpent").html timeElapsed
