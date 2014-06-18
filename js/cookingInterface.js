@@ -260,8 +260,12 @@ showTwoUrgentSteps = function() {
   queueLen = waitingQueue.length;
   nextStep = waitingQueue[queueLen - 1];
   nextNextStep = waitingQueue[queueLen - 2];
-  updateWaitingProgressBar($("#NextNextWaitingStep"), nextNextStep);
-  updateWaitingProgressBar($("#NextWaitingStep"), nextStep);
+  if (queueLen === 1) {
+    updateWaitingProgressBar($("#NextNextWaitingStep"), nextStep);
+  } else {
+    updateWaitingProgressBar($("#NextNextWaitingStep"), nextNextStep);
+    updateWaitingProgressBar($("#NextWaitingStep"), nextStep);
+  }
 
   /*
   	if nextStep? and nextNextStep?
