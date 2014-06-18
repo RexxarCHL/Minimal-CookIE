@@ -130,7 +130,7 @@ checkNextStep = function() {
   thisStepFinishTime = thisStep.finishTime;
   if ((nextStep = window.cookingData.steps[thisStep.stepNum + 1]) != null) {
     if ((timeDiff = nextStep.startTime - thisStepFinishTime) > 0) {
-      ans = false;
+      ans = confirm("wait!!!");
       if (ans === false) {
         window.waitingStepQueue.forEach(function(step) {
           step.timeElapsed += timeDiff;
@@ -151,7 +151,7 @@ checkNextStep = function() {
     window.currentTime = thisStepFinishTime;
   } else if (thisStep.people === true) {
     console.log(">30 and people=true, currentTime=" + currentTime + ", time=" + thisStepFinishTime);
-    ans = true;
+    ans = confirm("This step may take you longer. Skip anyways?");
     if (ans === true) {
       window.currentTime = thisStepFinishTime;
     } else {
@@ -187,7 +187,7 @@ checkProgress = function() {
   remainTime = thisStep.finishTime - currentTime;
   if (remainTime < 0) {
     stopTimer();
-    ans = true;
+    ans = confirm("Timeout! Extend time?");
     if (ans === true) {
       window.currentTime = currentTime - thisStep.duration;
     } else {

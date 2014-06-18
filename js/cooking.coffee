@@ -125,8 +125,7 @@ checkNextStep = ->
 		if (timeDiff = nextStep.startTime - thisStepFinishTime) > 0
 			# next step start time > this step finish time:
 			#  there is a step in the waiting queue and we must wait for it to finish
-			#ans = confirm "wait!!!"
-			ans = no # debug
+			ans = confirm "wait!!!"
 			if ans is no
 				window.waitingStepQueue.forEach (step)->
 					step.timeElapsed += timeDiff
@@ -144,8 +143,7 @@ checkNextStep = ->
 		window.currentTime = thisStepFinishTime
 	else if thisStep.people is true
 		console.log ">30 and people=true, currentTime=#{currentTime}, time=#{thisStepFinishTime}"
-		#ans = confirm "This step may take you longer. Skip anyways?"
-		ans = yes # debug
+		ans = confirm "This step may take you longer. Skip anyways?"
 		if ans is yes
 			window.currentTime = thisStepFinishTime
 		else
@@ -179,8 +177,7 @@ checkProgress = ->
 	if remainTime < 0
 		stopTimer()
 
-		#ans = confirm "Timeout! Extend time?"
-		ans = yes # debug
+		ans = confirm "Timeout! Extend time?"
 		if ans is yes
 			window.currentTime = currentTime - thisStep.duration
 		else

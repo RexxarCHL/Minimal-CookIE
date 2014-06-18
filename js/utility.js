@@ -17,7 +17,6 @@ $(document).ready(function() {
       $("#ToBuyListCookBtn").addClass('hidden');
       $("#EmptyNotify").removeClass('hidden');
       loadDeck();
-      loadRecipes();
     }, errorHandler, nullHandler);
   });
 });

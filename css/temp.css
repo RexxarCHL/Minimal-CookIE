@@ -309,6 +309,7 @@ align:center;
   height:5%;
   background-color:white;
   border-radius:5px;
+  visibility: hidden;
 }
 
 .waiting_step_inner_wrapper{
