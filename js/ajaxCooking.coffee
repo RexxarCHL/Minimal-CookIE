@@ -58,8 +58,8 @@ appendData = (scope, data)->
 			'<h2 style="margin-left:5%;">排程優化時間：</h2>'+
 			'<i id="scheduledCookingTime" style="margin-left:7%;font-size:17px;">'+data.scheduledTime+'</i>'+
 			'<br />'+
-			'<div class="bottom_btn_holder">'+
-				'<a class="button" style="width:100%;background-color:#3498db;height:10%;" href="#Step">開始！</a>'+
+			'<div class="bottom_btn_holder" style="margin-top:80%;">'+
+				'<a class="button" style="width:100%;background: hsl(204.1,35%,53.1%);height:10%;color:white;text-shadow: -1px -1px gray;border-radius: 8px;" href="#Step">開始！</a>'+
 			'</div>'+
 		'</div>'
 
