@@ -56,7 +56,7 @@ appendData = function(scope, data) {
   	scope.find("#originalCookingTime").html data.originTime
   	scope.find("#scheduledCookingTime").html data.scheduledTime
    */
-  $.ui.updatePanel("Cooking", "" + '<div style="background-color:#F2F2F2">' + '<h2 style="margin-left:5%;margin-top:5%">本次共有 <span id="totalRecipes">' + data.recipeLength.length + '</span> 道食譜排程</h2>' + '<h2 style="margin-left:5%;">原本需要時間：</h2>' + '<i id="originalCookingTime" style="margin-left:7%;font-size:17px;">' + data.originTime + '</i>' + '<h2 style="margin-left:5%;">排程優化時間：</h2>' + '<i id="scheduledCookingTime" style="margin-left:7%;font-size:17px;">' + data.scheduledTime + '</i>' + '<br />' + '<div class="bottom_btn_holder">' + '<a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;height:10%;font-size:20px;" href="#Step">開始！</a>' + '</div>' + '</div>');
+  $.ui.updatePanel("Cooking", "" + '<div style="background-color:#F2F2F2">' + '<h2 style="margin-left:5%;margin-top:5%">本次共有 <span id="totalRecipes">' + data.recipeLength.length + '</span> 道食譜排程</h2>' + '<h2 style="margin-left:5%;">原本需要時間：</h2>' + '<i id="originalCookingTime" style="margin-left:7%;font-size:17px;">' + data.originTime + '</i>' + '<h2 style="margin-left:5%;">排程優化時間：</h2>' + '<i id="scheduledCookingTime" style="margin-left:7%;font-size:17px;">' + data.scheduledTime + '</i>' + '<br />' + '<div class="bottom_btn_holder">' + '<a class="button" style="width:100%;background-color:#3498db;height:10%;" href="#Step">開始！</a>' + '</div>' + '</div>');
   $.ui.unblockUI();
   $.ui.hideMask();
 };

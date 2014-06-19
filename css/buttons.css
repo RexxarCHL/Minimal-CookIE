@@ -226,7 +226,6 @@
 #afui .button.recipe_btn.recipe_add_btn{
 	color:#fff;
 	background:#2ecc71;
-	border-color:#2ecc71;
 	height: 15%;
 	width: 80%;
 	text-align: center;
@@ -239,6 +238,36 @@
 }
 
 #afui .button.recipe_btn.recipe_remove_btn{
-	color:#fff;
-	background:#e74c3c;
+	float: right;
+	width: 55%;
+	text-align: center;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	margin-right: 3%;
+	border: none;
+	border-radius: 0;
+	color: #fff;
+	background: hsl(5.6,39%,65%);
+}
+/*for big screen like note3*/
+@media screen and (min-device-width: 540) and (orientation: portrait) {
+	#afui .button.recipe_btn.recipe_add_btn{
+		font-size: 0.6cm;
+		padding: 10px 0px;
+	}
+	#afui .button.recipe_btn.recipe_in_deck_btn{
+		font-size: 0.6cm;
+		padding: 10px 0px;
+	}
+	#afui .button.recipe_btn.recipe_remove_btn{
+		font-size: 0.5cm;
+		width: 50%;
+		margin-right: 3%;
+	}
+	#RecipeContentBtn {
+		font-size: 0.7cm;
+	}
+	#DoneBtn {
+		font-size: 30pt;
+	}
 }

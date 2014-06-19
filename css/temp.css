@@ -314,7 +314,8 @@ margin-left:5%;width:50%;display:inline-block;
 width:15%;display:inline-block;border-radius:5px;
 }
 .bottom_btn_holder{
-align:center;
+  text-align:center;
+  font-size: 20px;
 }
 .h5{
   display:inline-block;
@@ -511,14 +512,62 @@ align:center;
 }
 /*for tablets*/
 @media screen and (min-width: 1080) {
-
-}
-/*for big screen like note3*/
-@media screen and (min-width: 1080) and (-webkit-device-min-pixel-ratio: 1.5) {
   .recipe_item_container {
     height: 26%;
     background-color: white;
     border-radius: 2px;
+  }
+}
+/*for big screen like note3*/
+@media screen and (min-device-width: 540) and (orientation: portrait) {
+  .recipe_item {
+    height: 40%;
+  }
+  .recipe_descrip {
+    font-size: 0.7cm;
+  }
+  .recipe_cooked {
+    font-size: 0.5cm;
+    margin-top: 0%;
+  }
+  .recipe_item_container {
+    height: 70%;
+    background-color: white;
+    border-radius: 2px;
+  }
+  .content_border {
+    font-size: 0.6cm;
+  }
+  .recipe_image_wrapper.long {
+    margin-top: 1%;
+    max-width: 40%;
+  }
+  .recipe_descrip.long {
+    font-size: 0.8cm;
+    margin-left: 45%;
+  }
+  .recipe_time {
+    font-size: 0.5cm;
+    padding-top: 5%;
+    height: 40%;
+  }
+  #ToBuyBtn, #CookBtn {
+    font-size: 23pt !important;
+  }
+  #ToBuyListCookBtn {
+    font-size: 30pt !important;
+  }
+  h2 {
+    font-size: 25pt !important;
+  }
+  .listEle {
+    font-size: 30pt;
+  }
+  #originalCookingTime, #scheduledCookingTime {
+    font-size: 20pt !important;
+  }
+  .bottom_btn_holder {
+    font-size: 30pt;
   }
 }
 /*for iphone4*/

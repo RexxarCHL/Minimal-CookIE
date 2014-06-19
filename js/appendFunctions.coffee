@@ -36,7 +36,7 @@ appendRecipeResult = (scope, data, deck = 0)->
 		if not exist
 			html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>'
 		else if deck
-			html += '<div class="button recipe_btn recipe_remove_btn chinese_font" style="float:right;width:60%;text-align:center;margin-top:1px;margin-bottom:1px;margin-right:1%;border:none;border-radius:0;">移除</div>'
+			html += '<div class="button recipe_btn recipe_remove_btn chinese_font">移除</div>'
 		else
 			html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" >已加入 Deck</div>'
 		html += '</div>'
