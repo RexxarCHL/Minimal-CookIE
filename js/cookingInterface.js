@@ -132,7 +132,7 @@ loadStep = function(stepNum) {
 loadBlockingStep = function(index) {
   var nextBtn, scope, step;
   console.log("load blocking step, index:" + index);
-  step = window.waitingStepQueue.splice(index, 1)[0];
+  step = window.waitingStepQueue[index];
   console.log(step);
   showTwoUrgentSteps();
   window.currentStep = step;
@@ -143,6 +143,7 @@ loadBlockingStep = function(index) {
   nextBtn.html("等待完成");
   nextBtn.unbind('click');
   nextBtn.click(function() {
+    window.waitingStepQueue.splice(index, 1)[0];
     checkNextStep(true);
   });
 };
@@ -423,7 +424,7 @@ animationMoveProgressBarUp = function() {
   $('.next_step_outer_wrapper.nextstep').removeClass("changeName");
   $('.next_step_outer_wrapper.nextstep').css3Animate({
     y: -0.1 * 7 * parseInt($(window).height() - 44),
-    time: 300,
+    time: 500,
     opacity: 0.1,
     success: afterAnimate
   });
