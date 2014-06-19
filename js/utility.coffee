@@ -1,4 +1,6 @@
 $(document).ready ->
+	initSidebarIcons();
+
 	$("#ToBuyListCookBtn").click ->
 		getScheduledRecipe window.recipesInDeck
 		$.ui.loadContent 'Cooking'
@@ -20,6 +22,10 @@ $(document).ready ->
 			return
 		, errorHandler, nullHandler
 
+		$("#EmptyNotify").addClass 'hidden'
+		$("#ToBuyListCookBtn").removeClass 'hidden'
+		$("#list").html ""
+
 		# reset variables used in cooking
 		window.cookingData = null
 		window.currentStepNum = 0
@@ -32,32 +38,38 @@ $(document).ready ->
 
 initSidebarIcons = ->
 	$(".icon.close").click ->
-	ans = confirm "這會清除您 Deck 與購買清單中的所有資料\n繼續？"
-	if ans is no then return
+		ans = confirm "這會清除您 Deck 與購買清單中的所有資料\n繼續？"
+		if ans is no then return
 
-	db.transaction (transaction)->
-		sql = 'DELETE FROM `Recipes`'
-		transaction.executeSql sql, [], successCallBack, errorHandler
-		sql = 'DELETE FROM `MenuIngredients`'
-		transaction.executeSql sql, [], ->
-				$("#ToBuyListCookBtn").addClass 'hidden'
-				$("#EmptyNotify").removeClass 'hidden'
-				window.recipesInDeck = []
-				loadDeck()
-				loadRecipes()
-			, errorHandler
+		db.transaction (transaction)->
+			sql = 'DELETE FROM `Recipes`'
+			transaction.executeSql sql, [], successCallBack, errorHandler
+			sql = 'DELETE FROM `MenuIngredients`'
+			transaction.executeSql sql, [], ->
+					$("#ToBuyListCookBtn").addClass 'hidden'
+					$("#EmptyNotify").removeClass 'hidden'
+					window.recipesInDeck = []
+					loadDeck()
+					loadRecipes()
+				, errorHandler
+			return
+		, errorHandler, nullHandler
+
+		$("#EmptyNotify").addClass 'hidden'
+		$("#ToBuyListCookBtn").removeClass 'hidden'
+		$("#list").html ""
+
+		# reset variables used in cooking
+		window.cookingData = null
+		window.currentStepNum = 0
+		window.currentStep = null
+		window.currentTime = 0
+		window.waitingStepQueue = []
+		window.stepsTimeUsed = []
+		window.cookingStartTime = null
 
 		return
-	, errorHandler, nullHandler
-
-	# reset variables used in cooking
-	window.cookingData = null
-	window.currentStepNum = 0
-	window.currentStep = null
-	window.currentTime = 0
-	window.waitingStepQueue = []
-	window.stepsTimeUsed = []
-	window.cookingStartTime = null
+		$.ui.loadContent "main_Browse_Recipe"
 	return
 
 addInfiniteScroll = (scope, delay, callback)->

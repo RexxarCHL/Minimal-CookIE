@@ -1,10 +1,14 @@
 $(document).ready ->
 	$("#ToBuyBtn").click ->
 		recipeIds = findRecipeIdsInDeck()
+		if not recipeIds? or recipeIds.length is 0 then return
+		$.ui.loadContent "main_ToBuy_List"
 		getIngredientList(recipeIds)
 		return
 	$("#CookBtn").click ->
 		recipeIds = findRecipeIdsInDeck()
+		if not recipeIds? or recipeIds.length is 0 then return
+		$.ui.loadContent "Cooking"
 		getScheduledRecipe(recipeIds)
 		return
 	return

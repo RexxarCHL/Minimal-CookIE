@@ -5,11 +5,19 @@ $(document).ready(function() {
   $("#ToBuyBtn").click(function() {
     var recipeIds;
     recipeIds = findRecipeIdsInDeck();
+    if ((recipeIds == null) || recipeIds.length === 0) {
+      return;
+    }
+    $.ui.loadContent("main_ToBuy_List");
     getIngredientList(recipeIds);
   });
   $("#CookBtn").click(function() {
     var recipeIds;
     recipeIds = findRecipeIdsInDeck();
+    if ((recipeIds == null) || recipeIds.length === 0) {
+      return;
+    }
+    $.ui.loadContent("Cooking");
     getScheduledRecipe(recipeIds);
   });
 });

@@ -2,6 +2,7 @@
 var addInfiniteScroll, allCatAjaxd, convertTimeToSeconds, initSidebarIcons, loadCateogries, loadDeck, loadRecipes, parseSecondsToTime, parseTimeToMinutes, recipeAjaxd, trimStringLength;
 
 $(document).ready(function() {
+  initSidebarIcons();
   $("#ToBuyListCookBtn").click(function() {
     getScheduledRecipe(window.recipesInDeck);
     $.ui.loadContent('Cooking');
@@ -20,6 +21,9 @@ $(document).ready(function() {
         return loadRecipes();
       }, errorHandler);
     }, errorHandler, nullHandler);
+    $("#EmptyNotify").addClass('hidden');
+    $("#ToBuyListCookBtn").removeClass('hidden');
+    $("#list").html("");
     window.cookingData = null;
     window.currentStepNum = 0;
     window.currentStep = null;
@@ -31,32 +35,38 @@ $(document).ready(function() {
 });
 
 initSidebarIcons = function() {
-  var ans;
-  $(".icon.close").click(function() {});
-  ans = confirm("這會清除您 Deck 與購買清單中的所有資料\n繼續？");
-  if (ans === false) {
+  $(".icon.close").click(function() {
+    var ans;
+    ans = confirm("這會清除您 Deck 與購買清單中的所有資料\n繼續？");
+    if (ans === false) {
+      return;
+    }
+    db.transaction(function(transaction) {
+      var sql;
+      sql = 'DELETE FROM `Recipes`';
+      transaction.executeSql(sql, [], successCallBack, errorHandler);
+      sql = 'DELETE FROM `MenuIngredients`';
+      transaction.executeSql(sql, [], function() {
+        $("#ToBuyListCookBtn").addClass('hidden');
+        $("#EmptyNotify").removeClass('hidden');
+        window.recipesInDeck = [];
+        loadDeck();
+        return loadRecipes();
+      }, errorHandler);
+    }, errorHandler, nullHandler);
+    $("#EmptyNotify").addClass('hidden');
+    $("#ToBuyListCookBtn").removeClass('hidden');
+    $("#list").html("");
+    window.cookingData = null;
+    window.currentStepNum = 0;
+    window.currentStep = null;
+    window.currentTime = 0;
+    window.waitingStepQueue = [];
+    window.stepsTimeUsed = [];
+    window.cookingStartTime = null;
     return;
-  }
-  db.transaction(function(transaction) {
-    var sql;
-    sql = 'DELETE FROM `Recipes`';
-    transaction.executeSql(sql, [], successCallBack, errorHandler);
-    sql = 'DELETE FROM `MenuIngredients`';
-    transaction.executeSql(sql, [], function() {
-      $("#ToBuyListCookBtn").addClass('hidden');
-      $("#EmptyNotify").removeClass('hidden');
-      window.recipesInDeck = [];
-      loadDeck();
-      return loadRecipes();
-    }, errorHandler);
-  }, errorHandler, nullHandler);
-  window.cookingData = null;
-  window.currentStepNum = 0;
-  window.currentStep = null;
-  window.currentTime = 0;
-  window.waitingStepQueue = [];
-  window.stepsTimeUsed = [];
-  window.cookingStartTime = null;
+    return $.ui.loadContent("main_Browse_Recipe");
+  });
 };
 
 addInfiniteScroll = function(scope, delay, callback) {

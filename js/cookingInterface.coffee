@@ -352,6 +352,7 @@ finishedShowStatus = ->
 	return
 
 ### Animation functions ###
+xpos = Math.floor $(window).width()
 animationMoveThisStepFromLeftToRight = ->
 	thisStep = window.currentStep
 	$('.this_step_inner_wrapper').addClass 'animate_old'
@@ -360,18 +361,19 @@ animationMoveThisStepFromLeftToRight = ->
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
-		x: 500
+		x: xpos
 		time: 300
+		opacity:0.1
 		success: ()->
 			$('.this_step_inner_wrapper.animate_old').remove()
 			return
 
 	$('.this_step_inner_wrapper.animate_new').css3Animate
-		x: -500
+		x: -xpos
 		time: 10
 		success: ()->
 			$('.this_step_inner_wrapper.animate_new').css3Animate
-				x: 500
+				x: xpos
 				time: 300
 				previous: true
 				success: ()->
@@ -389,18 +391,18 @@ animationMoveThisStepFromRightToLeft = ->
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
-		x: -500
+		x: -xpos
 		time: 300
 		success: ()->
 			$('.this_step_inner_wrapper.animate_old').remove()
 			return
 
 	$('.this_step_inner_wrapper.animate_new').css3Animate
-		x: 500
+		x: xpos
 		time: 10
 		success: ()->
 			$('.this_step_inner_wrapper.animate_new').css3Animate
-				x: -500
+				x: -xpos
 				time: 300
 				previous: true
 				success: ()->
