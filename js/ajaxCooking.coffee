@@ -6,7 +6,9 @@ getScheduledRecipe = (recipeIds)->
 			return
 
 	console.log "schedule_recipe #"+recipeIds
+	$.ui.updatePanel "Cooking",""
 	$.ui.showMask "Loading data from server..."
+	$.ui.blockUI(.1)
 
 	data = ''
 	#recipeIds = JSON.parse(recipeIds)
@@ -24,7 +26,7 @@ getScheduledRecipe = (recipeIds)->
 				scope = $('#Cooking')
 				window.cookingData = data
 				window.currentStepNum = 0
-				appendSteps scope, data
+				appendData scope, data
 
 				return # avoid implicit rv
 			error: (resp)->
@@ -38,26 +40,29 @@ getScheduledRecipe = (recipeIds)->
 	)
 	return
 
-appendSteps = (scope, data)->
+appendData = (scope, data)->
 	console.log "append steps"
-	$.ui.showMask "Processing Data"
 
-	# append time
-	scope.find("#totalCookingTime").html "<b>"+parseTimeToMinutes(data.originTime)+" mins -> "+parseTimeToMinutes(data.scheduledTime)+" min</b>"
+	###
+	scope.find("#totalRecipes").html data.recipeLength.length
+	scope.find("#originalCookingTime").html data.originTime
+	scope.find("#scheduledCookingTime").html data.scheduledTime
+	###
 
-	# append step list
-	stepsList = scope.find "#stepsList"
-	stepsList.html '<h2 style="margin-left:5%;">Steps:</h2>'
-	html = ""
-	for step in data.steps
-		html = '<div class="overview_stepWrapper">'
-		html += '<h3 style="padding-top:3%;padding-left:5%;">'+(_i + 1)+'. '+step.digest+'</h3>'
-		###debug###
-		###
-		html += "    time: #{step.time}, people: #{step.people}, start time: #{step.startTime}"
-		###
-		html += '</div>'
-		stepsList.append html
+	$.ui.updatePanel "Cooking",""+
+		'<div style="background-color:#F2F2F2">'+
+			'<h2 style="margin-left:5%;margin-top:5%">本次共有 <span id="totalRecipes">'+data.recipeLength.length+'</span> 道食譜排程</h2>'+
+			'<h2 style="margin-left:5%;">原本需要時間：</h2>'+
+			'<i id="originalCookingTime" style="margin-left:7%;font-size:17px;">'+data.originTime+'</i>'+
+			'<h2 style="margin-left:5%;">排程優化時間：</h2>'+
+			'<i id="scheduledCookingTime" style="margin-left:7%;font-size:17px;">'+data.scheduledTime+'</i>'+
+			'<br />'+
+			'<div class="bottom_btn_holder">'+
+				'<a class="button" style="width:99%;background-color:#58ACFA;opacity:.8;height:10%;font-size:20px;" href="#Step">開始！</a>'+
+			'</div>'+
+		'</div>'
 
+
+	$.ui.unblockUI()
 	$.ui.hideMask();
 	return
