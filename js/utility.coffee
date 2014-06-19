@@ -20,7 +20,14 @@ $(document).ready ->
 			return
 		, errorHandler, nullHandler
 
+		# reset variables used in cooking
 		window.cookingData = null
+		window.currentStepNum = 0
+		window.currentStep = null
+		window.currentTime = 0
+		window.waitingStepQueue = []
+		window.stepsTimeUsed = []
+		window.cookingStartTime = null
 		return
 
 addInfiniteScroll = (scope, delay, callback)->

@@ -150,33 +150,6 @@ loadBlockingStep = (index)->
 
 	return # avoid implicit rv
 
-checkNextStep = (blocked = 0)->
-	thisStep = window.currentStep
-	thisStepFinishTime = thisStep.finishTime
-	
-	if not (nextStep = window.cookingData.steps[window.currentStepNum+1])?
-		### There is no next step ###
-		console.log "finished"
-		$.ui.loadContent "Finish"
-		return
-
-	if not thisStep.people and not blocked
-		# this step needs no people, push to waiting queue
-		pushStepToWaitingQueue thisStep
-
-	### Check if there is a step blocking in the waiting queue ###
-	if checkWaitingStepBlocking(thisStep, nextStep) then return
-
-	### No blocking step -> load next step ###
-	# log the time difference of expected time and actual time spend in this step
-	timeDiff = nextStep.startTime - (thisStep.startTime + thisStep.timeElapsed)
-	# this step needs people or this step is a blocking step(need no people)
-	stepNum = if not blocked then window.currentStepNum else window.cookingData.steps.lastIndexOf(thisStep) 
-	window.stepsTimeUsed.push new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff)
-	
-	loadStep(window.currentStepNum+1)
-	return # avoid implicit rv
-
 pushStepToWaitingQueue = (step, currentTime)->
 	console.log "push #{window.currentStepNum}: #{step.digest} into queue"
 	window.waitingStepQueue.push step
@@ -189,6 +162,36 @@ pushStepToWaitingQueue = (step, currentTime)->
 	return # avoid implicit rv
 
 ### Checks ###
+checkNextStep = (blocked = 0)->
+	thisStep = window.currentStep
+	thisStepFinishTime = thisStep.finishTime
+	
+	if not (nextStep = window.cookingData.steps[window.currentStepNum+1])?
+		### There is no next step ###
+		console.log "finished"
+		$.ui.loadContent "Finish"
+		return
+
+	if not thisStep.people and not blocked
+		# this step needs no people, push to waiting queue
+		animationMoveProgressBarUp()
+		pushStepToWaitingQueue thisStep
+
+	### Check if there is a step blocking in the waiting queue ###
+	if checkWaitingStepBlocking(thisStep, nextStep)
+		$("#Step").find(".step_next_btn").html "等待完成"
+		return
+
+	### No blocking step -> load next step ###
+	# log the time difference of expected time and actual time spend in this step
+	timeDiff = nextStep.startTime - (thisStep.startTime + thisStep.timeElapsed)
+	# this step needs people or this step is a blocking step(need no people)
+	stepNum = if not blocked then window.currentStepNum else window.cookingData.steps.lastIndexOf(thisStep) 
+	window.stepsTimeUsed.push new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff)
+	
+	loadStep(window.currentStepNum+1)
+	return # avoid implicit rv
+
 # Check if there is a step blocking in the waiting queue
 checkWaitingStepBlocking = (thisStep, nextStep)->
 	flag = false
@@ -276,8 +279,8 @@ updateNextStepProgressBar = ->
 	# show current time elapse on next step progress bar
 	thisStep = window.currentStep
 	timeElapsed = parseSecondsToTime thisStep.timeElapsed
-	nextStep = $("#NextStep")
-	nextStep.find("#ProgressRemainTime").html "#{timeElapsed}/#{thisStep.time}"
+	nextStep = $(".next_step_inner_wrapper")
+	nextStep.find(".next_step_time").html "#{timeElapsed}/#{thisStep.time}"
 
 	return # avoid implicit rv
 
@@ -300,6 +303,29 @@ updateWaitingProgressBar = (scope, step)->
 	return
 
 finishedShowStatus = -> 
+	# clean up
+	$(".next_step_outer_wrapper").remove()
+	$('#steps_container').html('&nbsp;'+
+		'<div class="this_step_outer_wrapper">'+
+			'<div class="this_step_inner_wrapper">'+
+				'<div class="h7 this_step_recipe_name" id="this_step_recipe_name">'+
+				'</div>'+
+			'<h3 class="this_step_digest">'+
+			'</h3>'+
+			'</div>'+
+		'</div>'+
+		'<div class="next_step_outer_wrapper nextstep" data-sn=0>'+
+			'<div id="NextStep" class="next_step_inner_wrapper">'+
+				'<div id="ProgressBar" class="next_step_progress invisible">&nbsp;</div>'+
+				'<h4 id="ProgressName" class="next_step_name"></h4>'+
+				'<h4 id="ProgressRemainTime" class="next_step_time"></h4>'+
+			'</div> '+
+		'</div>'+
+		'<div class="step_spacer">&nbsp;</div>'+
+		'<div class="bottom_btn_holder step_next_btn_wrapper">'+
+			'<a class="button step_next_btn" style="background-color:#58ACFA; position:absolute;color:white;border:none;">Next </a>'+
+	'</div>')
+
 	timeElapsed = (new Date()) - window.cookingStartTime # in milliseconds
 	timeElapsed = parseSecondsToTime Math.floor(timeElapsed/1000)
 	
@@ -368,4 +394,48 @@ animationMoveThisStepFromRightToLeft = ->
 
 	return
 
+animationMoveProgressBarUp = ->
+	thisStep = window.currentStep
+	stepNum = window.currentStepNum
+    
+	afterAnimate = ->
+		that = $('.next_step_outer_wrapper.nextstep')
+		that.css 'top', '2%'  
+		that.removeClass 'nextstep'
+		that.css3Animate
+			y: 0
+			time: 10       
+			addClass: 'invisible'
+		$('#steps_container').append($('<div class="next_step_outer_wrapper nextstep" " data-sn=' + (stepNum + 1) + '>'+
+			'<div id="NextStep" class="next_step_inner_wrapper">'+
+				'<div id="ProgressBar" class="next_step_progress invisible">&nbsp;</div>'+
+				'<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
+				'<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
+			'</div> '+
+		'</div>'))
 
+		scope = $("#Step")
+		nextStep = window.cookingData.steps[stepNum+1]
+		if nextStep?
+			scope.find(".next_step_name").html trimStringLength(nextStep.stepName)
+			scope.find(".next_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
+			scope.find(".step_next_btn").html "下一步"
+		else
+			scope.find(".next_step_name").html "最後一步"
+			scope.find(".next_step_time").html ""
+			scope.find(".step_next_btn").html "完成"
+		
+
+	#pushStepToWaitingQueue(thisStep, currentTime)
+	$('.next_step_outer_wrapper.nextstep').addClass("changeName")
+	$('.changeName').find('#ProgressName').html(thisStep.digest)
+	$('.changeName').find('#ProgressName').removeClass("next_step_name").addClass("waiting_step_name")
+	$('.next_step_outer_wrapper.nextstep').removeClass("changeName")
+	$('.next_step_outer_wrapper.nextstep').css3Animate({
+		y: -0.1 * 7 * parseInt($(window).height() - 44)
+		time: 300
+		opacity: 0.1 
+		success: afterAnimate
+	})
+
+	return
