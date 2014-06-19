@@ -183,8 +183,8 @@ parseSecondsToTime = function(seconds) {
 };
 
 trimStringLength = function(string) {
-  if (string.length > 10) {
-    string = string.substring(0, 9) + "...";
+  if (string.length > 14) {
+    string = string.substring(0, 13) + "...";
   }
   return string;
 };

@@ -29,10 +29,11 @@ cookingStarted = ->
 	if not window.cookingData? then return
 
 	currentStepNum = window.currentStepNum
-	window.currentTime = 0
-	window.waitingStepQueue = []
-	window.stepsTimeUsed = []
-	window.cookingStartTime = new Date()
+	if currentStepNum is 0
+		window.currentTime = 0
+		window.waitingStepQueue = []
+		window.stepsTimeUsed = []
+		window.cookingStartTime = new Date()
 
 	console.log "cooking started"
 
@@ -108,7 +109,7 @@ loadStep = (stepNum)->
 	# load next step info
 	nextStep = window.cookingData.steps[stepNum+1]
 	if nextStep?
-		scope.find(".next_step_name").html trimStringLength(nextStep.stepName)
+		scope.find(".next_step_name").html trimStringLength("Next: "+nextStep.stepName)
 		scope.find(".next_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
 		scope.find(".step_next_btn").html "下一步"
 	else
@@ -441,7 +442,7 @@ animationMoveProgressBarUp = ->
 		scope = $("#Step")
 		nextStep = window.cookingData.steps[stepNum+1]
 		if nextStep?
-			scope.find(".next_step_name").html trimStringLength(nextStep.stepName)
+			scope.find(".next_step_name").html trimStringLength("Next: "+nextStep.stepName)
 			scope.find(".next_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
 			#scope.find(".step_next_btn").html "下一步"
 		else

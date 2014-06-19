@@ -50,10 +50,12 @@ cookingStarted = function() {
     return;
   }
   currentStepNum = window.currentStepNum;
-  window.currentTime = 0;
-  window.waitingStepQueue = [];
-  window.stepsTimeUsed = [];
-  window.cookingStartTime = new Date();
+  if (currentStepNum === 0) {
+    window.currentTime = 0;
+    window.waitingStepQueue = [];
+    window.stepsTimeUsed = [];
+    window.cookingStartTime = new Date();
+  }
   console.log("cooking started");
   $(".waiting_step_outer_wrapper").addClass('invisible');
   finishPercentage = Math.ceil((currentStepNum + 1) / window.cookingData.steps.length * 100);
@@ -115,7 +117,7 @@ loadStep = function(stepNum) {
   scope.find(".this_step_digest").html(thisStep.digest);
   nextStep = window.cookingData.steps[stepNum + 1];
   if (nextStep != null) {
-    scope.find(".next_step_name").html(trimStringLength(nextStep.stepName));
+    scope.find(".next_step_name").html(trimStringLength("Next: " + nextStep.stepName));
     scope.find(".next_step_time").html("" + thisStep.timeElapsed + "/" + thisStep.time);
     scope.find(".step_next_btn").html("下一步");
   } else {
@@ -417,7 +419,7 @@ animationMoveProgressBarUp = function() {
     scope = $("#Step");
     nextStep = window.cookingData.steps[stepNum + 1];
     if (nextStep != null) {
-      scope.find(".next_step_name").html(trimStringLength(nextStep.stepName));
+      scope.find(".next_step_name").html(trimStringLength("Next: " + nextStep.stepName));
       return scope.find(".next_step_time").html("" + thisStep.timeElapsed + "/" + thisStep.time);
     } else {
       scope.find(".next_step_name").html("最後一步");
