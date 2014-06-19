@@ -90,7 +90,7 @@ loadRecipeContent = function(scope, recipe) {
       return void 0;
     });
   } else {
-    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#2ecc71;opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>';
+    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background:hsl(204.1,35%,53.1%);opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>';
     thisRecipeBtn = scope.find("#RecipeContentBtn");
     thisRecipeBtn.click((function(id) {
       return function() {
