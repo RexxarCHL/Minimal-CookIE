@@ -429,16 +429,16 @@
                     <div class="formGroupHead">Feedback/Request</div>
                     <form>
                         <div class="input-group">
-                            <input type="text" placeholder="您的名字">
-                            <input type="text" placeholder="Email">
+                            <input id="feedbackName" type="text" placeholder="您的名字">
+                            <input id="feedbackMail" type="text" placeholder="Email">
                             <p>選擇種類</p>
 
-                            <select id = "requestType">
+                            <select id="feedbackType">
                                 <option>食譜請求</option>
                                 <option>臭蟲回報</option>
                                 <option>意見</option>
                             </select>
-                            <textarea rows="6" placeholder="內容"></textarea>
+                            <textarea id="feedbackContent" rows="6" placeholder="內容"></textarea>
                         </div>
                     </form>
                     <div class="button"> 送出</div>

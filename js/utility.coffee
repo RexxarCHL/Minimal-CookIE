@@ -72,6 +72,41 @@ initSidebarIcons = ->
 		$.ui.loadContent "main_Browse_Recipe"
 	return
 
+sendFeedback = ->
+	name = $("#feedbackName").val()
+	mail = $("#feedbackMail").val()
+	type = $("#feedbackType").val()
+	msg = $("#feedbackContent").val()
+
+	url = ""
+
+	$.ajax
+		type: 'POST'
+		url: url
+		dataType: 'application/json'
+		data:
+			'name': name
+			'mail': mail
+			'type': type
+			'message': msg
+		timeout: 10000
+		success: (data)->
+			data = JSON.parse(data)
+			console.log "[SUCCESS] send feedback"
+			### TODO Insert token into SQL ###
+
+			alert "Thank you for your support!"
+			return
+		error: (resp)->
+			console.log "[ERROR] send feedback"
+			if resp.status is 0 then alert "Server Error. Try again later."
+			else alert "Connection error: #{resp.status}"
+
+			return
+	return
+
+
+
 addInfiniteScroll = (scope, delay, callback)->
 	console.log "add infinite-scroll to scope:" + scope[0].id
 	scrollerList = scope.scroller()
