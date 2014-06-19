@@ -89,8 +89,8 @@ loadRecipeContent = function(scope, recipe) {
     thisRecipeBtn.click((function(id) {
       return function() {
         addThisRecipeToDeck(id);
-        thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;opacity:.8;height:8%;border-radius:0;border:0;">已加入 Deck</div>';
-        $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">Already in Deck</div>';
+        thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#2ecc71;height:8%;border-radius:0;border:0;">已加入 Deck</div>';
+        $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" style="width:100%;align:center;margin-top:1px;margin-bottom:1px;border-radius:0;">已加入 Deck</div>';
         return void 0;
       };
     })(id));
