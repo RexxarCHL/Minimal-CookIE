@@ -25,7 +25,7 @@ appendRecipeResult = function(scope, data, deck) {
       } else {
         html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
       }
-      html += '<div style="height:30%;background-color:white;border-radius:2px;">';
+      html += '<div class="recipe_item_container">';
     }
     if (deck) {
       html += '<img class="recipe_image_wrapper long" src="' + url + '">';

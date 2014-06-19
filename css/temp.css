@@ -17,6 +17,11 @@
   background-color: blue;
 }
 
+#RecipeDescription {
+  font-style: bolder;
+  margin-top: 1%;
+}
+
 .menu_cooking_btn{
   float:right;width:20%;margin-right:5%;
 }
@@ -40,6 +45,11 @@
   display:inline-block; 
   width:48%; 
   margin:1% 1%; 
+}
+.recipe_item_container {
+  height: 30%;
+  background-color: white;
+  border-radius: 2px;
 }
 .recipe_item.left {
   float:left;
@@ -73,7 +83,7 @@
 .recipe_descrip{
   margin-left: 5%;
   color:black;
-  margin-top: 5%;
+  margin-top: 3%;
   font-size:0.4cm;
   font-weight:bolder;
 }
@@ -82,7 +92,8 @@
   margin-left: 40%;
 }
 .recipe_cooked {
-  text-align: left;
+  font-size: 12px;
+  text-align: right;
   margin-right: 5%;
   margin-top: -1%;
 }
@@ -490,14 +501,18 @@ align:center;
   opacity: .8;
 }
 /*for tablets*/
-@media screen and (min-width: 1080) {
+/*@media screen and (min-width: 1080) {
 
-}
+}*/
 /*for big screen like note3*/
-@media screen and (min-width: 1080) and (-webkit-min-device-pixel-ratio: 2) {
-
-}
+/*@media screen and (min-width: 1080) and (-webkit-min-device-pixel-ratio: 2) {
+  .recipe_item_container_bs {
+    height: 26%;
+    background-color: white;
+    border-radius: 2px;
+  }
+}*/
 /*for iphone4*/
-@media screen and (max-height: 1080) {
-  
-}
+/*@media screen and (max-height: 1080) {
+
+}*/

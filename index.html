@@ -368,7 +368,7 @@
                 </div>
             </header><!-- #header !-->
             <header id="browseHeader">
-                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn" data-transition="fade">所有分類</a>
+                <a class="button icon fa-th-large" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn" data-transition="fade">所有分類</a>
                 <h1 id="headerText">逛食譜</h1>
 
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
@@ -387,7 +387,7 @@
                 </div>
             </header><!-- #header !-->
             <header id="catHeader">
-                <a class="button" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade">逛食譜</a>
+                <a class="button icon fa-th-large" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade">逛食譜</a>
                 <h1 id="headerText">所有分類</h1>
 
                 <a id="menubadge" style="float: left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
@@ -433,12 +433,12 @@
                 <!-- RECIPE CONTENT -->
                 <!-- View recipe content here -->
                 <div title="RecipeName" id="RecipeContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="main_browse" style="background-color:#E6E6E6">
-                    <div id="RecipeContentBtn" class="button" style="width:100%;background-color:#58ACFA;opacity:.8;height:8%;border-radius:0;border:0;">Add to Deck</div>
+                    <div id="RecipeContentBtn" class="button" style="width:100%;background-color:#58ACFA;opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>
                     <div id="Loading"><h3 align="center">Loading...</h3></div>
                     <div id="Results">
                         <div class="content_border">
                             <img id="RecipeImg" src="img/small.jpg" style="width:86%;margin-top:5%;margin-left:7%;border-radius:4px;">
-                            <div style="margin-left:12%;">
+                            <div style="text-align:center;">
                                 <i id="RecipeDescription">Some Description</i><br />
                                 <span id="RecipeUploadInfo">Uploaded By : OOO , 22/1/2014</span><br />
                                 <span id="RecipeTime">Time needed: 24 mins </span><br /><br />
@@ -532,7 +532,7 @@
                 <div title="Deck" id="main_Deck" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:#D8D8D8" data-pull-scroller='true' data-tab="navbar_deck"  data-header="deckHeader">
                     <div style="width:100%">
                         <div class="button-grouped vertical" style="width:100%;display:inline-block;margin:5px 0px;">
-                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;" align="center" >產生買菜清單</a>
+                            <a id="ToBuyBtn" class="button" href="#main_ToBuy_List" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;background-color:#3498db" align="center" >產生買菜清單</a>
                             <a id="CookBtn" class="button" href="#Cooking" style="width:49%;border-radius:0;height:9%;border:0;font-size:14pt;display:inline-block;background-color:#3498db;color:white" align="center" data-transition="fade">開始煮飯!</a> 
                         </div>
                         <div id="Results">
@@ -547,7 +547,8 @@
                 <!-- View what materials the cooking needs here -->
                 <div id="main_ToBuy_List" class="panel" title="買菜清單" data-load="loadedPanel" data-unload="unloadedPanel" style="background-color:white;"data-tab="navbar_tobuylist" data-header="toBuyHeader">
                     <div id="ToBuyListCookBtn" class="button hidden" style="width:100%;background-color:#58ACFA;border:0;height:10%;font-size:20px;" href="#Cooking">開始煮飯!</div>
-                    <div id="EmptyNotify"><h2 style="padding-top:5%;padding-left:5%;">The shopping list is empty. Add recipes to the Deck to begin!</h2></div>
+                    <div id="EmptyNotify"><h2 style="text-align:center;padding-top:5%;">買菜清單是空的</h2>
+                        <h2 style="text-align:center;padding-top:5%;">將食譜加入 Deck以產生清單!</h2></div>
                     <ul class="list" id="list">
                     </ul>
                 </div><!-- #main_ToBuy_List -->

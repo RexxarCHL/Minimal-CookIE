@@ -68,7 +68,7 @@ loadDeck = ->
 	checkRecipeInDB()
 
 	if window.recipesInDeck.length is 0
-		$("#main_Deck").find("#Results").html '<h2 style="padding-top:5%;padding-left:5%;">Browse recipes and add it into deck to start!</h2>'
+		$("#main_Deck").find("#Results").html '<h2 style="color:gray;text-align:center;padding-top:5%;">逛食譜並加入 Deck來煮飯!</h2>'
 		return
 	
 	$.ui.showMask 'Fetching data...'
