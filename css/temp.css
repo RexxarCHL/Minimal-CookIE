@@ -510,7 +510,7 @@ width:15%;display:inline-block;border-radius:5px;
   opacity: .8;
 }
 /*for tablets*/
-@media screen and (min-device-width: 600) and (orientation: portrait) {
+@media screen and (min-device-width: 600) and (max-device-width: 720) and (orientation: portrait) {
   .recipe_item {
     height: 45%;
   }
@@ -526,9 +526,52 @@ width:15%;display:inline-block;border-radius:5px;
     background-color: white;
     border-radius: 2px;
   }
+  .content_border {
+    font-size: 0.6cm;
+  }
+  .recipe_image_wrapper.long {
+    margin-top: 1%;
+    max-width: 40%;
+  }
+  .recipe_descrip.long {
+    font-size: 0.8cm;
+    margin-left: 45%;
+  }
+  .recipe_time {
+    font-size: 0.5cm;
+    padding-top: 5%;
+    height: 30%;
+  }
+  #ToBuyBtn, #CookBtn {
+    font-size: 23pt !important;
+  }
+  #ToBuyListCookBtn {
+    font-size: 30pt !important;
+  }
+  h2 {
+    font-size: 25pt !important;
+  }
+  .listEle {
+    font-size: 30pt;
+  }
+  #originalCookingTime, #scheduledCookingTime {
+    font-size: 20pt !important;
+  }
+  .bottom_btn_holder {
+    font-size: 30pt;
+  }
+}
+/*for iPad*/
+@media screen and (min-device-width:720) and (orientation: portrait) {
+  .recipe_item {
+    height: 50%;
+  }
+  .recipe_descrip {
+    font-size: 0.8cm;
+  }
 }
 /*for big screen like note3*/
-@media screen and (min-device-width: 540) and (max-device-width: 720) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+@media screen and (min-device-width: 540) and (max-device-width: 600) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
   .recipe_item {
     height: 40%;
   }
