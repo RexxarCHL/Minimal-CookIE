@@ -129,6 +129,7 @@ border-radius: 3px;
   font-size: 20pt;
   font-weight: bolder;
   padding-left : 5%;
+  margin-left: 2%;
 }
 
 .cat_icon{
@@ -509,18 +510,18 @@ align:center;
   opacity: .8;
 }
 /*for tablets*/
-/*@media screen and (min-width: 1080) {
+@media screen and (min-width: 1080) {
 
-}*/
+}
 /*for big screen like note3*/
-/*@media screen and (min-width: 1080) and (-webkit-min-device-pixel-ratio: 2) {
-  .recipe_item_container_bs {
+@media screen and (min-width: 1080) and (-webkit-device-min-pixel-ratio: 1.5) {
+  .recipe_item_container {
     height: 26%;
     background-color: white;
     border-radius: 2px;
   }
-}*/
+}
 /*for iphone4*/
-/*@media screen and (max-height: 1080) {
+@media screen and (max-height: 1080) {
 
-}*/
+}
