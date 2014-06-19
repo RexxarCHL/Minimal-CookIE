@@ -6,7 +6,7 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		versioncode = "2"
 		version   = "2.0.0">
-    <name>QQ</name>
+    <name>CookIE</name>
     <content src="index.html"/>
     <description>
       「如大廚般輕鬆煮出一桌好菜！」
