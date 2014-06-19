@@ -108,7 +108,6 @@ loadStep = function(stepNum) {
   window.currentTime = thisStep.startTime;
   window.currentStep = extendStepInfo(thisStep);
   window.currentStepNum = stepNum;
-  animationMoveThisStepFromLeftToRight();
   checkFinishPercentageAndChangeTitle();
   scope = $("#Step");
   scope.find(".this_step_recipe_name").html(thisStep.recipeName);
@@ -133,11 +132,10 @@ loadStep = function(stepNum) {
 loadBlockingStep = function(index) {
   var nextBtn, scope, step;
   console.log("load blocking step, index:" + index);
-  console.log(window.waitingStepQueue);
   step = window.waitingStepQueue.splice(index, 1)[0];
+  console.log(step);
   showTwoUrgentSteps();
   window.currentStep = step;
-  animationMoveThisStepFromRightToLeft();
   scope = $("#Step");
   scope.find(".this_step_recipe_name").html(step.recipeName);
   scope.find(".this_step_digest").html("" + step.digest);
@@ -309,7 +307,7 @@ updateWaitingProgressBar = function(scope, step) {
   } else {
     progressBar.css3Animate({
       width: "" + (calculatePercentage(step)) + "%",
-      time: '500ms'
+      time: '50ms'
     });
     progressName.html(trimStringLength(step.stepName));
     progressRemainTime.html(parseSecondsToTime(step.remainTime));
@@ -413,12 +411,10 @@ animationMoveProgressBarUp = function() {
     nextStep = window.cookingData.steps[stepNum + 1];
     if (nextStep != null) {
       scope.find(".next_step_name").html(trimStringLength(nextStep.stepName));
-      scope.find(".next_step_time").html("" + thisStep.timeElapsed + "/" + thisStep.time);
-      return scope.find(".step_next_btn").html("下一步");
+      return scope.find(".next_step_time").html("" + thisStep.timeElapsed + "/" + thisStep.time);
     } else {
       scope.find(".next_step_name").html("最後一步");
-      scope.find(".next_step_time").html("");
-      return scope.find(".step_next_btn").html("完成");
+      return scope.find(".next_step_time").html("");
     }
   };
   $('.next_step_outer_wrapper.nextstep').addClass("changeName");

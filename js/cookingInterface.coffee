@@ -97,7 +97,7 @@ loadStep = (stepNum)->
 	window.currentStepNum = stepNum
 
 	# animation and change the title
-	animationMoveThisStepFromLeftToRight()
+	# animationMoveThisStepFromLeftToRight()
 	checkFinishPercentageAndChangeTitle()
 
 	scope = $("#Step")
@@ -127,13 +127,13 @@ loadStep = (stepNum)->
 
 loadBlockingStep = (index)->
 	console.log "load blocking step, index:#{index}"
-	console.log window.waitingStepQueue
 	# dequeue
 	step = window.waitingStepQueue.splice(index, 1)[0]
+	console.log step
 	showTwoUrgentSteps() # update remaining waiting steps
 	window.currentStep = step
 
-	animationMoveThisStepFromRightToLeft()
+	# animationMoveThisStepFromRightToLeft()
 
 	scope = $("#Step")
 	# load the step
@@ -295,7 +295,7 @@ updateWaitingProgressBar = (scope, step)->
 	else
 		progressBar.css3Animate
 			width: "#{calculatePercentage(step)}%"
-			time: '500ms'
+			time: '50ms'
 		progressName.html trimStringLength(step.stepName)
 		progressRemainTime.html parseSecondsToTime step.remainTime
 		$(scope[0].parentNode).removeClass 'invisible'
@@ -437,11 +437,11 @@ animationMoveProgressBarUp = ->
 		if nextStep?
 			scope.find(".next_step_name").html trimStringLength(nextStep.stepName)
 			scope.find(".next_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
-			scope.find(".step_next_btn").html "下一步"
+			#scope.find(".step_next_btn").html "下一步"
 		else
 			scope.find(".next_step_name").html "最後一步"
 			scope.find(".next_step_time").html ""
-			scope.find(".step_next_btn").html "完成"
+			#scope.find(".step_next_btn").html "完成"
 		
 
 	#pushStepToWaitingQueue(thisStep, currentTime)
