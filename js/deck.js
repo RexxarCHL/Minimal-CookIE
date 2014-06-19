@@ -16,6 +16,10 @@ $(document).ready(function() {
 
 addThisRecipeToDeck = function(id) {
   console.log("Add recipe #" + id + " to deck");
+  if (window.recipesInDeck.length >= 6) {
+    alert("抱歉，最多選 6 道菜做排程\n您現在選了 " + window.recipesInDeck.length + " 道 ");
+    return;
+  }
 
   /* Push if not already in deck */
   if (window.recipesInDeck.lastIndexOf(id) === -1) {

@@ -306,6 +306,22 @@ finishedShowStatus = ->
 	# clean up
 	$(".next_step_outer_wrapper").remove()
 	$('#steps_container').html('&nbsp;'+
+		'<div class="waiting_step_outer_wrapper invisible">' +
+			'<div id="NextNextWaitingStep" class="waiting_step_inner_wrapper">' +
+				'<div id="ProgressBar" class="waiting_step_progress next_step">&nbsp;</div>' +
+				'<h4 id="ProgressName" class="waiting_step_name">Next next waiting step</h4>' +
+				'<h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>' +
+			'</div>' +
+		'</div>' +
+		'<div class="waiting_step_spacer">&nbsp;</div>' +
+			'<div class="waiting_step_outer_wrapper invisible">' +
+				'<div id="NextWaitingStep" class="waiting_step_inner_wrapper">' +
+				'<div id="ProgressBar" class="waiting_step_progress next_step">&nbsp;</div>' +
+				'<h4 id="ProgressName" class="waiting_step_name">Next waiting step</h4>' +
+				'<h4 id="ProgressRemainTime" class="waiting_step_time">00:00:00</h4>' +
+			'</div>' + 
+		'</div>' +          
+		'<div class="waiting_step_spacer">&nbsp;</div>' +
 		'<div class="this_step_outer_wrapper">'+
 			'<div class="this_step_inner_wrapper">'+
 				'<div class="h7 this_step_recipe_name" id="this_step_recipe_name">'+
@@ -324,7 +340,7 @@ finishedShowStatus = ->
 		'<div class="step_spacer">&nbsp;</div>'+
 		'<div class="bottom_btn_holder step_next_btn_wrapper">'+
 			'<a class="button step_next_btn" style="background-color:#58ACFA; position:absolute;color:white;border:none;">Next </a>'+
-	'</div>')
+		'</div>')
 
 	timeElapsed = (new Date()) - window.cookingStartTime # in milliseconds
 	timeElapsed = parseSecondsToTime Math.floor(timeElapsed/1000)
