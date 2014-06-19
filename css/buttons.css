@@ -216,7 +216,7 @@
 	width: 80%;
 	text-align: center;
 	padding: 8px 0px;
-	margin-top: 10px;
+	margin-top: 7%;
 	margin-bottom: 3px;
 	margin-left: 10%;
 	border: none;
@@ -231,7 +231,7 @@
 	text-align: center;
 	text-shadow: -1px -1px gray;
 	padding: 8px 0px;
-	margin-top: 10px;
+	margin-top: 7%;
 	margin-bottom: 3px;
 	margin-left: 10%;
 	border: none;
@@ -263,6 +263,28 @@
 		font-size: 0.7cm;
 		width: 55%;
 		margin-right: 1%;
+	}
+	#RecipeContentBtn {
+		font-size: 0.7cm;
+	}
+	#DoneBtn {
+		font-size: 30pt !important;
+	}
+}
+/*for iPad*/
+@media screen and (min-device-width:720) and (orientation: portrait) {
+	#afui .button.recipe_btn.recipe_add_btn{
+		font-size: 0.9cm;
+		padding: 15px 0px;
+	}
+	#afui .button.recipe_btn.recipe_in_deck_btn{
+		font-size: 0.9cm;
+		padding: 15px 0px;
+	}
+	#afui .button.recipe_btn.recipe_remove_btn{
+		font-size: 0.9cm;
+		width: 50%;
+		margin-right: 3%;
 	}
 	#RecipeContentBtn {
 		font-size: 0.7cm;
