@@ -1,8 +1,9 @@
-$(document).ready ->
-
-
 getIngredientList = (recipeIds)->
 	console.log "get ingredient list"
+
+	$.ui.blockUI(0.1)
+	$.ui.showMask "Updating..."
+
 	data = ''
 	#recipeIds = JSON.parse(recipeIds)
 	for id in recipeIds
@@ -93,10 +94,15 @@ showIngredientList = ->
 						return
 					$("#EmptyNotify").addClass 'hidden'
 					$("#ToBuyListCookBtn").removeClass 'hidden'
+					
+					$.ui.hideMask()
+					$.ui.unblockUI()
 				return
 			, errorHandler
 		, errorHandler, nullHandler
 		return
+
+	return
 
 moveCheckedIngredientToBottom = ->
 	console.log "move checked to bottom"
@@ -110,3 +116,19 @@ moveCheckedIngredientToBottom = ->
 				ele.removeClass 'not-moved'
 				ele.remove()
 				$('#list').append html
+	return
+
+reloadToBuyList = ->
+	console.log "reload to buy list"
+	if not window.deckChanged then return
+
+	if window.recipesInDeck.length is 0
+		$("#list").html ""
+		$("#EmptyNotify").removeClass 'hidden'
+		$("#ToBuyListCookBtn").addClass 'hidden'
+		return
+	
+	getIngredientList window.recipesInDeck
+	window.deckChanged = false
+
+	return # avoid implicit rv

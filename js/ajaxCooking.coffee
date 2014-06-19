@@ -4,7 +4,7 @@ getScheduledRecipe = (recipeIds)->
 		if ans is yes
 			$.ui.loadContent "Step"
 			return
-
+			
 	console.log "schedule_recipe #"+recipeIds
 	$.ui.updatePanel "Cooking",""
 	$.ui.showMask "Loading data from server..."

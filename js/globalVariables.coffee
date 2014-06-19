@@ -1,4 +1,5 @@
 window.lastId = -1
+window.deckChanged = true
 
 ### Cooking ###
 window.cookingData = null

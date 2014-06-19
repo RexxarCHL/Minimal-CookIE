@@ -25,6 +25,7 @@ addThisRecipeToDeck = (id)->
 		AddRecipeValue id # push this recipe into db
 		checkRecipeInDB()
 
+	window.deckChanged = true
 	updateNavbarDeck()
 
 	return
@@ -37,6 +38,8 @@ deleteThisRecipeFromDeck = (id)->
 	if (index = window.recipesInDeck.lastIndexOf(id)) is -1 then return
 	window.recipesInDeck.splice index, 1
 	console.log "deck: #{window.recipesInDeck}"
+
+	window.deckChanged = true
 	updateNavbarDeck()
 
 	### delete from DB ###
