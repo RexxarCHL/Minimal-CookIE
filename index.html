@@ -270,6 +270,23 @@
                     });
                 });
             }
+            var feedback = function(){
+                $.ui.showModal("#Feedback","fade");
+            }
+            var aboutCookIE = function(){
+                $.ui.toggleSideMenu(
+                    false,
+                    function(){
+                        $.ui.popup({
+                            title: 'About CookIE',
+                            message: '<h2>CookIE is powered by:</h2> <br /><h5>Four fresh livers.</h5>',
+                            cancelText: "Dismiss",
+                            cancelOnly: true
+                        });
+                    },
+                    10
+                ); 
+            }
         </script>
         <!-- 05/20 Rexxar || Javascript inclusion area !-->
         <link rel="stylesheet" type="text/css" href="css/temp.css"  />
@@ -323,8 +340,8 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li class="icon pencil" >    Feedback</li>
-                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon pencil" onclick="feedback()" >    Feedback</li>
+                                <li class="icon info" onclick="aboutCookIE()">    About CookIE</li>
                                 <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
@@ -341,8 +358,8 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li class="icon pencil" >    Feedback</li>
-                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon pencil" onclick="feedback()" >    Feedback</li>
+                                <li class="icon info" onclick="aboutCookIE()">    About CookIE</li>
                                 <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
@@ -359,8 +376,8 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li class="icon pencil" >    Feedback</li>
-                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon pencil" onclick="feedback()" >    Feedback</li>
+                                <li class="icon info" onclick="aboutCookIE()">    About CookIE</li>
                                 <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
@@ -378,8 +395,8 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li class="icon pencil" >    Feedback</li>
-                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon pencil" onclick="feedback()" >    Feedback</li>
+                                <li class="icon info" onclick="aboutCookIE()">    About CookIE</li>
                                 <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
@@ -397,8 +414,8 @@
                         <nav>
                             <ul class="list">
                                 <li class="divider" class="icon home">Home</li>
-                                <li class="icon pencil" >    Feedback</li>
-                                <li class="icon info" >    About CookIE</li>
+                                <li class="icon pencil" onclick="feedback()" >    Feedback</li>
+                                <li class="icon info" onclick="aboutCookIE()">    About CookIE</li>
                                 <li class="icon close">    Exit</li>
                             </ul>
                         </nav>
@@ -406,6 +423,26 @@
                 </div>
             </header><!-- #header !-->
 			<div id="content">
+                <!-- FEEDBACK MODAL -->
+                <div class="panel" id="Feedback" data-title="Feedback/Request" data-modal="true">
+                <div height="60%;">&nbsp;</div>
+                    <div class="formGroupHead">Feedback/Request</div>
+                    <form>
+                        <div class="input-group">
+                            <input type="text" placeholder="您的名字">
+                            <input type="text" placeholder="Email">
+                            <p>選擇種類</p>
+
+                            <select id = "requestType">
+                                <option>食譜請求</option>
+                                <option>臭蟲回報</option>
+                                <option>意見</option>
+                            </select>
+                            <textarea rows="6" placeholder="內容"></textarea>
+                        </div>
+                    </form>
+                    <div class="button"> 送出</div>
+                </div>
                 <!-- BROWSE RECIPE -->
                 <!-- Browse/search recipe here -->
                 <div title='Browse' id="main_Browse_Recipe" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_browse" data-pull-scroller='true' data-header="browseHeader" style="background-color:#D8D8D8;">
