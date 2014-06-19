@@ -354,10 +354,12 @@ finishedShowStatus = ->
 	return
 
 ### Animation functions ###
-dx = 0.07 * parseInt $(window).width()
+dx = 0.04 * parseInt $(window).width()
 animationMoveThisStepFromLeftToRight = ->
 	thisStep = window.currentStep
 	$('.this_step_inner_wrapper').addClass 'animate_old'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_recipe_name').removeClass 'this_step_recipe_name'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_digest').removeClass 'this_step_digest'
 	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
 	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
@@ -388,6 +390,8 @@ animationMoveThisStepFromLeftToRight = ->
 animationMoveThisStepFromRightToLeft = ->
 	thisStep = window.currentStep
 	$('.this_step_inner_wrapper').addClass 'animate_old'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_recipe_name').removeClass 'this_step_recipe_name'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_digest').removeClass 'this_step_digest'
 	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
 	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
