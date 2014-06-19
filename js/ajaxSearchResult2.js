@@ -92,14 +92,15 @@ appendSearchResults = function(data) {
     rating = recipe.rating;
     url = recipe.smallURL;
     exist = checkRecipeInDeck(id) ? true : false;
-    if (count % 2 === 0) {
-      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
-    } else {
+    if (count % 2) {
       html += '<div class="recipe_item right new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
+    } else {
+      html += '<div class="recipe_item left new" id="Recipe' + id + '" data-recipe-id="' + id + '">';
     }
+    html += '<div class="recipe_item_container">';
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
-    html += '<div class="icon star recipe_descrip">' + rating + '</div>';
     html += '<div class="recipe_descrip chinese_font">' + name + '</div>';
+    html += '<div class="recipe_cooked">人氣：' + recipe.popularity + '</div></div>';
     if (!exist) {
       html += '<div class="button recipe_btn recipe_add_btn chinese_font" style="width:80%;text-align:center;text-shadow:-1px -1px gray;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">加到 Deck</div>';
     } else {
