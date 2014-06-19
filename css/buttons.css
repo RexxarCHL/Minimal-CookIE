@@ -4,7 +4,7 @@
 	padding:3% 4%;
 	margin:8px 0;
 	font-weight:bold;
-	color:#000;
+	color:#333333;
 	text-align:center;
 	vertical-align:top;
 	cursor:pointer;
@@ -211,14 +211,31 @@
 }
 
 #afui .button.recipe_btn.recipe_in_deck_btn{
-	background:#D8D8D8;
-	border-color:white;
+	height: 15%;
+	color: gray;
+	width: 80%;
+	text-align: center;
+	padding: 8px 0px;
+	margin-top: 10px;
+	margin-bottom: 3px;
+	margin-left: 10%;
+	border: none;
+	background-color: #d8d8d8;
 }
 
 #afui .button.recipe_btn.recipe_add_btn{
 	color:#fff;
 	background:#2ecc71;
 	border-color:#2ecc71;
+	height: 15%;
+	width: 80%;
+	text-align: center;
+	text-shadow: -1px -1px gray;
+	padding: 8px 0px;
+	margin-top: 10px;
+	margin-bottom: 3px;
+	margin-left: 10%;
+	border: none;
 }
 
 #afui .button.recipe_btn.recipe_remove_btn{

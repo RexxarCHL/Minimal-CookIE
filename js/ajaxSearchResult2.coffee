@@ -127,7 +127,7 @@ appendSearchResults = (data)->
 			thisRecipe.find(".recipe_btn").click do(id, thisRecipe)->
 				-> # closure
 					addThisRecipeToDeck(id)
-					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>'
+					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>'
 					return
 
 	results.find("#bottomBar").remove()

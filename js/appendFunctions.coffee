@@ -34,11 +34,11 @@ appendRecipeResult = (scope, data, deck = 0)->
 			html += '<div class="recipe_cooked">人氣：'+recipe.popularity+'</div></div>'
 
 		if not exist
-			html += '<div class="button recipe_btn recipe_add_btn chinese_font" style="width:80%;text-align:center;text-shadow:-1px -1px gray;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">加到 Deck</div>'
+			html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>'
 		else if deck
 			html += '<div class="button recipe_btn recipe_remove_btn chinese_font" style="float:right;width:60%;text-align:center;margin-top:1px;margin-bottom:1px;margin-right:1%;border:none;border-radius:0;">移除</div>'
 		else
-			html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>'
+			html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" >已加入 Deck</div>'
 		html += '</div>'
 
 		results.append html
@@ -59,7 +59,7 @@ appendRecipeResult = (scope, data, deck = 0)->
 			thisRecipe.find(".recipe_btn").click do(id, thisRecipe)->
 				-> # closure
 					addThisRecipeToDeck(id)
-					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>'
+					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>'
 					return
 		else if deck
 			thisRecipe.find(".recipe_btn").click do(id)->

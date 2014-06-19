@@ -33,13 +33,13 @@ deleteThisRecipeFromDeck = (id)->
 	checkRecipeInDB()
 
 	thisRecipeBtn = $("#Recipe#{id}")
-	thisRecipeBtn.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_add_btn chinese_font" style="width:80%;text-align:center;text-shadow:-1px -1px gray;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">加到 Deck</div>'
+	thisRecipeBtn.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>'
 	thisRecipeBtn = thisRecipeBtn.find(".recipe_btn")
 	thisRecipeBtn.unbind 'click'
 	thisRecipeBtn.click do(id)->
 		-> #closure
 			addThisRecipeToDeck(id)
-			$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font" style="color:gray;width:80%;text-align:center;padding:8px 0px;margin-top:5%;margin-bottom:3px;margin-left:10%;border:none;">已加入 Deck</div>'
+			$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>'
 			return
 
 	return
