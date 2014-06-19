@@ -74,7 +74,7 @@ loadRecipeContent = function(scope, recipe) {
   _ref2 = recipe.stepDigests;
   for (i = _k = 0, _len2 = _ref2.length; _k < _len2; i = ++_k) {
     step = _ref2[i];
-    html = '<li>' + i + '. ' + step.digest + '</li>';
+    html = '<li>' + (i + 1) + '. ' + step.digest + '</li>';
     stepList.append(html);
   }
   stepList.append('<br />');
