@@ -62,7 +62,8 @@ timer = ->
 	# clock tick
 	window.currentStep.timeElapsed += 1
 	window.waitingStepQueue.forEach (step)->
-		step.timeElapsed += 1
+		if step isnt window.currentStep
+			step.timeElapsed += 1
 		calculateRemainTime(step)
 	
 	### Check waiting queue status ###

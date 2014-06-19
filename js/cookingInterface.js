@@ -78,7 +78,9 @@ cookingEnded = function() {
 timer = function() {
   window.currentStep.timeElapsed += 1;
   window.waitingStepQueue.forEach(function(step) {
-    step.timeElapsed += 1;
+    if (step !== window.currentStep) {
+      step.timeElapsed += 1;
+    }
     return calculateRemainTime(step);
   });
 
