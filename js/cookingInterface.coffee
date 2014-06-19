@@ -97,7 +97,7 @@ loadStep = (stepNum)->
 	window.currentStepNum = stepNum
 
 	# animation and change the title
-	# animationMoveThisStepFromLeftToRight()
+	animationMoveThisStepFromLeftToRight()
 	checkFinishPercentageAndChangeTitle()
 
 	scope = $("#Step")
@@ -134,7 +134,7 @@ loadBlockingStep = (index)->
 	showTwoUrgentSteps() # update remaining waiting steps
 	window.currentStep = step
 
-	# animationMoveThisStepFromRightToLeft()
+	animationMoveThisStepFromRightToLeft()
 
 	scope = $("#Step")
 	# load the step
@@ -354,7 +354,7 @@ finishedShowStatus = ->
 	return
 
 ### Animation functions ###
-xpos = Math.floor $(window).width()
+dx = 0.07 * parseInt $(window).width()
 animationMoveThisStepFromLeftToRight = ->
 	thisStep = window.currentStep
 	$('.this_step_inner_wrapper').addClass 'animate_old'
@@ -363,20 +363,20 @@ animationMoveThisStepFromLeftToRight = ->
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
-		x: xpos
-		time: 300
+		x: dx
+		time: 90
 		opacity:0.1
 		success: ()->
 			$('.this_step_inner_wrapper.animate_old').remove()
 			return
 
 	$('.this_step_inner_wrapper.animate_new').css3Animate
-		x: -xpos
-		time: 10
+		x: -dx
+		time: 90
 		success: ()->
 			$('.this_step_inner_wrapper.animate_new').css3Animate
-				x: xpos
-				time: 300
+				x: dx
+				time: 90
 				previous: true
 				success: ()->
 					$('.animate_new').removeClass 'animate_new'
@@ -393,19 +393,19 @@ animationMoveThisStepFromRightToLeft = ->
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
-		x: -xpos
-		time: 300
+		x: -dx
+		time: 100
 		success: ()->
 			$('.this_step_inner_wrapper.animate_old').remove()
 			return
 
 	$('.this_step_inner_wrapper.animate_new').css3Animate
-		x: xpos
-		time: 10
+		x: dx
+		time: 90
 		success: ()->
 			$('.this_step_inner_wrapper.animate_new').css3Animate
-				x: -xpos
-				time: 300
+				x: -dx
+				time: 90
 				previous: true
 				success: ()->
 					$('.animate_new').removeClass 'animate_new'
