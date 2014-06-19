@@ -160,19 +160,19 @@ checkNextStep = (blocked = 0)->
 		$.ui.loadContent "Finish"
 		return
 
+	if not thisStep.people and not blocked
+		# this step needs no people, push to waiting queue
+		pushStepToWaitingQueue thisStep
+
 	### Check if there is a step blocking in the waiting queue ###
 	if checkWaitingStepBlocking(thisStep, nextStep) then return
 
 	### No blocking step -> load next step ###
 	# log the time difference of expected time and actual time spend in this step
 	timeDiff = nextStep.startTime - (thisStep.startTime + thisStep.timeElapsed)
-	if thisStep.people or blocked
-		# this step needs people or this step is a blocking step(need no people)
-		stepNum = if not blocked then window.currentStepNum else window.cookingData.steps.lastIndexOf(thisStep) 
-		window.stepsTimeUsed.push new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff)
-	else
-		# this step needs no people, push to waiting queue
-		pushStepToWaitingQueue thisStep
+	# this step needs people or this step is a blocking step(need no people)
+	stepNum = if not blocked then window.currentStepNum else window.cookingData.steps.lastIndexOf(thisStep) 
+	window.stepsTimeUsed.push new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff)
 	
 	loadStep(window.currentStepNum+1)
 	return # avoid implicit rv
@@ -198,17 +198,23 @@ checkWaitingStepBlocking = (thisStep, nextStep)->
 		waitingQueue.forEach (waitingStep)->
 			if waitingStep.finishTime is nextStep.startTime
 				### The blocking step is found ###
+				console.log "blocking case 1"
+				console.log waitingStep
+				console.log nextStep
 				waitingStepIndex = waitingQueue.lastIndexOf waitingStep
 				loadBlockingStep waitingStepIndex
 				flag = true
 				return
-	if flag is true then return
+	if flag is true then return flag
 
 	### Check the waiting steps for next step's previous steps ###
 	waitingQueue.forEach (waitingStep)->
 		if waitingStep.recipeId is nextStep.recipeId
 			### There is a step with the same recipeId as next step in the waiting queue. ###
 			# retrieve the index of the blocking step in the waiting queue
+			console.log "blocking case 2"
+			console.log waitingStep
+			console.log nextStep
 			waitingStepIndex = waitingQueue.lastIndexOf(waitingStep)
 			loadBlockingStep waitingStepIndex
 			flag = true
@@ -223,6 +229,8 @@ checkWaitingStepsFinish = ->
 	queue.forEach (waitingStep)->
 		if waitingStep.remainTime <= 0
 			### Finished ###
+			console.log "Finished:"
+			console.log waitingStep
 			index = queue.lastIndexOf waitingStep
 			# pop the step out of the queue
 			step = queue.splice(index, 1)[0]

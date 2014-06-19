@@ -163,6 +163,9 @@ checkNextStep = function(blocked) {
     $.ui.loadContent("Finish");
     return;
   }
+  if (!thisStep.people && !blocked) {
+    pushStepToWaitingQueue(thisStep);
+  }
 
   /* Check if there is a step blocking in the waiting queue */
   if (checkWaitingStepBlocking(thisStep, nextStep)) {
@@ -171,12 +174,8 @@ checkNextStep = function(blocked) {
 
   /* No blocking step -> load next step */
   timeDiff = nextStep.startTime - (thisStep.startTime + thisStep.timeElapsed);
-  if (thisStep.people || blocked) {
-    stepNum = !blocked ? window.currentStepNum : window.cookingData.steps.lastIndexOf(thisStep);
-    window.stepsTimeUsed.push(new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff));
-  } else {
-    pushStepToWaitingQueue(thisStep);
-  }
+  stepNum = !blocked ? window.currentStepNum : window.cookingData.steps.lastIndexOf(thisStep);
+  window.stepsTimeUsed.push(new Step(stepNum, thisStep.recipeId, thisStep.stepId, timeDiff));
   loadStep(window.currentStepNum + 1);
 };
 
@@ -205,6 +204,9 @@ checkWaitingStepBlocking = function(thisStep, nextStep) {
       if (waitingStep.finishTime === nextStep.startTime) {
 
         /* The blocking step is found */
+        console.log("blocking case 1");
+        console.log(waitingStep);
+        console.log(nextStep);
         waitingStepIndex = waitingQueue.lastIndexOf(waitingStep);
         loadBlockingStep(waitingStepIndex);
         flag = true;
@@ -212,7 +214,7 @@ checkWaitingStepBlocking = function(thisStep, nextStep) {
     });
   }
   if (flag === true) {
-    return;
+    return flag;
   }
 
   /* Check the waiting steps for next step's previous steps */
@@ -221,6 +223,9 @@ checkWaitingStepBlocking = function(thisStep, nextStep) {
     if (waitingStep.recipeId === nextStep.recipeId) {
 
       /* There is a step with the same recipeId as next step in the waiting queue. */
+      console.log("blocking case 2");
+      console.log(waitingStep);
+      console.log(nextStep);
       waitingStepIndex = waitingQueue.lastIndexOf(waitingStep);
       loadBlockingStep(waitingStepIndex);
       flag = true;
@@ -238,6 +243,8 @@ checkWaitingStepsFinish = function() {
     if (waitingStep.remainTime <= 0) {
 
       /* Finished */
+      console.log("Finished:");
+      console.log(waitingStep);
       index = queue.lastIndexOf(waitingStep);
       step = queue.splice(index, 1)[0];
       showTwoUrgentSteps();
