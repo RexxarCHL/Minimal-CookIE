@@ -30,6 +30,36 @@ $(document).ready ->
 		window.cookingStartTime = null
 		return
 
+initSidebarIcons = ->
+	$(".icon.close").click ->
+	ans = confirm "這會清除您 Deck 與購買清單中的所有資料\n繼續？"
+	if ans is no then return
+
+	db.transaction (transaction)->
+		sql = 'DELETE FROM `Recipes`'
+		transaction.executeSql sql, [], successCallBack, errorHandler
+		sql = 'DELETE FROM `MenuIngredients`'
+		transaction.executeSql sql, [], ->
+				$("#ToBuyListCookBtn").addClass 'hidden'
+				$("#EmptyNotify").removeClass 'hidden'
+				window.recipesInDeck = []
+				loadDeck()
+				loadRecipes()
+			, errorHandler
+
+		return
+	, errorHandler, nullHandler
+
+	# reset variables used in cooking
+	window.cookingData = null
+	window.currentStepNum = 0
+	window.currentStep = null
+	window.currentTime = 0
+	window.waitingStepQueue = []
+	window.stepsTimeUsed = []
+	window.cookingStartTime = null
+	return
+
 addInfiniteScroll = (scope, delay, callback)->
 	console.log "add infinite-scroll to scope:" + scope[0].id
 	scrollerList = scope.scroller()
