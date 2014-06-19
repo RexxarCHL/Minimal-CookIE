@@ -49,6 +49,7 @@ cookingStarted = function() {
   if (window.cookingData == null) {
     return;
   }
+  $.ui.disableSideMenu();
   currentStepNum = window.currentStepNum;
   if (currentStepNum === 0) {
     window.currentTime = 0;
@@ -67,7 +68,8 @@ cookingStarted = function() {
 };
 
 cookingEnded = function() {
-  return stopTimer();
+  stopTimer();
+  return $.ui.enableSideMenu();
 };
 
 

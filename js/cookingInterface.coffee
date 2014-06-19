@@ -28,6 +28,7 @@ cookingStarted = ->
 	### Check if cooking data exist. It should exist when this is called but check anyways. ###
 	if not window.cookingData? then return
 
+	$.ui.disableSideMenu()
 	currentStepNum = window.currentStepNum
 	if currentStepNum is 0
 		window.currentTime = 0
@@ -54,6 +55,7 @@ cookingStarted = ->
 cookingEnded = ->
 	# on-panel-unload function for #Step aka cooking interface
 	stopTimer()
+	$.ui.enableSideMenu()
 
 ### Timer: for clocking the cook process ###
 timer = ->
