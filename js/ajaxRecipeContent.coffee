@@ -99,6 +99,8 @@ loadRecipeContent = (scope, recipe)->
 		thisRecipeBtn.click do(id)->
 			-> # closure
 				addThisRecipeToDeck(id)
+				
+				if window.recipesInDeck.length >= 6 then return
 				thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;height:8%;border-radius:0;border:0;">已加入 Deck</div>'
 				$("#main_Browse_Recipe").find("#Recipe#{id}").find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" >已加入 Deck</div>'
 				undefined
