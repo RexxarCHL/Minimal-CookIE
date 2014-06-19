@@ -66,7 +66,6 @@ showIngredientList = ->
 					for x, i in result.rows
 						row = result.rows.item(i)
 						html += '<li class="listEle">'+row.name+'&nbsp;'+row.amount+'&nbsp;'+row.unitName+'</li>'
-					console.log html
 					list.append html
 
 					$('.listEle').click (event)->

@@ -69,7 +69,7 @@
                     alert('Databases are not supported in this browser.');
                     return;
                 }
-                console.log("Adding values: ingredientId="+ingId+" recipeId="+recipeId+" name="+name+" amount="+amount+" unitName="+unitName);
+                //console.log("Adding values: ingredientId="+ingId+" recipeId="+recipeId+" name="+name+" amount="+amount+" unitName="+unitName);
                 db.transaction(function(tx) {
                     tx.executeSql('INSERT INTO MenuIngredients(ingredientId,recipeId,name,amount,unitName) VALUES (?,?,?,?,?)',[ingId,recipeId,name,amount,unitName]);
                 });
@@ -81,7 +81,7 @@
                     alert('Databases are not supported in this browser.');
                     return;
                 }
-                console.log("Adding values: recipeId="+recipeId);
+                //console.log("Adding values: recipeId="+recipeId);
                 db.transaction(function(tx) {
                     tx.executeSql('INSERT INTO Recipes(recipeId) VALUES (?)',[recipeId]);
                     //alert("insert!");
@@ -369,7 +369,7 @@
             </header><!-- #header !-->
             <header id="browseHeader">
                 <a class="button icon fa-th-large" style="float:right;margin-top:3px;" href="#main_Browse_Category" id="headerBtn" data-transition="fade"></a>
-                <h1 id="headerText">逛食譜</h1>
+                <h1 id="headerText"></h1>
 
                 <a id="menubadge" style="float:left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
                 <!--sideBar -->
@@ -387,7 +387,7 @@
                 </div>
             </header><!-- #header !-->
             <header id="catHeader">
-                <a class="button icon fa-th-large" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade">逛食譜</a>
+                <a class="button icon fa-th-large" style="float:right;margin-top:3px;" href="#main_Browse_Recipe" id="headerBtn" data-transition="fade"></a>
                 <h1 id="headerText"></h1>
 
                 <a id="menubadge" style="float: left!important" onclick="af.ui.toggleSideMenu()" class="menuButton" ></a>
@@ -432,15 +432,15 @@
                 <!-- RECIPE CONTENT -->
                 <!-- View recipe content here -->
                 <div title="RecipeName" id="RecipeContent" class="panel" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="main_browse" style="background-color:#E6E6E6">
-                    <div id="RecipeContentBtn" class="button" style="width:100%;background-color:#58ACFA;opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>
+                    <div id="RecipeContentBtn" class="button" style="width:100%;background-color:#2ecc71;opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>
                     <div id="Loading"><h3 align="center">Loading...</h3></div>
                     <div id="Results">
                         <div class="content_border">
                             <img id="RecipeImg" src="img/small.jpg" style="width:86%;margin-top:5%;margin-left:7%;border-radius:4px;">
                             <div style="text-align:center;">
-                                <i id="RecipeDescription">Some Description</i><br />
-                                <span id="RecipeUploadInfo">Uploaded By : OOO , 22/1/2014</span><br />
-                                <span id="RecipeTime">Time needed: 24 mins </span><br /><br />
+                                <i id="RecipeDescription"></i><br />
+                                <span id="RecipeUploadInfo"></span><br />
+                                <span id="RecipeTime"></span><br /><br />
                             </div>
                         </div><br />
                         <div id="RecipeIngredients" class="content_border">
@@ -449,46 +449,18 @@
                             <br/>
                             <ul id="RecipeIngredientListLeft" style="display:inline-block;margin-left:7%;list-style-type:none;width:45%;">
                                 <ul style="width:50%;float:left;list-style-type:none;">
-                                    <li>AAAAAAAAAAA</li>
-                                    <li>B</li>
-                                    <li>C</li>
-                                    <li>D</li>
-                                    <li>E</li>
-                                    <li>F</li>
-                                    <li>G</li>
-                                    <li>H</li>
+                                    
                                 </ul>
                                 <ul style="width:40%;margin-left:10%;float:right;list-style-type:none;">
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                    <li>4</li>
-                                    <li>5</li>
-                                    <li>6</li>
-                                    <li>7</li>
-                                    <li>8</li>
+                                    
                                 </ul>
                             </ul>
                             <ul class="slider" id="RecipeIngredientListRight" style="display:inline-block;list-style-type:none;margin-left:2%;width:40%;">
                                 <ul style="width:50%;float:left;list-style-type:none;">
-                                    <li>AAAAAAAAAAA</li>
-                                    <li>B</li>
-                                    <li>C</li>
-                                    <li>D</li>
-                                    <li>E</li>
-                                    <li>F</li>
-                                    <li>G</li>
-                                    <li>H</li>
+                                    
                                 </ul>
                                 <ul style="width:40%;margin-left:10%;float:right;list-style-type:none;">
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                    <li>4</li>
-                                    <li>5</li>
-                                    <li>6</li>
-                                    <li>7</li>
-                                    <li>8</li>
+                                    
                                 </ul>
                             </ul>
                         
@@ -498,8 +470,7 @@
                             <h3 align="center" style="border-radius:5px;margin-top:3px;opacity:0.8;">Steps </h3>
                             <br />
                             <ul id="RecipeSteps" class="recipeContent_lists">
-                                <li>1. take out the ingredients</li>
-                                <li>2. call your mama</li>
+                                
                             </ul>
                             <div style="height:2%;">&nbsp;</div>
                         </div><br />

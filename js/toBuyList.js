@@ -67,7 +67,6 @@ showIngredientList = function() {
           row = result.rows.item(i);
           html += '<li class="listEle">' + row.name + '&nbsp;' + row.amount + '&nbsp;' + row.unitName + '</li>';
         }
-        console.log(html);
         list.append(html);
         $('.listEle').click(function(event) {
           this.style.textDecoration = this.style.textDecoration === 'line-through' ? 'none' : 'line-through';

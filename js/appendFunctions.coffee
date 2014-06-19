@@ -25,7 +25,7 @@ appendRecipeResult = (scope, data, deck = 0)->
 		if deck
 			html += '<img class="recipe_image_wrapper long" src="'+url+'">'
 			html += '<div class="recipe_descrip long chinese_font">'+name+'</div>'
-			html += '<div class="recipe_time chinese_font">'+'</div>'
+			html += '<div class="recipe_time chinese_font">需時 '+recipe.costTime+'</div>'
 		else
 			html += '<img class="recipe_image_wrapper" src="'+url+'">'
 			html += '<div class="recipe_descrip chinese_font">'+name+'</div>'
