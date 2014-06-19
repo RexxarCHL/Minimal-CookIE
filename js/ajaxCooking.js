@@ -38,8 +38,10 @@ getScheduledRecipe = function(recipeIds) {
       $.ui.hideMask();
       if (resp.status === 404) {
         alert("Server aborted the scheduling process. Please try again with fewer recipes.");
+      } else if (resp.status === 0) {
+        alert("Server Error. Try again later.");
       } else {
-        alert("Unknown error");
+        alert("Connection error: " + resp.status);
       }
       $.ui.loadContent("main_Deck");
     }

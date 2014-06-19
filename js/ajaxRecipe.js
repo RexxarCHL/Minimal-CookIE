@@ -41,7 +41,11 @@ getRecipes = function(times) {
     error: function(resp) {
       console.log("[ERROR]fetch recipes");
       console.log(resp);
-      $("#main_Browse_Recipe").find("#infinite").text("Error. Try Again?");
+      if (resp.status === 0) {
+        $("#main_Browse_Recipe").find("#infinite").text("Server Error. Try again later.");
+      } else {
+        $("#main_Browse_Recipe").find("#infinite").text("Connection Error: " + resp.status);
+      }
       $('#main_Browse_Recipe').scroller().clearInfinite();
     }
   });

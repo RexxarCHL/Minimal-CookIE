@@ -34,7 +34,8 @@ getScheduledRecipe = (recipeIds)->
 				console.log resp
 				$.ui.hideMask()
 				if resp.status is 404 then alert "Server aborted the scheduling process. Please try again with fewer recipes."
-				else alert "Unknown error"
+				else if resp.status is 0 then alert "Server Error. Try again later."
+				else alert "Connection error: #{resp.status}"
 				$.ui.loadContent "main_Deck"
 				return # avoid implicit rv
 	)

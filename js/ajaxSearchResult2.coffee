@@ -71,9 +71,14 @@ search = (query, times) ->
 
 			appendSearchResults(data)
 			return #avoid implicit return values by Coffeescript
-		error: (data, status)->
-			console.log "[ERROR]search: " + status
+		error: (resp)->
+			console.log "[ERROR]search: " + resp.status
 			$("#main_Browse_Recipe").scroller().clearInfinite()
+
+			if resp.status is 0
+				$("#main_Browse_Recipe").find("#infinite").html "Server Error. Try again later."
+			else
+				$("#main_Browse_Recipe").find("#infinite").html "Unknow Error: #{resp.status}"
 			return #avoid implicit return values by Coffeescript
 	)
 	return #avoid implicit return values by Coffeescript

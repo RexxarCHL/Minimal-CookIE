@@ -39,10 +39,13 @@ getAllCategory = (times) ->
 			$("#main_Browse_Category").find("#infinite").text "Load more"
 			appendAllCategoryResult(data)
 			return #avoid implicit rv
-		error: (data)->
-			console.log "[ERROR]fetch kitchen menu: " + status
+		error: (resp)->
+			console.log "[ERROR]fetch kitchen menu: " + resp.status
 			$("#main_Browse_Category").scroller().clearInfinite()
-			$("#main_Browse_Category").find("#infinite").text "Error. Try Again?"
+			if resp.status is 0 
+				$("#main_Browse_Category").find("#infinite").text "Server Error. Try again later."
+			else
+				$("#main_Browse_Category").find("#infinite").text "Connection Error: #{resp.status}"
 			return #avoid implicit rv
 
 	)

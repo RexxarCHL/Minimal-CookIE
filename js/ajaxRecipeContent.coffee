@@ -17,10 +17,14 @@ getRecipeContent = (recipeId)->
 			scope = $("#RecipeContent")
 			setTimeout(loadRecipeContent(scope, data), 1000)
 			return #avoid implicit rv
-		error: (data, status)->
+		error: (resp)->
 			console.log "[ERROR]fetch recipe #"+recipeId
-			console.log data
-
+			console.log resp
+			if resp.status is 0
+				alert "Server Error. Try again later."
+			else
+				alert "Connection Error: #{resp.status}"
+			$.ui.loadContent "main_Browse_Recipe"
 			return #avoid implicit rv
 	)
 	return #avoid implicit rv

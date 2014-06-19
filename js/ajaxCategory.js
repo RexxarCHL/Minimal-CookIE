@@ -39,10 +39,14 @@ getAllCategory = function(times) {
       $("#main_Browse_Category").find("#infinite").text("Load more");
       appendAllCategoryResult(data);
     },
-    error: function(data) {
-      console.log("[ERROR]fetch kitchen menu: " + status);
+    error: function(resp) {
+      console.log("[ERROR]fetch kitchen menu: " + resp.status);
       $("#main_Browse_Category").scroller().clearInfinite();
-      $("#main_Browse_Category").find("#infinite").text("Error. Try Again?");
+      if (resp.status === 0) {
+        $("#main_Browse_Category").find("#infinite").text("Server Error. Try again later.");
+      } else {
+        $("#main_Browse_Category").find("#infinite").text("Connection Error: " + resp.status);
+      }
     }
   });
 };

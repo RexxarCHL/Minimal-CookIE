@@ -1,3 +1,6 @@
+$(document).ready ->
+
+
 getIngredientList = (recipeIds)->
 	console.log "get ingredient list"
 	data = ''
@@ -69,11 +72,41 @@ showIngredientList = ->
 					list.append html
 
 					$('.listEle').click (event)->
-						this.style.textDecoration = if this.style.textDecoration is 'line-through' then 'none' else 'line-through'
-						this.style.color = if this.style.textDecoration is 'line-through' then '#D8D8D8' else '#53575E'
+						if $(this).css('textDecoration') is 'line-through'
+							$(this).css 'textDecoration', 'none'
+							$(this).css 'color', '#53575E'
+							$(this).removeClass 'list-selected'
+							$(this).removeClass 'not-moved'
+						else
+							$(this).css 'textDecoration', 'line-through'
+							$(this).css 'color', '#D8D8D8'
+							$(this).addClass 'list-selected'
+							$(this).addClass 'not-moved'
+						#this.style.textDecoration = if this.style.textDecoration is 'line-through' then 'none' else 'line-through'
+						#this.style.color = if this.style.textDecoration is 'line-through' then '#D8D8D8' else '#53575E'
+						
+						clearTimeout window.lastId
+						window.lastId = setTimeout ->
+							moveCheckedIngredientToBottom()
+						, 2000
+
+						return
 					$("#EmptyNotify").addClass 'hidden'
 					$("#ToBuyListCookBtn").removeClass 'hidden'
 				return
 			, errorHandler
 		, errorHandler, nullHandler
 		return
+
+moveCheckedIngredientToBottom = ->
+	console.log "move checked to bottom"
+	$('#list').find('.not-moved').forEach (listEle)->
+		html = listEle.outerHTML
+		ele = $(listEle)
+		ele.css3Animate
+			opacity: '0.1'
+			time: '200ms'
+			success: ()->
+				ele.removeClass 'not-moved'
+				ele.remove()
+				$('#list').append html

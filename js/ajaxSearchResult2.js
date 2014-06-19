@@ -71,9 +71,14 @@ search = function(query, times) {
       }
       appendSearchResults(data);
     },
-    error: function(data, status) {
-      console.log("[ERROR]search: " + status);
+    error: function(resp) {
+      console.log("[ERROR]search: " + resp.status);
       $("#main_Browse_Recipe").scroller().clearInfinite();
+      if (resp.status === 0) {
+        $("#main_Browse_Recipe").find("#infinite").html("Server Error. Try again later.");
+      } else {
+        $("#main_Browse_Recipe").find("#infinite").html("Unknow Error: " + resp.status);
+      }
     }
   });
 };
