@@ -61,6 +61,9 @@ appendRecipeResult = function(scope, data, deck) {
       thisRecipe.find(".recipe_btn").click((function(id, thisRecipe) {
         return function() {
           addThisRecipeToDeck(id);
+          if (window.recipesInDeck.length >= 6) {
+            return;
+          }
           thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>';
         };
       })(id, thisRecipe));

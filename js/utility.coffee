@@ -98,6 +98,7 @@ loadRecipes = ->
 	recipeAjaxd = 0
 
 	getRecipes(recipeAjaxd)
+	updateNavbarDeck()
 	return
 
 allCatAjaxd = 0
@@ -109,6 +110,7 @@ loadCateogries = ->
 	allCatAjaxd = 0
 
 	getAllCategory(allCatAjaxd)
+	
 	return
 
 loadDeck = ->
@@ -116,11 +118,13 @@ loadDeck = ->
 
 	checkRecipeInDB()
 
+	updateNavbarDeck()
 	if window.recipesInDeck.length is 0
 		$("#main_Deck").find("#Results").html '<h2 style="color:gray;text-align:center;padding-top:5%;">逛食譜並加入 Deck來煮飯!</h2>'
 		return
 	
 	$.ui.showMask 'Fetching data...'
+	$.ui.blockUI(0.1)
 
 	query = ""
 	for recipeId in window.recipesInDeck
@@ -141,17 +145,25 @@ loadDeck = ->
 			appendRecipeResult(scope, data, true)
 
 			$.ui.hideMask()
+			$.ui.unblockUI(0.1)
 			return
 		error: (resp)->
 			console.log "[ERROR]load deck"
 			console.log resp
 
+			scope.find("#Resutls").html '<h2 style="color:gray;text-align:center;padding-top:5%;">Connection Error: '+resp.status+'</h2>'
+
 			$.ui.hideMask()
+			$.ui.unblockUI(0.1)
 			return
 	)
+
 	return
 
-
+updateNavbarDeck = ()->
+	console.log "update navbar deck: #{window.recipesInDeck.length}"
+	$("#navbar_deck").html "Deck(#{window.recipesInDeck.length})"
+	return
 
 
 parseTimeToMinutes = (time)->

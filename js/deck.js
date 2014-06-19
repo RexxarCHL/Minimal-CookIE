@@ -34,6 +34,7 @@ addThisRecipeToDeck = function(id) {
     AddRecipeValue(id);
     checkRecipeInDB();
   }
+  updateNavbarDeck();
 };
 
 deleteThisRecipeFromDeck = function(id) {
@@ -48,6 +49,7 @@ deleteThisRecipeFromDeck = function(id) {
   }
   window.recipesInDeck.splice(index, 1);
   console.log("deck: " + window.recipesInDeck);
+  updateNavbarDeck();
 
   /* delete from DB */
   deleteRecipe(id);
@@ -103,6 +105,7 @@ checkRecipeInDB = function() {
           row = result.rows.item(i);
           window.recipesExist = 1;
           window.recipesInDeck.push(row.recipeId);
+          updateNavbarDeck();
         }
         return;
       }

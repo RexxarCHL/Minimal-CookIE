@@ -59,6 +59,7 @@ appendRecipeResult = (scope, data, deck = 0)->
 			thisRecipe.find(".recipe_btn").click do(id, thisRecipe)->
 				-> # closure
 					addThisRecipeToDeck(id)
+					if window.recipesInDeck.length >= 6 then return
 					thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>'
 					return
 		else if deck
