@@ -73,7 +73,16 @@ sendFeedback = function() {
   var mail, msg, name, type, url;
   name = $("#feedbackName").val();
   mail = $("#feedbackMail").val();
-  type = $("#feedbackType").val();
+  type = (function() {
+    switch ($("#feedbackType").val()) {
+      case '食譜請求':
+        return 'recipe';
+      case '臭蟲回報':
+        return 'bug';
+      case '意見':
+        return 'feedback';
+    }
+  })();
   msg = $("#feedbackContent").val();
   url = "";
   $.ajax({

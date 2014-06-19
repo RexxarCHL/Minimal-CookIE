@@ -75,7 +75,11 @@ initSidebarIcons = ->
 sendFeedback = ->
 	name = $("#feedbackName").val()
 	mail = $("#feedbackMail").val()
-	type = $("#feedbackType").val()
+	type = 
+		switch($("#feedbackType").val())
+			when '食譜請求' then 'recipe'
+			when '臭蟲回報' then 'bug'
+			when '意見' then 'feedback'
 	msg = $("#feedbackContent").val()
 
 	url = ""
