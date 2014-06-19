@@ -100,6 +100,8 @@
   margin-top: 5%;
 }
 .recipe_time {
+  text-align: right;
+  margin-right: 1%;
   height: 30%;
 }
 .kitchen_recipe_item{
@@ -124,6 +126,8 @@ border-radius: 3px;
   opacity:0.8;
 }
 .listEle{
+  font-size: 20pt;
+  font-weight: bolder;
   padding-left : 5%;
 }
 
