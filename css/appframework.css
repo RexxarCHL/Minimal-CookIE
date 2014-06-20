@@ -166,21 +166,21 @@
 #afui > #aside_menu,
 #afui > #menu.tabletMenu {
     color:white;
-    background:#08749C;
-    opacity=.9;
-    border-right:1px solid #517E96;
+    background:hsl(204.1,35%,53.1%);
+    border: none;
 }
 
 #afui #aside_menu .list li,#afui #aside_menu .list .divider,#afui #aside_menu .list li:last-child,
 #afui #menu .list li,#afui #menu .list .divider,#afui #menu .list li:last-child {
-    border-color: #A6D3E4;
+    border-color: rgb(216, 216, 216);
 }
 
 #afui #aside_menu .list .divider,
 #afui #menu .list .divider {
     background:#FAAC58;
     color:inherit;
-    font-size: 1em;
+    font-size: 2em !important;
+    height: 44px;
 }
 
 #afui #aside_menu .list > li > a,

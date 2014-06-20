@@ -73,7 +73,7 @@ loadRecipeContent = (scope, recipe)->
 	stepList = scope.find("#RecipeSteps")
 	stepList.html "" #remove previous content
 	for step, i in recipe.stepDigests
-		html = '<li>'+(i+1)+'. '+step.digest+'</li>'
+		html = '<li>'+(i+1)+'. '+step.step+'</li>'
 		stepList.append html
 	stepList.append '<br />'
 

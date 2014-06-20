@@ -345,7 +345,7 @@ finishedShowStatus = ->
 		'</div>'+
 		'<div class="step_spacer">&nbsp;</div>'+
 		'<div class="bottom_btn_holder step_next_btn_wrapper">'+
-			'<a class="button step_next_btn" style="background-color:#58ACFA; position:absolute;color:white;border:none;">Next </a>'+
+			'<a class="button step_next_btn" style="background-color:hsl(204.1,35%,53.1%); position:absolute;color:white;border:none;">Next </a>'+
 		'</div>')
 
 	timeElapsed = (new Date()) - window.cookingStartTime # in milliseconds

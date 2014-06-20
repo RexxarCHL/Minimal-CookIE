@@ -43,10 +43,12 @@
   color: #333333;
 }
 .recipe_item {
-  height: 50%;
+  background-color: white;
+  height: 45%;
   display:inline-block; 
   width:48%; 
-  margin-bottom: -3%; 
+  margin-top: 2%;
+  margin-bottom: 2%; 
 }
 .recipe_item_container {
   height: 70%;
@@ -68,33 +70,32 @@
   box-shadow: 0px 2px 2px;
 }
 .recipe_image_wrapper{
-  margin-top: 3%;
-  margin-left: 5%;
-  width: 350px;
-  max-width: 90%;
-  max-height: 95%;
-  border-radius: 5px;
+  width: 98%;
+  margin: 1% 1% 0% 1%;
+  border-radius: 2px;
 }
 .recipe_image_wrapper.long {
-  margin-top: 2%;
-  margin-left: 2%;
-  max-width: 35%;
-  max-height: 90%;
+  width: 39%;
+  margin: 1%;
   float: left;
 }
 .recipe_descrip{
   margin-left: 5%;
   color:#333333;
-  margin-top: 3%;
+  height: 10%;
+  margin-top: 1%;
+  padding-top: 1%;
   font-size:0.4cm;
   font-weight:bolder;
 }
 .recipe_descrip.long {
-  margin-top: 1%;
+  margin-top: 0% !important;
   margin-left: 40%;
+  height: 25%;
 }
 .recipe_cooked {
-  font-size: 12px;
+  font-size: 0.3cm;
+  height: 10%;
   text-align: right;
   margin-right: 5%;
   margin-top: 5%;
@@ -103,6 +104,9 @@
   text-align: right;
   margin-right: 1%;
   height: 30%;
+}
+.recipe_time.long {
+  height: 25%;
 }
 .kitchen_recipe_item{
   display:inline-block; 

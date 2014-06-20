@@ -20,18 +20,17 @@ appendRecipeResult = (scope, data, deck = 0)->
 				html += '<div class="recipe_item right new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
 			else
 				html += '<div class="recipe_item left new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
-			html += '<div class="recipe_item_container">'
 		
 		if deck
 			html += '<img class="recipe_image_wrapper long" src="'+url+'">'
 			html += '<div class="recipe_descrip long chinese_font">'+name+'</div>'
-			html += '<div class="recipe_time chinese_font">需時 '+recipe.costTime+'</div>'
+			html += '<div class="recipe_time long chinese_font">需時 '+recipe.costTime+'</div>'
 		else
 			html += '<img class="recipe_image_wrapper" src="'+url+'">'
 			html += '<div class="recipe_descrip chinese_font">'+name+'</div>'
 		
 		if not deck
-			html += '<div class="recipe_cooked">人氣：'+recipe.popularity+'</div></div>'
+			html += '<div class="recipe_cooked">人氣：'+recipe.popularity+'</div>'
 
 		if not exist
 			html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>'

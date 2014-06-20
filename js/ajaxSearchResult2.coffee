@@ -102,11 +102,10 @@ appendSearchResults = (data)->
 			html += '<div class="recipe_item right new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
 		else
 			html += '<div class="recipe_item left new" id="Recipe'+id+'" data-recipe-id="'+id+'">'
-		html += '<div class="recipe_item_container">'
 
 		html += '<img class="recipe_image_wrapper" src="'+url+'">'
 		html += '<div class="recipe_descrip chinese_font">'+name+'</div>'
-		html += '<div class="recipe_cooked">人氣：'+recipe.popularity+'</div></div>'
+		html += '<div class="recipe_cooked">人氣：'+recipe.popularity+'</div>'
 			
 		if not exist
 			html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>'

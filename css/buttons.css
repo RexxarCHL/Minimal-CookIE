@@ -216,11 +216,9 @@
 	width: 80%;
 	text-align: center;
 	padding: 8px 0px;
-	margin-top: 7%;
-	margin-bottom: 3px;
-	margin-left: 10%;
+	margin: 5% 10%;
 	border: none;
-	background-color: #d8d8d8;
+	background-color: white;
 }
 
 #afui .button.recipe_btn.recipe_add_btn{
@@ -231,9 +229,7 @@
 	text-align: center;
 	text-shadow: -1px -1px gray;
 	padding: 8px 0px;
-	margin-top: 7%;
-	margin-bottom: 3px;
-	margin-left: 10%;
+	margin: 5% 10%;
 	border: none;
 }
 
@@ -241,8 +237,9 @@
 	float: right;
 	width: 55%;
 	text-align: center;
-	margin-top: 1px;
-	margin-bottom: 1px;
+	height: 40%;
+	margin-top: 1%;
+	margin-bottom: 0;
 	margin-right: 3%;
 	border: none;
 	border-radius: 0;
