@@ -33,11 +33,11 @@
     <preference name="android-permission" value="MOUNT_UNMOUNT_FILESYSTEMS" />
     <preference name="android-permission" value="MEDIA_CONTENT_CONTROL" />
     <preference name="android-signed" value="true" />
-		<icon src="img/ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
-		<icon src="img/mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
-		<icon src="img/hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
-		<icon src="img/xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
-		<icon src="img/xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi" />
+		<icon src="img/drawable-ldpi/ic_launcher.png" gap:platform="android" gap:qualifier="ldpi" />
+		<icon src="img/drawable-mdpi/ic_launcher.png" gap:platform="android" gap:qualifier="mdpi" />
+		<icon src="img/drawable-hdpi/ic_launcher.png" gap:platform="android" gap:qualifier="hdpi" />
+		<icon src="img/drawable-xhdpi/ic_launcher.png" gap:platform="android" gap:qualifier="xhdpi" />
+		<icon src="img/drawable-xxhdpi/ic_launcher.png" gap:platform="android" gap:qualifier="xxhdpi" />
     <intelxdk:plugin intelxdk:name="File" intelxdk:value="org.apache.cordova.file"/>
     <intelxdk:plugin intelxdk:name="Media" intelxdk:value="org.apache.cordova.media" />
 </widget>
