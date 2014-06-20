@@ -437,6 +437,13 @@ width:15%;display:inline-block;border-radius:5px;
   text-align: center;
 }
 
+.this_step_time{
+  color: white;
+  margin-left:30%;
+  text-align: center;
+  margin-top:1%;
+}
+
 .next_step_outer_wrapper{
   position: absolute;
   bottom: 0%;

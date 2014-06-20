@@ -70,7 +70,7 @@ timer = ->
 	checkWaitingStepsFinish()
 
 	### Update progress bars ###
-	updateNextStepProgressBar()
+	updateThisStepTime()
 	showTwoUrgentSteps()
 
 	#start another timer
@@ -113,7 +113,7 @@ loadStep = (stepNum)->
 	nextStep = window.cookingData.steps[stepNum+1]
 	if nextStep?
 		scope.find(".next_step_name").html trimStringLength("Next: "+nextStep.stepName)
-		scope.find(".next_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
+		scope.find(".this_step_time").html "#{thisStep.timeElapsed}/#{thisStep.time}"
 		scope.find(".step_next_btn").html "下一步"
 	else
 		scope.find(".next_step_name").html "最後一步"
@@ -281,12 +281,12 @@ showTwoUrgentSteps = ->
 
 	return # avoid implicit rv
 
-updateNextStepProgressBar = ->
+updateThisStepTime = ->
 	# show current time elapse on next step progress bar
 	thisStep = window.currentStep
 	timeElapsed = parseSecondsToTime thisStep.timeElapsed
-	nextStep = $(".next_step_inner_wrapper")
-	nextStep.find(".next_step_time").html "#{timeElapsed}/#{thisStep.time}"
+	wrapper = $(".this_step_inner_wrapper")
+	wrapper.find(".this_step_time").html "#{timeElapsed}/#{thisStep.time}"
 
 	return # avoid implicit rv
 
@@ -329,18 +329,18 @@ finishedShowStatus = ->
 		'</div>' +          
 		'<div class="waiting_step_spacer">&nbsp;</div>' +
 		'<div class="this_step_outer_wrapper">'+
-			'<div class="this_step_inner_wrapper">'+
+			'<div id="ThisStep" class="this_step_inner_wrapper">'+
 				'<div class="h7 this_step_recipe_name" id="this_step_recipe_name">'+
 				'</div>'+
 			'<h3 class="this_step_digest">'+
 			'</h3>'+
+			'<h4 id="ProgressRemainTime" class="this_step_time"></h4>'+
 			'</div>'+
 		'</div>'+
 		'<div class="next_step_outer_wrapper nextstep" data-sn=0>'+
 			'<div id="NextStep" class="next_step_inner_wrapper">'+
 				'<div id="ProgressBar" class="next_step_progress invisible">&nbsp;</div>'+
 				'<h4 id="ProgressName" class="next_step_name"></h4>'+
-				'<h4 id="ProgressRemainTime" class="next_step_time"></h4>'+
 			'</div> '+
 		'</div>'+
 		'<div class="step_spacer">&nbsp;</div>'+
@@ -364,9 +364,11 @@ animationMoveThisStepFromLeftToRight = ->
 	$('.this_step_inner_wrapper').addClass 'animate_old'
 	$('.this_step_inner_wrapper.animate_old').find('.this_step_recipe_name').removeClass 'this_step_recipe_name'
 	$('.this_step_inner_wrapper.animate_old').find('.this_step_digest').removeClass 'this_step_digest'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_time').removeClass 'this_step_time'
 	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
 	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
+	$('.this_step_inner_wrapper.animate_new').append $('<h4 id="ProgressRemainTime" class="this_step_time">').html("#{parseSecondsToTime(thisStep.timeElapsed)}/#{thisStep.time}")
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
 		x: dx
@@ -396,9 +398,11 @@ animationMoveThisStepFromRightToLeft = ->
 	$('.this_step_inner_wrapper').addClass 'animate_old'
 	$('.this_step_inner_wrapper.animate_old').find('.this_step_recipe_name').removeClass 'this_step_recipe_name'
 	$('.this_step_inner_wrapper.animate_old').find('.this_step_digest').removeClass 'this_step_digest'
+	$('.this_step_inner_wrapper.animate_old').find('.this_step_time').removeClass 'this_step_time'
 	$('.this_step_outer_wrapper').append $('<div class="this_step_inner_wrapper animate_new">')
 	$('.this_step_inner_wrapper.animate_new').append $('<div class="this_step_recipe_name">').html(thisStep.recipeName)
 	$('.this_step_inner_wrapper.animate_new').append $('<h3 class="this_step_digest">').html(thisStep.digest)
+	$('.this_step_inner_wrapper.animate_new').append $('<h4 id="ProgressRemainTime" class="this_step_time">').html("#{parseSecondsToTime(thisStep.timeElapsed)}/#{thisStep.time}")
 
 	$('.this_step_inner_wrapper.animate_old').css3Animate
 		x: -dx
@@ -438,7 +442,6 @@ animationMoveProgressBarUp = ->
 			'<div id="NextStep" class="next_step_inner_wrapper">'+
 				'<div id="ProgressBar" class="next_step_progress invisible">&nbsp;</div>'+
 				'<h4 id="ProgressName" class="next_step_name">Next: Stirfry mushroom</h4>'+
-				'<h4 id="ProgressRemainTime" class="next_step_time">2:30</h4>'+
 			'</div> '+
 		'</div>'))
 
