@@ -40,6 +40,11 @@ loadRecipeContent = function(scope, recipe) {
   scope.find("#RecipeImg").attr("data-recipe-id", recipe.recipeId);
   scope.find("#RecipeDescription").text(recipe.description);
   scope.find("#RecipeUploadInfo").text("Uploaded by: " + recipe.authorName + ", " + (new Date(recipe.date)));
+  if (recipe.share === 0) {
+    scope.find("#RecipeShare").html("");
+  } else {
+    scope.find("#RecipeShare").html("（" + recipe.share + " 人份）");
+  }
   len = recipe.ingredientGroup[0].length;
   len = Math.ceil(len / 2);
   ingListLeft = scope.find("#RecipeIngredientListLeft")[0];

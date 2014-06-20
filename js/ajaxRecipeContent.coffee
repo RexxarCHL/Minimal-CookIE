@@ -40,6 +40,8 @@ loadRecipeContent = (scope, recipe)->
 	scope.find("#RecipeDescription").text recipe.description
 	scope.find("#RecipeUploadInfo").text "Uploaded by: "+recipe.authorName+", "+(new Date(recipe.date))
 	#scope.find("#RecipeTime").text "Time needed: "+recipe.timeNeeded
+	if recipe.share is 0 then scope.find("#RecipeShare").html ""
+	else scope.find("#RecipeShare").html "（#{recipe.share} 人份）"
 
 	# Ingredients
 	len = recipe.ingredientGroup[0].length
