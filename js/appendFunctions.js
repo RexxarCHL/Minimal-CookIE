@@ -38,11 +38,11 @@ appendRecipeResult = function(scope, data, deck) {
       html += '<div class="recipe_cooked">人氣：' + recipe.popularity + '</div>';
     }
     if (!exist) {
-      html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到 Deck</div>';
+      html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到調理台</div>';
     } else if (deck) {
       html += '<div class="button recipe_btn recipe_remove_btn chinese_font">移除</div>';
     } else {
-      html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" >已加入 Deck</div>';
+      html += '<div class="button recipe_btn recipe_in_deck_btn chinese_font" >已加入調理台</div>';
     }
     html += '</div>';
     results.append(html);
@@ -63,7 +63,7 @@ appendRecipeResult = function(scope, data, deck) {
           if (window.recipesInDeck.length >= 6) {
             return;
           }
-          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入 Deck</div>';
+          thisRecipe.find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn chinese_font">已加入調理台</div>';
         };
       })(id, thisRecipe));
     } else if (deck) {

@@ -88,14 +88,14 @@ loadRecipeContent = function(scope, recipe) {
   if (window.recipesInDeck.lastIndexOf(id) !== -1) {
 
     /* recipe already in the deck */
-    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;opacity:.8;height:8%;border-radius:0;border:0;">已加入 Deck</div>';
+    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;opacity:.8;height:8%;border-radius:0;border:0;">已加入調理台</div>';
     thisRecipeBtn = scope.find("#RecipeContentBtn");
     thisRecipeBtn.click(function() {
       $.ui.loadContent('main_Deck');
       return void 0;
     });
   } else {
-    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background:hsl(204.1,35%,53.1%);opacity:.8;height:8%;border-radius:0;border:0;">加到 Deck</div>';
+    scope.find("#RecipeContentBtn")[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background:hsl(204.1,35%,53.1%);opacity:.8;height:8%;border-radius:0;border:0;">加到調理台</div>';
     thisRecipeBtn = scope.find("#RecipeContentBtn");
     thisRecipeBtn.click((function(id) {
       return function() {
@@ -103,8 +103,8 @@ loadRecipeContent = function(scope, recipe) {
         if (window.recipesInDeck.length >= 6) {
           return;
         }
-        thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;height:8%;border-radius:0;border:0;">已加入 Deck</div>';
-        $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" >已加入 Deck</div>';
+        thisRecipeBtn[0].outerHTML = '<div id="RecipeContentBtn" class="button" style="width:100%;background-color:#D8D8D8;height:8%;border-radius:0;border:0;">已加入調理台</div>';
+        $("#main_Browse_Recipe").find("#Recipe" + id).find(".recipe_btn")[0].outerHTML = '<div class="button recipe_btn recipe_in_deck_btn" >已加入調理台</div>';
         return void 0;
       };
     })(id));
