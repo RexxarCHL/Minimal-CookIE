@@ -132,7 +132,10 @@ loadStep = function(stepNum) {
   nextBtn = scope.find(".step_next_btn");
   nextBtn.unbind('click');
   nextBtn.click(function() {
-    checkNextStep();
+    clearTimeout(window.btnTimeoutId);
+    window.btnTimeoutId = setTimeout(function() {
+      return checkNextStep();
+    }, 1000);
   });
 };
 
@@ -151,8 +154,11 @@ loadBlockingStep = function(index) {
   nextBtn.html("等待完成");
   nextBtn.unbind('click');
   nextBtn.click(function() {
-    window.waitingStepQueue.splice(index, 1)[0];
-    checkNextStep(true);
+    clearTimeout(window.btnTimeoutId);
+    window.btnTimeoutId = setTimeout(function() {
+      window.waitingStepQueue.splice(index, 1)[0];
+      return checkNextStep(true);
+    }, 1000);
   });
 };
 

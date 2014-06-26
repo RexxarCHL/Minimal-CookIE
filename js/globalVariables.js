@@ -20,6 +20,8 @@ window.stepsTimeUsed = [];
 
 window.cookingStartTime = null;
 
+window.btnTimeoutId = 0;
+
 
 /* Deck */
 

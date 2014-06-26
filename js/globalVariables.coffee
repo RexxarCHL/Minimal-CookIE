@@ -9,6 +9,7 @@ window.currentTime = 0
 window.waitingStepQueue = []
 window.stepsTimeUsed = []
 window.cookingStartTime = null
+window.btnTimeoutId = 0
 
 ### Deck ###
 window.recipesInDeck = []
