@@ -38,7 +38,7 @@ $(document).ready ->
 
 initSidebarIcons = ->
 	$(".icon.close").click ->
-		ans = confirm "這會清除您 Deck 與購買清單中的所有資料\n繼續？"
+		ans = confirm "這會清除您調理台與購買清單中的所有資料\n繼續？"
 		if ans is no then return
 
 		db.transaction (transaction)->
@@ -159,7 +159,7 @@ loadDeck = ->
 
 	updateNavbarDeck()
 	if window.recipesInDeck.length is 0
-		$("#main_Deck").find("#Results").html '<h2 style="color:gray;text-align:center;padding-top:5%;">逛食譜並加入 Deck來煮飯!</h2>'
+		$("#main_Deck").find("#Results").html '<h2 style="color:gray;text-align:center;padding-top:5%;">逛食譜並加入調理台來煮飯!</h2>'
 		return
 	
 	$.ui.showMask 'Fetching data...'
@@ -201,7 +201,7 @@ loadDeck = ->
 
 updateNavbarDeck = ()->
 	console.log "update navbar deck: #{window.recipesInDeck.length}"
-	$("#navbar_deck").html "Deck(#{window.recipesInDeck.length})"
+	$("#navbar_deck").html "調理台(#{window.recipesInDeck.length})"
 	return
 
 
