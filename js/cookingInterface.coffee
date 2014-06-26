@@ -123,12 +123,13 @@ loadStep = (stepNum)->
 	# bind next step btn behaviour
 	nextBtn = scope.find(".step_next_btn")
 	nextBtn.unbind 'click'
-	nextBtn.click ->
-		clearTimeout window.btnTimeoutId
-		window.btnTimeoutId = setTimeout ->
+	
+	clearTimeout window.btnTimeoutId
+	window.btnTimeoutId = setTimeout ->
+		nextBtn.click ->
 			checkNextStep()
-		,1000
-		return # avoid implicit rv
+		return
+	,1000
 
 	return # avoid implicit rv
 
@@ -152,13 +153,14 @@ loadBlockingStep = (index)->
 	nextBtn = scope.find(".step_next_btn")
 	nextBtn.html "等待完成"
 	nextBtn.unbind 'click'
-	nextBtn.click ->
-		clearTimeout window.btnTimeoutId
-		window.btnTimeoutId = setTimeout ->
+
+	clearTimeout window.btnTimeoutId
+	window.btnTimeoutId = setTimeout ->
+		nextBtn.click ->
 			window.waitingStepQueue.splice(index, 1)[0]
 			checkNextStep(true)
-		, 1000
-		return # avoid implicit rv
+		return
+	, 1000
 
 	return # avoid implicit rv
 

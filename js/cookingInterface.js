@@ -131,12 +131,12 @@ loadStep = function(stepNum) {
   }
   nextBtn = scope.find(".step_next_btn");
   nextBtn.unbind('click');
-  nextBtn.click(function() {
-    clearTimeout(window.btnTimeoutId);
-    window.btnTimeoutId = setTimeout(function() {
+  clearTimeout(window.btnTimeoutId);
+  window.btnTimeoutId = setTimeout(function() {
+    nextBtn.click(function() {
       return checkNextStep();
-    }, 1000);
-  });
+    });
+  }, 1000);
 };
 
 loadBlockingStep = function(index) {
@@ -153,13 +153,13 @@ loadBlockingStep = function(index) {
   nextBtn = scope.find(".step_next_btn");
   nextBtn.html("等待完成");
   nextBtn.unbind('click');
-  nextBtn.click(function() {
-    clearTimeout(window.btnTimeoutId);
-    window.btnTimeoutId = setTimeout(function() {
+  clearTimeout(window.btnTimeoutId);
+  window.btnTimeoutId = setTimeout(function() {
+    nextBtn.click(function() {
       window.waitingStepQueue.splice(index, 1)[0];
       return checkNextStep(true);
-    }, 1000);
-  });
+    });
+  }, 1000);
 };
 
 pushStepToWaitingQueue = function(step, currentTime) {
