@@ -4,12 +4,12 @@
 ajaxSearchResults2
  	search(query, times)
  		Search for 'query' in server. Fetch (times*20)th to (times*20+20)th results.
+ 	appendSearchResults(data)
+ 		Append the data received in #SearchResults.
  */
-var appendSearchResults, recipeAjaxd, search, searchAjaxd;
+var appendSearchResults, search, searchAjaxd;
 
 searchAjaxd = 0;
-
-recipeAjaxd = 0;
 
 window.query = 0;
 
@@ -52,14 +52,13 @@ search = function(query, times) {
     },
     timeout: 10000,
     success: function(data) {
-      var scope, scrollerList;
+      var scope;
       data = JSON.parse(data);
       console.log("[SUCCESS]search");
       console.log(data);
       scope = $("#main_Browse_Recipe");
       searchAjaxd++;
-      scrollerList = $("#main_Browse_Recipe").scroller();
-      scrollerList.clearInfinite();
+      $("#main_Browse_Recipe").scroller().clearInfinite();
       if (data.length === 0) {
         if (searchAjaxd > 0) {
           $("#main_Browse_Recipe").find("#infinite").html("<i>No more results.</i>");
@@ -77,7 +76,7 @@ search = function(query, times) {
       if (resp.status === 0) {
         $("#main_Browse_Recipe").find("#infinite").html("Server Error. Try again later.");
       } else {
-        $("#main_Browse_Recipe").find("#infinite").html("Unknow Error: " + resp.status);
+        $("#main_Browse_Recipe").find("#infinite").html("Connection Error: " + resp.status);
       }
     }
   });
@@ -105,6 +104,7 @@ appendSearchResults = function(data) {
     html += '<img class="recipe_image_wrapper" src="' + url + '">';
     html += '<div class="recipe_descrip chinese_font">' + name + '</div>';
     html += '<div class="recipe_cooked">人氣：' + recipe.popularity + '</div>';
+    exist = checkRecipeInDeck(id) ? true : false;
     if (!exist) {
       html += '<div class="button recipe_btn recipe_add_btn chinese_font">加到調理台</div>';
     } else {

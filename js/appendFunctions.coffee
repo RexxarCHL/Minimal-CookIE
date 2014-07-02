@@ -1,3 +1,10 @@
+###
+appendFunctions.coffee
+	Append function that is used repeatly.
+
+	appendRecipeResult(scope, data, deck)
+		Append 'data' to 'scope' in recipes style. Append 'data' differently if in 'deck'
+###
 appendRecipeResult = (scope, data, deck = 0)->
 	console.log "append recipe for scope: " + scope[0].id
 	#if data.length%2 and data.length isnt 1 then data.length-- #prevent empty slot

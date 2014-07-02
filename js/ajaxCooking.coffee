@@ -1,54 +1,91 @@
+###
+ajaxCooking.coffee
+	ajax the scheduled plan of cook and show the data
+
+	getScheduledRecipe(recipeIds)
+		get the scheduled plan for 'recipeIds'
+	appendData(scope, data)
+		show the information of the scheduled plan
+###
+
+# get the scheduled plan
 getScheduledRecipe = (recipeIds)->
+	# check if there is a cooking in progress
 	if window.cookingData?
+		# if there is a cooking in progress, ask if the user really want to overwrite the result
 		ans = confirm "You have a cooking in progress. Resume?"
+
+		# if the user wants to resume the cooking
 		if ans is yes
+			# show cooking interface
 			$.ui.loadContent "Step"
 			return
+		# else overwrite the current cooking progress
 			
 	console.log "schedule_recipe #"+recipeIds
+
+	# empty the panel
 	$.ui.updatePanel "Cooking",""
+
+	# let the user know that we're loading and block the ui
 	$.ui.showMask "Loading data from server..."
 	$.ui.blockUI(.1)
 
+	# construct the query string
 	data = ''
-	#recipeIds = JSON.parse(recipeIds)
 	for id in recipeIds
 		data += 'recipes='+id+'&'
+
+	# do the ajax
 	$.ajax(
 			type: 'GET'
 			url: 'http://54.178.135.71:8080/CookIEServer/schedule_recipe?'+data
 			#timeout: 10000
 			success: (data)->
+				# SUCCESS
+				# parse the data
 				data = JSON.parse(data)
 				console.log '[SUCCESS] fetching #'+recipeIds
 				console.log data
 
+				# get to ROI
 				scope = $('#Cooking')
+
+				# store the new data received for future references
 				window.cookingData = data
 				window.currentStepNum = 0
+
+				# show the information
 				appendData scope, data
 
 				return # avoid implicit rv
 			error: (resp)->
+				# ERROR
+				# log the result for DEBUG
 				console.log '[ERROR] fetching #'+recipeIds
 				console.log resp
+
+				# unblock the UI and hide the spinning wheel
+				$.ui.unblockUI()
 				$.ui.hideMask()
+
+				# determine the error message
+				# if the status is 404 then the calculation is too long and the server killed the process
 				if resp.status is 404 then alert "Server aborted the scheduling process. Please try again with fewer recipes."
+				# if the status is 0 then the server rejected the request
 				else if resp.status is 0 then alert "Server Error. Try again later."
+				# else this is an unknown error
 				else alert "Connection error: #{resp.status}"
+
+				# return to Deck
 				$.ui.loadContent "main_Deck"
 				return # avoid implicit rv
 	)
-	return
+	return # avoid implicit rv
 
+# show the information about this plan
 appendData = (scope, data)->
-	console.log "append steps"
-
-	###
-	scope.find("#totalRecipes").html data.recipeLength.length
-	scope.find("#originalCookingTime").html data.originTime
-	scope.find("#scheduledCookingTime").html data.scheduledTime
-	###
+	console.log "append scheduled plan"
 
 	$.ui.updatePanel "Cooking",""+
 		'<div style="background-color:#F2F2F2">'+
@@ -63,7 +100,7 @@ appendData = (scope, data)->
 			'</div>'+
 		'</div>'
 
-
+	# unblock the ui and hide the spinning wheel
 	$.ui.unblockUI()
 	$.ui.hideMask();
 	return

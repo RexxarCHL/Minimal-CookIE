@@ -1,3 +1,8 @@
+###
+cookingInterface.coffee
+	Everything about the cooking interface.
+###
+
 ### Steps information ###
 class Step
 	### For logging the time used in every step ###
@@ -28,9 +33,14 @@ cookingStarted = ->
 	### Check if cooking data exist. It should exist when this is called but check anyways. ###
 	if not window.cookingData? then return
 
+	# disable the side menu
 	$.ui.disableSideMenu()
+
+	# load the currnet step number
 	currentStepNum = window.currentStepNum
+	# if cooking is yet to start
 	if currentStepNum is 0
+		# clear all related informations
 		window.currentTime = 0
 		window.waitingStepQueue = []
 		window.stepsTimeUsed = []
@@ -46,6 +56,7 @@ cookingStarted = ->
 	# load this/next step data
 	loadStep(currentStepNum)
 
+	# start the timer
 	setTimeout ->
 		timer()
 	, 1000
@@ -124,6 +135,7 @@ loadStep = (stepNum)->
 	nextBtn = scope.find(".step_next_btn")
 	nextBtn.unbind 'click'
 	
+	# delay the bind to prevent animation-related bug
 	clearTimeout window.btnTimeoutId
 	window.btnTimeoutId = setTimeout ->
 		nextBtn.click ->
@@ -135,14 +147,13 @@ loadStep = (stepNum)->
 
 loadBlockingStep = (index)->
 	console.log "load blocking step, index:#{index}"
-	# dequeue
-	#step = window.waitingStepQueue.splice(index, 1)[0]
 	step = window.waitingStepQueue[index]
 	console.log step
 	showTwoUrgentSteps() # update remaining waiting steps
 	window.currentStep = step
 
-	animationMoveThisStepFromRightToLeft()
+	# show animation
+	#animationMoveThisStepFromRightToLeft()
 
 	scope = $("#Step")
 	# load the step
@@ -154,9 +165,11 @@ loadBlockingStep = (index)->
 	nextBtn.html "等待完成"
 	nextBtn.unbind 'click'
 
+	# delay the bind to prevent animation-related bug
 	clearTimeout window.btnTimeoutId
 	window.btnTimeoutId = setTimeout ->
 		nextBtn.click ->
+			# dequeue the blocking step
 			window.waitingStepQueue.splice(index, 1)[0]
 			checkNextStep(true)
 		return
@@ -166,7 +179,10 @@ loadBlockingStep = (index)->
 
 pushStepToWaitingQueue = (step, currentTime)->
 	console.log "push #{window.currentStepNum}: #{step.digest} into queue"
+	# push the step to waiting queue
 	window.waitingStepQueue.push step
+
+	# sort the waiting steps according to their remain time
 	window.waitingStepQueue.sort (a,b)->
 		b.remainTime - a.remainTime
 
